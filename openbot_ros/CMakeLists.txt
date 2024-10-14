@@ -37,6 +37,7 @@ include_directories(
 # Library
 add_library(${PROJECT_NAME}
   src/node.cpp
+  src/node_options.cpp
 )
 
 set(dependencies

@@ -43,7 +43,7 @@ void Run() {
 
   // auto map_builder =
   //   cartographer::mapping::CreateMapBuilder(node_options.map_builder_options);
-  // auto node = std::make_shared<cartographer_ros::Node>(
+  // auto node = std::make_shared<openbot_ros::Node>(
   //   node_options, std::move(map_builder), tf_buffer, cartographer_node,
   //   FLAGS_collect_metrics);
   // if (!FLAGS_load_state_filename.empty()) {
@@ -66,7 +66,7 @@ void Run() {
 }
 
 }  // namespace
-}  // namespace cartographer_ros
+}  // namespace openbot_ros
 
 int main(int argc, char** argv) 
 {
