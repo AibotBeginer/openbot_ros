@@ -36,8 +36,14 @@ include_directories(
 
 # Library
 add_library(${PROJECT_NAME}
+  src/msg_conversion.cpp
   src/node.cpp
+  src/node_constants.cpp
   src/node_options.cpp
+  src/ros_log_sink.cpp
+  src/sensor_bridge.cpp
+  src/time_conversion.cpp
+  src/urdf_reader.cpp
 )
 
 set(dependencies

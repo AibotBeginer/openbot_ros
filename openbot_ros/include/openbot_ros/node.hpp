@@ -24,7 +24,9 @@
 #include <unordered_set>
 #include <vector>
 
+#include "openbot_ros/ros_log_sink.hpp"
 #include "openbot_ros/node_options.hpp"
+#include "openbot_ros/node_constants.hpp"
 
 #include <tf2_ros/transform_broadcaster.h>
 #include <tf2_ros/buffer.h>
