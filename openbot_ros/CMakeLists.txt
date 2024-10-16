@@ -42,6 +42,7 @@ add_library(${PROJECT_NAME}
   src/node_options.cpp
   src/ros_log_sink.cpp
   src/sensor_bridge.cpp
+  src/tf_bridge.cpp
   src/time_conversion.cpp
   src/urdf_reader.cpp
 )

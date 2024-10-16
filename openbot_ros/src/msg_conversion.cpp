@@ -39,7 +39,8 @@ namespace {
 
 // Sizes of PCL point types have to be 4n floats for alignment, as described in
 // http://pointclouds.org/documentation/tutorials/adding_custom_ptype.php
-struct PointXYZT {
+struct PointXYZT 
+{
   float x;
   float y;
   float z;
