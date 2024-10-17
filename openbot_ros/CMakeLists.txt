@@ -82,21 +82,22 @@ endif()
 
 install(TARGETS
   ${PROJECT_NAME}
+  
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
 )
 
-# install(TARGETS
-#   cartographer_node
-#   cartographer_occupancy_grid_node
-#   cartographer_offline_node
-#   cartographer_assets_writer
-#   cartographer_pbstream_map_publisher
-#   cartographer_pbstream_to_ros_map
-#   cartographer_rosbag_validate
-#   RUNTIME DESTINATION lib/${PROJECT_NAME}
-# )
+install(TARGETS
+  openbot_node
+  # cartographer_occupancy_grid_node
+  # cartographer_offline_node
+  # cartographer_assets_writer
+  # cartographer_pbstream_map_publisher
+  # cartographer_pbstream_to_ros_map
+  # openbot_rosbag_validate
+  RUNTIME DESTINATION lib/${PROJECT_NAME}
+)
 
 install(DIRECTORY include/
   DESTINATION include/

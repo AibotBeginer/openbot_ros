@@ -15,17 +15,34 @@
  */
 
 
+#include "openbot_ros/node.hpp"
+#include "openbot_ros/node_constants.hpp"
+
 #include "gflags/gflags.h"
 #include "glog/logging.h"
+
 #include "tf2_ros/transform_listener.h"
 #include <tf2_ros/transform_broadcaster.h>
 #include <tf2_ros/buffer.h>
 #include <tf2_ros/transform_listener.h>
 
+
+DEFINE_bool(collect_metrics, false,
+            "Activates the collection of runtime metrics. If activated, the "
+            "metrics can be accessed via a ROS service.");
+
 namespace openbot_ros {
 namespace {
 
-void Run() {
+void Usage()
+{
+  LOG(INFO) << "welcome openbot world.";
+}
+
+void Run() 
+{
+  Usage();
+
   rclcpp::Node::SharedPtr openbot_node = rclcpp::Node::make_shared("openbot_node");
   constexpr double kTfBufferCacheTimeInSeconds = 10.;
 
@@ -36,16 +53,15 @@ void Run() {
   std::shared_ptr<tf2_ros::TransformListener> tf_listener =
       std::make_shared<tf2_ros::TransformListener>(*tf_buffer);
 
-  // NodeOptions node_options;
+  NodeOptions node_options;
   // TrajectoryOptions trajectory_options;
   // std::tie(node_options, trajectory_options) =
   //     LoadOptions(FLAGS_configuration_directory, FLAGS_configuration_basename);
 
   // auto map_builder =
   //   cartographer::mapping::CreateMapBuilder(node_options.map_builder_options);
-  // auto node = std::make_shared<openbot_ros::Node>(
-  //   node_options, std::move(map_builder), tf_buffer, cartographer_node,
-  //   FLAGS_collect_metrics);
+  auto node = std::make_shared<openbot_ros::Node>(
+    node_options, tf_buffer, openbot_node, FLAGS_collect_metrics);
   // if (!FLAGS_load_state_filename.empty()) {
   //   node->LoadState(FLAGS_load_state_filename, FLAGS_load_frozen_state);
   // }
@@ -84,5 +100,6 @@ int main(int argc, char** argv)
 
   // openbot_ros::ScopedRosLogSink ros_log_sink;
   openbot_ros::Run();
+  google::ShutdownGoogleLogging();
   ::rclcpp::shutdown();
 }
