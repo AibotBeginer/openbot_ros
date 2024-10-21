@@ -40,6 +40,16 @@ sudo make install
 sudo apt install libtinyxml2-dev
 ```
 
+* cyberRT
+
+```bash
+cd ~/Downloads/
+git clone https://github.com/duyongquan/CyberRT.git
+cd CyberRT && mkdir build && cd build && cmake ..
+cmake ..
+sudo make install
+```
+
 
 
 ##  编译
