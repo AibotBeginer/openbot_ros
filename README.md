@@ -45,7 +45,9 @@ sudo apt install libtinyxml2-dev
 ```bash
 cd ~/Downloads/
 git clone https://github.com/duyongquan/CyberRT.git
-cd CyberRT && mkdir build && cd build && cmake ..
+cd CyberRT
+sudo python3 install.py 
+mkdir build && cd build && cmake ..
 cmake ..
 sudo make install
 ```
@@ -63,7 +65,10 @@ colcon build --symlink-install  --packages-up-to openbot_ros
 
 ## 运行
 
+```bash
+export CYBER_PATH=/usr/local/share/
 
+```
 
 
 
