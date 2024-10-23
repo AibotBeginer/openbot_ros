@@ -16,8 +16,6 @@ find_package(PCL REQUIRED COMPONENTS common)
 find_package(nav_msgs REQUIRED)
 # find_package(pcl_conversions REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(rosbag2_cpp REQUIRED)
-find_package(rosbag2_storage REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(tf2 REQUIRED)
@@ -30,12 +28,15 @@ find_package(visualization_msgs REQUIRED)
 
 include_directories(
   include
+  ${openbot_INCLUDE_DIRS}
   ${PCL_INCLUDE_DIRS}
   ${urdfdom_headers_INCLUDE_DIRS}
 )
 
 # Library
 add_library(${PROJECT_NAME}
+  src/messages_conversion/proto_msgs_to_ros.cpp
+  src/messages_conversion/ros_msgs_to_proto.cpp
   src/msg_conversion.cpp
   src/node.cpp
   src/node_constants.cpp
@@ -62,8 +63,6 @@ set(dependencies
   tf2_msgs
   tf2_ros
   visualization_msgs
-  rosbag2_cpp
-  rosbag2_storage
   urdf
   urdfdom
 )
@@ -80,9 +79,16 @@ if($ENV{ROS_DISTRO} MATCHES "humble" OR $ENV{ROS_DISTRO} MATCHES "iron")
   # target_compile_definitions(cartographer_rosbag_validate PRIVATE PRE_JAZZY_SERIALIZED_BAG_MSG_FIELD_NAME)
 endif()
 
+# Add the binary directory first, so that port.h is included after it has
+# been generated.
+target_include_directories(${PROJECT_NAME} PUBLIC
+    $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
+    $<INSTALL_INTERFACE:include>
+)
+
 install(TARGETS
   ${PROJECT_NAME}
-  
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
