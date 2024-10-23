@@ -18,6 +18,12 @@
 
 namespace openbot_ros {
 
-// ::openbot::common::builtin_interfaces::Time FromRos(const rclcpp::Time& time);
+// ::openbot::common::proto::builtin_interfaces::Time FromRos(const rclcpp::Time& time)
+// {
+//     ::openbot::common::proto::builtin_interfaces::Time proto;
+//     proto.set_sec(time.seconds());
+//     proto.set_nanosec(time.seconds());
+//     return proto;
+// }
 
 }  // namespace openbot_ros

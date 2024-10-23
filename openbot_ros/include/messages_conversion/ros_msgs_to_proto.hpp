@@ -21,12 +21,9 @@
 #include <tuple>
 
 #include "rclcpp/rclcpp.hpp"
-// #include "openbot/common/proto/builtin_interfaces/time.pb.h"
 #include "openbot/common/port.hpp"
 
 namespace openbot_ros {
-
-// ::openbot::common::builtin_interfaces::Time FromRos(const rclcpp::Time& time);
 
 
 }  // namespace openbot_ros
