@@ -40,6 +40,14 @@ geometry_msgs::msg::Twist ToRos(const ::openbot::common::proto::geometry_msgs::T
     return data;
 }
 
+geometry_msgs::msg::TwistStamped ToRos(const ::openbot::common::proto::geometry_msgs::TwistStamped& proto)
+{
+    geometry_msgs::msg::TwistStamped data;
+    data.header = ToRos(proto.header());
+    data.twist = ToRos(proto.twist());
+    return data;
+}
+
 geometry_msgs::msg::Vector3 ToRos(const ::openbot::common::proto::geometry_msgs::Vector3& proto)
 {
     geometry_msgs::msg::Vector3 data;
@@ -54,6 +62,26 @@ geometry_msgs::msg::Vector3Stamped ToRos(const ::openbot::common::proto::geometr
     geometry_msgs::msg::Vector3Stamped data;
     data.header = ToRos(proto.header());
     data.vector = ToRos(proto.vector());
+    return data;
+}
+
+geometry_msgs::msg::TwistWithCovariance ToRos(const ::openbot::common::proto::geometry_msgs::TwistWithCovariance& proto)
+{
+    geometry_msgs::msg::TwistWithCovariance data;
+    data.twist = ToRos(proto.twist());
+
+    for (int i = 0; i < proto.covariance_size(); ++i) {
+        data.covariance[i] = proto.covariance(i);
+    }
+    return data;
+}
+
+geometry_msgs::msg::TwistWithCovarianceStamped ToRos(
+    const ::openbot::common::proto::geometry_msgs::TwistWithCovarianceStamped& proto)
+{
+    geometry_msgs::msg::TwistWithCovarianceStamped data;
+    data.header = ToRos(proto.header());
+    data.twist = ToRos(proto.twist());
     return data;
 }
 
