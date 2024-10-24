@@ -14,7 +14,7 @@ find_package(Eigen3 REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(PCL REQUIRED COMPONENTS common)
 find_package(nav_msgs REQUIRED)
-# find_package(pcl_conversions REQUIRED)
+find_package(pcl_conversions REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
@@ -54,7 +54,7 @@ set(dependencies
   openbot_ros_msgs
   geometry_msgs
   nav_msgs
-  # pcl_conversions
+  pcl_conversions
   rclcpp
   sensor_msgs
   std_msgs

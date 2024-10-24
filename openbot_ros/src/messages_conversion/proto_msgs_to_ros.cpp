@@ -93,4 +93,54 @@ geometry_msgs::msg::VelocityStamped ToRos(const ::openbot::common::proto::geomet
     return data;
 }
 
+sensor_msgs::msg::CameraInfo ToRos(const ::openbot::common::proto::sensor_msgs::CameraInfo& proto)
+{
+    sensor_msgs::msg::CameraInfo data;
+    data.header = ToRos(proto.header());
+    data.height = proto.height();
+    data.width = proto.width();
+
+    for (int i = 0; i < proto.d_size(); ++i) {
+        data.d[i] = proto.d(i);
+    }
+
+    for (int i = 0; i < proto.k_size(); ++i) {
+        data.k[i] = proto.k(i);
+    }
+
+    for (int i = 0; i < proto.r_size(); ++i) {
+        data.r[i] = proto.r(i);
+    }
+
+    for (int i = 0; i < proto.p_size(); ++i) {
+        data.p[i] = proto.p(i);
+    }
+
+    data.binning_x = proto.binning_x();
+    data.binning_y = proto.binning_y();
+    // data.roi = ToRos(proto.roi());
+    return data;
+}
+
+sensor_msgs::msg::ChannelFloat32 ToRos(const ::openbot::common::proto::sensor_msgs::ChannelFloat32& proto)
+{
+    sensor_msgs::msg::ChannelFloat32 data;
+    data.name = proto.name();
+    for (int i = 0; i < proto.values_size(); ++i) {
+        data.values[i] = proto.values(i);
+    }
+    return data;
+}
+
+sensor_msgs::msg::CompressedImage ToRos(const ::openbot::common::proto::sensor_msgs::CompressedImage& proto)
+{
+    sensor_msgs::msg::CompressedImage data;
+    data.header = ToRos(proto.header());
+    data.format = proto.format();
+    for (int i = 0; i < proto.data_size(); ++i) {
+        data.data[i] = proto.data(i);
+    }
+    return data;
+}
+
 }  // namespace openbot_ros
