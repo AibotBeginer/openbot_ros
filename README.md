@@ -24,16 +24,6 @@ git clone https://github.com/AibotBeginer/openbot_ros.git
 
 ## 安装依赖
 
-* FastRTPS
-
-```bash
-git clone https://github.com/eProsima/Fast-DDS.git
-cd Fast-DDS
-mkdir -p build && cd build && cmake ..
-sudo make install
-
-```
-
 * TinyXML2
 
 ```bash
