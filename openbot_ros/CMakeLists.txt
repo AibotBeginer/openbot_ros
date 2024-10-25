@@ -25,6 +25,7 @@ find_package(tf2_ros REQUIRED)
 find_package(urdf REQUIRED)
 find_package(urdfdom_headers REQUIRED)
 find_package(visualization_msgs REQUIRED)
+find_package(vision_msgs REQUIRED)
 
 include_directories(
   include
@@ -63,6 +64,7 @@ set(dependencies
   tf2_msgs
   tf2_ros
   visualization_msgs
+  vision_msgs
   urdf
   urdfdom
 )
