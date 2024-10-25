@@ -143,4 +143,131 @@ sensor_msgs::msg::CompressedImage ToRos(const ::openbot::common::proto::sensor_m
     return data;
 }
 
+sensor_msgs::msg::Illuminance ToRos(const ::openbot::common::proto::sensor_msgs::Illuminance& proto)
+{
+    sensor_msgs::msg::Illuminance data;
+    data.header = ToRos(proto.header());
+    data.illuminance = proto.illuminance();
+    data.variance = proto.variance();
+    return data;
+}
+
+sensor_msgs::msg::Image ToRos(const ::openbot::common::proto::sensor_msgs::Image& proto)
+{
+    sensor_msgs::msg::Image data;
+    data.header = ToRos(proto.header());
+    data.height = proto.height();
+    data.width = proto.width();
+    data.encoding = proto.encoding();
+    data.is_bigendian = proto.is_bigendian();
+    data.step = proto.step();
+    for (int i = 0; i < proto.data_size(); ++i) {
+        data.data[i] = proto.data(i);
+    }
+    return data;
+}
+
+sensor_msgs::msg::Imu ToRos(const ::openbot::common::proto::sensor_msgs::Imu& proto)
+{
+    sensor_msgs::msg::Imu data;
+    data.header = ToRos(proto.header());
+    // data.orientation = ToRos(proto.orientation());
+
+    // for (int i = 0; i < proto.orientation_covariance_size(); ++i) {
+    //     data.orientation_covariance[i] = proto.orientation_covariance(i);
+    // }
+    // data.angular_velocity = ToRos(proto.angular_velocity());
+    return data;
+}
+
+// LaserScan
+sensor_msgs::msg::LaserScan ToRos(const ::openbot::common::proto::sensor_msgs::LaserScan& proto)
+{
+    sensor_msgs::msg::LaserScan data;
+    data.header = ToRos(proto.header());
+    data.angle_min = proto.angle_min();
+    data.angle_max = proto.angle_max();
+    data.angle_increment = proto.angle_increment();
+    data.time_increment = proto.time_increment();
+    data.scan_time = proto.scan_time();
+    data.range_min = proto.range_min();
+    data.range_max = proto.range_max();
+
+    for (int i = 0; i < proto.ranges_size(); ++i) {
+        data.ranges[i] = proto.ranges(i);
+    }
+
+    for (int i = 0; i < proto.intensities_size(); ++i) {
+        data.intensities[i] = proto.intensities(i);
+    }
+    return data;
+}
+
+sensor_msgs::msg::PointCloud ToRos(const ::openbot::common::proto::sensor_msgs::PointCloud& proto)
+{
+    sensor_msgs::msg::PointCloud data;
+    data.header = ToRos(proto.header());
+
+    // for (int i = 0; i < proto.points_size(); ++i) {
+    //     data.points[i] = proto.points(i);
+    // }
+
+    // for (int i = 0; i < proto.channels_size(); ++i) {
+    //     data.channels[i] = proto.channels(i);
+    // }
+    
+    return data;
+}
+
+sensor_msgs::msg::PointCloud2 ToRos(const ::openbot::common::proto::sensor_msgs::PointCloud2& proto)
+{
+    sensor_msgs::msg::PointCloud2 data;
+    data.header = ToRos(proto.header());
+    data.height = proto.height();
+    data.width = proto.width();
+    // for (int i = 0; i < proto.fields_size(); ++i) {
+    //     data.fields[i] = proto.fields(i);
+    // }
+    data.is_bigendian = proto.is_bigendian();
+    data.point_step = proto.point_step();
+    for (int i = 0; i < proto.data_size(); ++i) {
+        data.data[i] = proto.data(i);
+    }
+    data.is_dense = proto.is_dense();
+    return data;
+}
+
+sensor_msgs::msg::PointField ToRos(const ::openbot::common::proto::sensor_msgs::PointField& proto)
+{
+    sensor_msgs::msg::PointField data;
+    data.name = proto.name();
+    data.offset = proto.offset();
+    data.datatype = proto.datatype();
+    data.count = proto.count();
+    return data;
+}
+
+sensor_msgs::msg::Range ToRos(const ::openbot::common::proto::sensor_msgs::Range& proto)
+{
+    sensor_msgs::msg::Range data;
+    data.header = ToRos(proto.header());
+    data.radiation_type = proto.radiation_type();
+    data.field_of_view = proto.field_of_view();
+    data.min_range = proto.min_range();
+    data.max_range = proto.max_range();
+    data.range = proto.range();
+    return data;
+}
+
+sensor_msgs::msg::RegionOfInterest ToRos(const ::openbot::common::proto::sensor_msgs::RegionOfInterest& proto)
+{
+    sensor_msgs::msg::RegionOfInterest data;
+    data.x_offset = proto.x_offset();
+    data.y_offset = proto.y_offset();
+    data.height = proto.height();
+    data.width = proto.width();
+    data.do_rectify = proto.do_rectify();
+    return data;
+}
+
 }  // namespace openbot_ros

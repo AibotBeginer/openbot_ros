@@ -35,6 +35,15 @@
 #include "sensor_msgs/msg/camera_info.hpp"
 #include "sensor_msgs/msg/channel_float32.hpp"
 #include "sensor_msgs/msg/compressed_image.hpp"
+#include "sensor_msgs/msg/illuminance.hpp"
+#include "sensor_msgs/msg/image.hpp"
+#include "sensor_msgs/msg/imu.hpp"
+#include "sensor_msgs/msg/laser_scan.hpp"
+#include "sensor_msgs/msg/point_cloud.hpp"
+#include "sensor_msgs/msg/point_cloud2.hpp"
+#include "sensor_msgs/msg/point_field.hpp"
+#include "sensor_msgs/msg/range.hpp"
+#include "sensor_msgs/msg/region_of_interest.hpp"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -55,16 +64,24 @@
 #include "openbot/common/proto/sensor_msgs/camera_info.pb.h" 
 #include "openbot/common/proto/sensor_msgs/channel_float32.pb.h" 
 #include "openbot/common/proto/sensor_msgs/compressed_image.pb.h"
+#include "openbot/common/proto/sensor_msgs/illuminance.pb.h"
+#include "openbot/common/proto/sensor_msgs/image.pb.h"
+#include "openbot/common/proto/sensor_msgs/imu.pb.h" 
+#include "openbot/common/proto/sensor_msgs/laser_scan.pb.h"
+#include "openbot/common/proto/sensor_msgs/point_cloud.pb.h"
+#include "openbot/common/proto/sensor_msgs/point_cloud2.pb.h"
+#include "openbot/common/proto/sensor_msgs/point_field.pb.h"
+#include "openbot/common/proto/sensor_msgs/range.pb.h"
+#include "openbot/common/proto/sensor_msgs/region_of_interest.pb.h"
 
 namespace openbot_ros {
 
-//------------------------------------------ geometry_msgs ------------------------------------------
+//------------------------------------------ builtin_interfaces -------------------------------------
 
 // Time
 rclcpp::Time ToRos(const ::openbot::common::proto::builtin_interfaces::Time& proto);
 
-// Header
-std_msgs::msg::Header ToRos(const ::openbot::common::proto::std_msgs::Header& proto);
+//------------------------------------------ geometry_msgs ------------------------------------------
 
 // Twist
 geometry_msgs::msg::Twist ToRos(const ::openbot::common::proto::geometry_msgs::Twist& proto);
@@ -77,6 +94,9 @@ geometry_msgs::msg::Vector3 ToRos(const ::openbot::common::proto::geometry_msgs:
 geometry_msgs::msg::Vector3Stamped ToRos(const ::openbot::common::proto::geometry_msgs::Vector3Stamped& proto);
 geometry_msgs::msg::VelocityStamped ToRos(const ::openbot::common::proto::geometry_msgs::VelocityStamped& proto);
 
+//------------------------------------------ nav_msgs ------------------------------------------
+
+
 //------------------------------------------ sensor_msgs ------------------------------------------
 
 // CameraInfo
@@ -87,6 +107,45 @@ sensor_msgs::msg::ChannelFloat32 ToRos(const ::openbot::common::proto::sensor_ms
 
 // CompressedImage
 sensor_msgs::msg::CompressedImage ToRos(const ::openbot::common::proto::sensor_msgs::CompressedImage& proto);
+
+// Illuminance
+sensor_msgs::msg::Illuminance ToRos(const ::openbot::common::proto::sensor_msgs::Illuminance& proto);
+
+// Image
+sensor_msgs::msg::Image ToRos(const ::openbot::common::proto::sensor_msgs::Image& proto);
+
+// Imu
+sensor_msgs::msg::Imu ToRos(const ::openbot::common::proto::sensor_msgs::Imu& proto);
+
+// LaserScan
+sensor_msgs::msg::LaserScan ToRos(const ::openbot::common::proto::sensor_msgs::LaserScan& proto);
+
+// PointCloud
+sensor_msgs::msg::PointCloud ToRos(const ::openbot::common::proto::sensor_msgs::PointCloud& proto);
+
+// PointCloud2
+sensor_msgs::msg::PointCloud2 ToRos(const ::openbot::common::proto::sensor_msgs::PointCloud2& proto);
+
+// PointField
+sensor_msgs::msg::PointField ToRos(const ::openbot::common::proto::sensor_msgs::PointField& proto);
+
+// Range
+sensor_msgs::msg::Range ToRos(const ::openbot::common::proto::sensor_msgs::Range& proto);
+
+// RegionOfInterest
+sensor_msgs::msg::RegionOfInterest ToRos(const ::openbot::common::proto::sensor_msgs::RegionOfInterest& proto);
+
+//------------------------------------------ shape_msgs ------------------------------------------
+
+
+//------------------------------------------ std_msgs --------------------------------------------
+
+// Header
+std_msgs::msg::Header ToRos(const ::openbot::common::proto::std_msgs::Header& proto);
+
+
+//------------------------------------------ vision_msgs --------------------------------------------
+
 
 }  // namespace openbot_ros
 
