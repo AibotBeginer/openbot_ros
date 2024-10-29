@@ -76,6 +76,10 @@
 #include "sensor_msgs/msg/region_of_interest.hpp"
 
 // shape_msgs
+#include "shape_msgs/msg/mesh.hpp"
+#include "shape_msgs/msg/mesh_triangle.hpp"
+#include "shape_msgs/msg/plane.hpp"
+#include "shape_msgs/msg/solid_primitive.hpp"
 
 
 // std_msgs
@@ -153,7 +157,10 @@
 #include "openbot/common/proto/sensor_msgs/region_of_interest.pb.h"
 
 // shape_msgs
-
+#include "openbot/common/proto/shape_msgs/mesh.pb.h"
+#include "openbot/common/proto/shape_msgs/mesh_triangle.pb.h"
+#include "openbot/common/proto/shape_msgs/plane.pb.h"
+#include "openbot/common/proto/shape_msgs/solid_primitive.pb.h"
 
 // std_msgs
 #include "openbot/common/proto/std_msgs/header.pb.h"
@@ -290,6 +297,17 @@ namespace openbot_ros {
 
 //------------------------------------------ shape_msgs --------------------------------------------
 
+// Mesh
+::openbot::common::proto::shape_msgs::Mesh FromRos(const shape_msgs::msg::Mesh& ros);
+
+// MeshTriangle
+::openbot::common::proto::shape_msgs::MeshTriangle FromRos(const shape_msgs::msg::MeshTriangle& ros);
+
+// Plane
+::openbot::common::proto::shape_msgs::Plane FromRos(const shape_msgs::msg::Plane& ros);
+
+// SolidPrimitive
+::openbot::common::proto::shape_msgs::SolidPrimitive FromRos(const shape_msgs::msg::SolidPrimitive& ros);
 
 //------------------------------------------ std_msgs ----------------------------------------------
 // Header

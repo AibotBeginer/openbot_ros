@@ -490,4 +490,45 @@ namespace openbot_ros {
     return proto;
 }
 
+::openbot::common::proto::shape_msgs::Mesh FromRos(const shape_msgs::msg::Mesh& ros)
+{
+    ::openbot::common::proto::shape_msgs::Mesh proto;
+    for (int i = 0; i < ros.triangles.size(); ++i) {
+        *proto.mutable_triangles(i) = FromRos(ros.triangles[i]);
+    }
+    for (int i = 0; i < ros.vertices.size(); ++i) {
+        *proto.mutable_vertices(i) = FromRos(ros.vertices[i]);
+    }
+    return proto;
+}
+
+::openbot::common::proto::shape_msgs::MeshTriangle FromRos(const shape_msgs::msg::MeshTriangle& ros)
+{
+    ::openbot::common::proto::shape_msgs::MeshTriangle proto;
+    for (int i = 0; i < ros.vertex_indices.size(); ++i) {
+        proto.set_vertex_indices(i, ros.vertex_indices[i]);
+    }
+    return proto;
+}
+
+::openbot::common::proto::shape_msgs::Plane FromRos(const shape_msgs::msg::Plane& ros)
+{
+    ::openbot::common::proto::shape_msgs::Plane proto;
+    for (int i = 0; i < ros.coef.size(); ++i) {
+        proto.set_coef(i, ros.coef[i]);
+    }
+    return proto;
+}
+
+::openbot::common::proto::shape_msgs::SolidPrimitive FromRos(const shape_msgs::msg::SolidPrimitive& ros)
+{
+    ::openbot::common::proto::shape_msgs::SolidPrimitive proto;
+    proto.set_type(ros.type);
+    for (int i = 0; i < ros.dimensions.size(); ++i) {
+        proto.set_dimensions(i, ros.dimensions[i]);
+    }
+    *proto.mutable_polygon() = FromRos(ros.polygon);
+    return proto;
+}
+
 }  // namespace openbot_ros
