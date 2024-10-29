@@ -42,6 +42,15 @@ cmake ..
 sudo make install
 ```
 
+* benchmark
+
+```bash
+git clone -b v1.9.0 https://github.com/google/benchmark.git
+cd benchmark
+cmake -B build -DCMAKE_BUILD_TYPE=Release -DBENCHMARK_ENABLE_TESTING=OFF
+cmake --install build
+```
+
 
 
 ##  编译

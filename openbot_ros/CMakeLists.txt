@@ -17,7 +17,8 @@ find_package(nav_msgs REQUIRED)
 find_package(pcl_conversions REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
-find_package(std_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
+find_package(shape_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_eigen REQUIRED)
 find_package(tf2_msgs REQUIRED)
@@ -58,6 +59,7 @@ set(dependencies
   pcl_conversions
   rclcpp
   sensor_msgs
+  shape_msgs
   std_msgs
   tf2
   tf2_eigen
@@ -68,6 +70,7 @@ set(dependencies
   urdf
   urdfdom
 )
+
 ament_target_dependencies(${PROJECT_NAME} ${dependencies})
 target_link_libraries(${PROJECT_NAME} openbot ${PCL_LIBRARIES})
 

@@ -513,5 +513,45 @@ sensor_msgs::msg::RegionOfInterest ToRos(const ::openbot::common::proto::sensor_
     return data;
 }
 
+shape_msgs::msg::Mesh ToRos(const ::openbot::common::proto::shape_msgs::Mesh& proto)
+{
+    shape_msgs::msg::Mesh data;
+    for (int i = 0; i < proto.triangles_size(); ++i) {
+        data.triangles[i] = ToRos(proto.triangles(i));
+    }
+    for (int i = 0; i < proto.vertices_size(); ++i) {
+        data.vertices[i] = ToRos(proto.vertices(i));
+    }
+    return data;
+}
+
+shape_msgs::msg::MeshTriangle ToRos(const ::openbot::common::proto::shape_msgs::MeshTriangle& proto)
+{
+    shape_msgs::msg::MeshTriangle data;
+    for (int i = 0; i < proto.vertex_indices_size(); ++i) {
+        data.vertex_indices[i] = proto.vertex_indices(i);
+    }
+    return data;
+}
+
+shape_msgs::msg::Plane ToRos(const ::openbot::common::proto::shape_msgs::Plane& proto)
+{
+    shape_msgs::msg::Plane data;
+    for (int i = 0; i < proto.coef_size(); ++i) {
+        data.coef[i] = proto.coef(i);
+    }
+    return data;
+}
+
+shape_msgs::msg::SolidPrimitive ToRos(const ::openbot::common::proto::shape_msgs::SolidPrimitive& proto)
+{
+    shape_msgs::msg::SolidPrimitive data;
+    data.type = proto.type();
+    for (int i = 0; i < proto.dimensions_size(); ++i) {
+        data.dimensions[i] = proto.dimensions(i);
+    }
+    data.polygon = ToRos(proto.polygon());
+    return data;
+}
 
 }  // namespace openbot_ros

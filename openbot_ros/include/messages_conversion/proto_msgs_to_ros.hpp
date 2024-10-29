@@ -76,7 +76,10 @@
 #include "sensor_msgs/msg/region_of_interest.hpp"
 
 // shape_msgs
-
+#include "shape_msgs/msg/mesh.hpp"
+#include "shape_msgs/msg/mesh_triangle.hpp"
+#include "shape_msgs/msg/plane.hpp"
+#include "shape_msgs/msg/solid_primitive.hpp"
 
 // std_msgs
 #include "std_msgs/msg/header.hpp"
@@ -157,7 +160,10 @@
 #include "openbot/common/proto/sensor_msgs/region_of_interest.pb.h"
 
 // shape_msgs
-
+#include "openbot/common/proto/shape_msgs/mesh.pb.h"
+#include "openbot/common/proto/shape_msgs/mesh_triangle.pb.h"
+#include "openbot/common/proto/shape_msgs/plane.pb.h"
+#include "openbot/common/proto/shape_msgs/solid_primitive.pb.h"
 
 // std_msgs
 #include "openbot/common/proto/std_msgs/header.pb.h"
@@ -292,6 +298,18 @@ sensor_msgs::msg::Range ToRos(const ::openbot::common::proto::sensor_msgs::Range
 sensor_msgs::msg::RegionOfInterest ToRos(const ::openbot::common::proto::sensor_msgs::RegionOfInterest& proto);
 
 //------------------------------------------ shape_msgs ------------------------------------------
+
+// Mesh
+shape_msgs::msg::Mesh ToRos(const ::openbot::common::proto::shape_msgs::Mesh& proto);
+
+// MeshTriangle
+shape_msgs::msg::MeshTriangle ToRos(const ::openbot::common::proto::shape_msgs::MeshTriangle& proto);
+
+// Plane
+shape_msgs::msg::Plane ToRos(const ::openbot::common::proto::shape_msgs::Plane& proto);
+
+// SolidPrimitive
+shape_msgs::msg::SolidPrimitive ToRos(const ::openbot::common::proto::shape_msgs::SolidPrimitive& proto);
 
 
 //------------------------------------------ std_msgs --------------------------------------------
