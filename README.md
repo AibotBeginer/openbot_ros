@@ -27,7 +27,7 @@ git clone https://github.com/AibotBeginer/openbot_ros.git
 * TinyXML2
 
 ```bash
-sudo apt install libtinyxml2-dev liblua5.3-dev
+sudo apt install libtinyxml2-dev liblua5.3-dev ninja-build
 ```
 
 * cyberRT
@@ -48,7 +48,7 @@ sudo make install
 
 ```bash
 cd openbot
-colcon build --symlink-install --packages-up-to openbot_ros
+colcon build --symlink-install --packages-up-to openbot_ros --cmake-args -G Ninja
 ```
 
 
