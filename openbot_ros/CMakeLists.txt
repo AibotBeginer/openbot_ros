@@ -48,6 +48,7 @@ add_library(${PROJECT_NAME}
   src/tf_bridge.cpp
   src/time_conversion.cpp
   src/urdf_reader.cpp
+  src/visualization.cpp
 )
 
 set(dependencies
@@ -74,10 +75,15 @@ set(dependencies
 ament_target_dependencies(${PROJECT_NAME} ${dependencies})
 target_link_libraries(${PROJECT_NAME} openbot ${PCL_LIBRARIES})
 
-# Executables
+# Executables(node_main)
 add_executable(openbot_node src/node_main.cpp)
 target_link_libraries(openbot_node ${PROJECT_NAME})
 ament_target_dependencies(openbot_node ${dependencies})
+
+# Executables(node_main)
+add_executable(visualization_node src/visualization_main.cpp)
+target_link_libraries(visualization_node ${PROJECT_NAME})
+ament_target_dependencies(visualization_node ${dependencies})
 
 if($ENV{ROS_DISTRO} MATCHES "humble" OR $ENV{ROS_DISTRO} MATCHES "iron")
   target_compile_definitions(${PROJECT_NAME} PRIVATE PRE_JAZZY_SERIALIZED_BAG_MSG_FIELD_NAME)
@@ -101,12 +107,7 @@ install(TARGETS
 
 install(TARGETS
   openbot_node
-  # cartographer_occupancy_grid_node
-  # cartographer_offline_node
-  # cartographer_assets_writer
-  # cartographer_pbstream_map_publisher
-  # cartographer_pbstream_to_ros_map
-  # openbot_rosbag_validate
+  visualization_node
   RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
 
