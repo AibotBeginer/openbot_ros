@@ -24,6 +24,7 @@
 #include "glog/logging.h"
 
 #include "openbot/common/proto/nav_msgs/path.pb.h" 
+#include "openbot/common/msgs/msgs.hpp"
 
 namespace openbot_ros {
 namespace {
@@ -34,28 +35,28 @@ void Run()
   rclcpp::Node::SharedPtr node = rclcpp::Node::make_shared("openbot_visualization_node");
   auto visualization = std::make_shared<openbot_ros::Visualization>(node.get());
   
+  ::openbot::common::nav_msgs::Path path;
+  path.header.frame_id = "map";
+
+  for (int i = 0; i < 100; ++i) {
+        ::openbot::common::geometry_msgs::PoseStamped pose;
+      // position
+      pose.pose.position.x = i * 1.0;
+      pose.pose.position.y = i * 1.0;
+      pose.pose.position.z = 0.0;
+
+
+      // orientation
+      pose.pose.orientation.x = 0.0;
+      pose.pose.orientation.y = 0.0;
+      pose.pose.orientation.z = 0.0;
+      pose.pose.orientation.z = 1.0;
+      path.poses.push_back(pose);
+  }
+
   while (true) {
-    ::openbot::common::proto::nav_msgs::Path path;
-    // Set the header
-    auto* header = path.mutable_header();
-    header->set_frame_id("map");
-
-    for (int i = 0; i < 100; ++i) {
-         ::openbot::common::proto::geometry_msgs::PoseStamped pose;
-        // // position
-        // pose.mutable_pose()->mutable_position()->set_x(i * 1.0);
-        // pose.mutable_pose()->mutable_position()->set_y(i * 1.0);
-        // pose.mutable_pose()->mutable_position()->set_z(0);
-
-        // // orientation
-        // pose.mutable_pose()->mutable_orientation()->set_x(0.0);
-        // pose.mutable_pose()->mutable_orientation()->set_y(0.0);
-        // pose.mutable_pose()->mutable_orientation()->set_z(0.0);
-        // pose.mutable_pose()->mutable_orientation()->set_w(1.0);
-
-        *path.add_poses() = pose;
-    }
-    visualization->PublishPath(path);
+    ::openbot::common::proto::nav_msgs::Path proto = ::openbot::common::nav_msgs::ToProto(path);
+    visualization->PublishPath(proto);
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
   }
   rclcpp::spin(node);
