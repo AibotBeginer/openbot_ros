@@ -331,7 +331,7 @@ nav_msgs::msg::Path ToRos(const ::openbot::common::proto::nav_msgs::Path& proto)
     nav_msgs::msg::Path data;
     data.header = ToRos(proto.header());
     for (int i = 0; i < proto.poses_size(); ++i) {
-        data.poses[i] = ToRos(proto.poses(i));
+        data.poses.push_back(ToRos(proto.poses(i)));
     }
     return data;
 }

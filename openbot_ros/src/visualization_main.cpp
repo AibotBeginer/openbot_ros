@@ -17,6 +17,9 @@
 
 #include "openbot_ros/visualization.hpp"
 
+#include <csignal>
+#include <cstdlib>
+
 #include <thread>
 #include <chrono>
 
@@ -29,6 +32,13 @@
 namespace openbot_ros {
 namespace {
 
+void SignalHandler(int signum) 
+{
+    LOG(INFO) << "Interrupt signal (" << signum << ") received.";
+    // 退出程序
+    exit(signum);
+}
+
 void Run() 
 {
  
@@ -37,9 +47,16 @@ void Run()
   
   ::openbot::common::nav_msgs::Path path;
   path.header.frame_id = "map";
+  path.header.stamp.sec = rclcpp::Clock().now().seconds();
+  path.header.stamp.nanosec = rclcpp::Clock().now().nanoseconds();
 
   for (int i = 0; i < 100; ++i) {
-        ::openbot::common::geometry_msgs::PoseStamped pose;
+      ::openbot::common::geometry_msgs::PoseStamped pose;
+
+      pose.header.frame_id = "map";
+      pose.header.stamp.sec = rclcpp::Clock().now().seconds();
+      pose.header.stamp.nanosec = rclcpp::Clock().now().nanoseconds();
+
       // position
       pose.pose.position.x = i * 1.0;
       pose.pose.position.y = i * 1.0;
@@ -54,8 +71,8 @@ void Run()
       path.poses.push_back(pose);
   }
 
+  ::openbot::common::proto::nav_msgs::Path proto = ::openbot::common::nav_msgs::ToProto(path);
   while (true) {
-    ::openbot::common::proto::nav_msgs::Path proto = ::openbot::common::nav_msgs::ToProto(path);
     visualization->PublishPath(proto);
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
   }
@@ -67,6 +84,7 @@ void Run()
 
 int main(int argc, char** argv) 
 {
+  std::signal(SIGINT, openbot_ros::SignalHandler);
   rclcpp::init(argc, argv);
 
   google::AllowCommandLineReparsing();
