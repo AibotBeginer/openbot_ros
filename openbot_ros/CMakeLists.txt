@@ -36,7 +36,7 @@ include_directories(
 )
 
 # Library
-add_library(${PROJECT_NAME}
+add_library(${PROJECT_NAME} SHARED
   src/messages_conversion/proto_msgs_to_ros.cpp
   src/messages_conversion/ros_msgs_to_proto.cpp
   src/messages_conversion/builtin_interfaces_converter.cpp

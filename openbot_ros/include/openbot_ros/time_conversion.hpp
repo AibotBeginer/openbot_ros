@@ -23,9 +23,9 @@
 
 namespace openbot_ros {
 
-rclcpp::Time ToRos(::openbot::common::Time time);
+rclcpp::Time ToRosTime(::openbot::common::Time time);
 
-::openbot::common::Time FromRos(const rclcpp::Time& time);
+::openbot::common::Time FromRosTime(const rclcpp::Time& time);
 
 }  // namespace openbot_ros
 

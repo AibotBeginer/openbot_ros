@@ -21,7 +21,7 @@
 
 namespace openbot_ros {
 
-rclcpp::Time ToRos(::openbot::common::Time time) {
+rclcpp::Time ToRosTime(::openbot::common::Time time) {
   int64_t uts_timestamp = ::openbot::common::ToUniversal(time);
   int64_t ns_since_unix_epoch =
       (uts_timestamp -
@@ -33,7 +33,7 @@ rclcpp::Time ToRos(::openbot::common::Time time) {
 }
 
 // TODO(pedrofernandez): Write test.
-::openbot::common::Time FromRos(const rclcpp::Time& time) {
+::openbot::common::Time FromRosTime(const rclcpp::Time& time) {
   // The epoch of the ICU Universal Time Scale is "0001-01-01 00:00:00.0 +0000",
   // exactly 719162 days before the Unix epoch.
   return ::openbot::common::FromUniversal(
