@@ -91,6 +91,8 @@ cmake --install build
 ```bash
 cd openbot
 colcon build --symlink-install --packages-up-to openbot_ros --cmake-args -G Ninja
+或者
+colcon build --symlink-install --packages-up-to openbot_ros
 ```
 
 
