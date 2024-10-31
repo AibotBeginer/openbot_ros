@@ -61,12 +61,17 @@ sudo apt install libtinyxml2-dev liblua5.3-dev ninja-build
 * cyberRT
 
 ```bash
-cd ~/Downloads/
-git clone https://github.com/duyongquan/CyberRT.git
-cd CyberRT
-sudo python3 install.py 
-mkdir build && cd build && cmake ..
-cmake ..
+git clone git clone https://gitee.com/minhanghuang/CyberRT.git
+
+# 安装third_party
+cd CyberRT 
+sudo python3 install.py --install_prefix /opt/cyber
+source /opt/cyber/setup.zsh or source /opt/cyber/setup.bash
+
+# 安装cyber
+cd CyberRT && cmake -B build
+cd build && cmake -DCMAKE_INSTALL_PREFIX=/opt/cyber ..
+make -j8
 sudo make install
 ```
 
@@ -93,7 +98,7 @@ colcon build --symlink-install --packages-up-to openbot_ros --cmake-args -G Ninj
 ## 运行
 
 ```bash
-# .bashrc 或者.zshrc
+# .bashrc 或者.zshrc，添加一下环境变量
 export CYBER_PATH=/usr/local/share/
 export GLOG_logtostderr=1
 ```
