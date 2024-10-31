@@ -24,6 +24,16 @@ git clone https://github.com/AibotBeginer/openbot_ros.git
 
 ## 安装依赖
 
+* abseil
+
+```bash
+git clone https://github.com/abseil/abseil-cpp.git
+# 编辑CMakeLists.txt，添加add_compile_options(-fPIC)
+cd abseil-cpp && cmake -B build && cd build && cmake ..
+make -j8 
+sudo make install
+```
+
 * TinyXML2
 
 ```bash
@@ -65,9 +75,9 @@ colcon build --symlink-install --packages-up-to openbot_ros --cmake-args -G Ninj
 ## 运行
 
 ```bash
+# .bashrc 或者.zshrc
 export CYBER_PATH=/usr/local/share/
 export GLOG_logtostderr=1
-
 ```
 
 
