@@ -34,6 +34,24 @@ make -j8
 sudo make install
 ```
 
+* behaviortree_cpp
+
+```bash
+git clone https://github.com/BehaviorTree/BehaviorTree.CPP.git
+cd BehaviorTree.CPP && mkdir build && cmake ..
+make -j8
+sudo make install
+```
+
+* ceres-solver
+
+```bash
+git clone https://github.com/ceres-solver/ceres-solver.git
+cd ceres-solver && mkdir build && cd build && cmake ..
+make -j8
+sudo make install
+```
+
 * TinyXML2
 
 ```bash
