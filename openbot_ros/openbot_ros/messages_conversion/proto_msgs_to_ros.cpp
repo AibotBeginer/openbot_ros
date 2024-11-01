@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "messages_conversion/proto_msgs_to_ros.hpp"
+#include "proto_msgs_to_ros.hpp"
 
 
 namespace openbot_ros {

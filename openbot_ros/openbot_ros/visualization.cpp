@@ -26,13 +26,29 @@ Visualization::Visualization(rclcpp::Node* node)
     : node_(node)
 {
     path_publisher_ = node_->create_publisher<nav_msgs::msg::Path>("openbot_path", 10);
+    point_cloud_map_publisher_ = node_->create_publisher<sensor_msgs::msg::PointCloud2>("global_map", 1);
+    map_generator_ = std::make_shared<RandomMapGenerator>();
 }
     
 void Visualization::PublishPath(const ProtoPath& path)
 {
     auto path_msg = ToRos(path);
     path_publisher_->publish(path_msg);
+}
 
+void Visualization::PublishGlobalMap()
+{
+    if (!map_generator_->Finished()) {
+        map_generator_->Generate();
+    }
+
+    sensor_msgs::msg::PointCloud2 map_data;
+    bool success = map_generator_->GetPointCloud2Data(map_data);
+    if (!success) {
+        RCLCPP_INFO(node_->get_logger(), "Get pointCloud2 data error.");
+        return;
+    }
+    point_cloud_map_publisher_->publish(map_data);
 }
 
 }  // namespace openbot_ros

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "messages_conversion/std_msgs_converter.hpp"
+#include "sensor_msgs_converter.hpp"
 
 
 namespace openbot_ros {

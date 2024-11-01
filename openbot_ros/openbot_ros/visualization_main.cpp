@@ -45,36 +45,41 @@ void Run()
   rclcpp::Node::SharedPtr node = rclcpp::Node::make_shared("openbot_visualization_node");
   auto visualization = std::make_shared<openbot_ros::Visualization>(node.get());
   
-  ::openbot::common::nav_msgs::Path path;
-  path.header.frame_id = "map";
-  path.header.stamp.sec = rclcpp::Clock().now().seconds();
-  path.header.stamp.nanosec = rclcpp::Clock().now().nanoseconds();
+  // ::openbot::common::nav_msgs::Path path;
+  // path.header.frame_id = "map";
+  // path.header.stamp.sec = rclcpp::Clock().now().seconds();
+  // path.header.stamp.nanosec = rclcpp::Clock().now().nanoseconds();
 
-  for (int i = 0; i < 100; ++i) {
-      ::openbot::common::geometry_msgs::PoseStamped pose;
+  // for (int i = 0; i < 100; ++i) {
+  //     ::openbot::common::geometry_msgs::PoseStamped pose;
 
-      pose.header.frame_id = "map";
-      pose.header.stamp.sec = rclcpp::Clock().now().seconds();
-      pose.header.stamp.nanosec = rclcpp::Clock().now().nanoseconds();
+  //     pose.header.frame_id = "map";
+  //     pose.header.stamp.sec = rclcpp::Clock().now().seconds();
+  //     pose.header.stamp.nanosec = rclcpp::Clock().now().nanoseconds();
 
-      // position
-      pose.pose.position.x = i * 1.0;
-      pose.pose.position.y = i * 1.0;
-      pose.pose.position.z = 0.0;
+  //     // position
+  //     pose.pose.position.x = i * 1.0;
+  //     pose.pose.position.y = i * 1.0;
+  //     pose.pose.position.z = 0.0;
 
 
-      // orientation
-      pose.pose.orientation.x = 0.0;
-      pose.pose.orientation.y = 0.0;
-      pose.pose.orientation.z = 0.0;
-      pose.pose.orientation.z = 1.0;
-      path.poses.push_back(pose);
-  }
+  //     // orientation
+  //     pose.pose.orientation.x = 0.0;
+  //     pose.pose.orientation.y = 0.0;
+  //     pose.pose.orientation.z = 0.0;
+  //     pose.pose.orientation.w = 1.0;
+  //     path.poses.push_back(pose);
+  // }
 
-  ::openbot::common::proto::nav_msgs::Path proto = ::openbot::common::nav_msgs::ToProto(path);
+  // ::openbot::common::proto::nav_msgs::Path proto = ::openbot::common::nav_msgs::ToProto(path);
+  // while (true) {
+  //   visualization->PublishPath(proto);
+  //   std::this_thread::sleep_for(std::chrono::milliseconds(1));
+  // }
+
   while (true) {
-    visualization->PublishPath(proto);
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    visualization->PublishGlobalMap();
+    std::this_thread::sleep_for(std::chrono::seconds(1));
   }
   rclcpp::spin(node);
 }

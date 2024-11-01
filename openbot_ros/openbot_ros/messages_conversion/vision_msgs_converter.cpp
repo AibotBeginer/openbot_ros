@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "messages_conversion/geometry_msgs_converter.hpp"
+#include "vision_msgs_converter.hpp"
 
 
 namespace openbot_ros {

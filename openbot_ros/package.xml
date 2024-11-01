@@ -12,6 +12,7 @@
   <build_depend>google-mock</build_depend>
   <build_depend>python3-sphinx</build_depend>
   <build_depend>ros_environment</build_depend>
+  <build_depend>urdfdom_headers</build_depend>
 
   <depend>builtin_interfaces</depend>
   <depend>openbot</depend>

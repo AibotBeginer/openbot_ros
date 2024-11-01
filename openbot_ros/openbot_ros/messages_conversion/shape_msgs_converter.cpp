@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "messages_conversion/builtin_interfaces_converter.hpp"
+#include "shape_msgs_converter.hpp"
 
 
 namespace openbot_ros {
