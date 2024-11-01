@@ -24,19 +24,24 @@ RandomMapGenerator::RandomMapGenerator()
     InitDefaultConfig();
 }
 
+RandomMapGenerator::RandomMapGenerator(const MapOption& config)
+{
+    *default_config_ = config;
+}
+
 sensor_msgs::msg::PointCloud2& RandomMapGenerator::Generate()
 {
     std::random_device rd;
     std::default_random_engine eng(rd());
 
-    std::uniform_real_distribution<double> rand_x = std::uniform_real_distribution<double>(defualt_config_.x_l, defualt_config_.x_h);
-    std::uniform_real_distribution<double> rand_y = std::uniform_real_distribution<double>(defualt_config_.y_l, defualt_config_.y_h );
-    std::uniform_real_distribution<double> rand_w = std::uniform_real_distribution<double>(defualt_config_.w_l, defualt_config_.w_h);
-    std::uniform_real_distribution<double> rand_h = std::uniform_real_distribution<double>(defualt_config_.h_l, defualt_config_.h_h);
+    std::uniform_real_distribution<double> rand_x = std::uniform_real_distribution<double>(default_config_->x_l, default_config_->x_h);
+    std::uniform_real_distribution<double> rand_y = std::uniform_real_distribution<double>(default_config_->y_l, default_config_->y_h );
+    std::uniform_real_distribution<double> rand_w = std::uniform_real_distribution<double>(default_config_->w_l, default_config_->w_h);
+    std::uniform_real_distribution<double> rand_h = std::uniform_real_distribution<double>(default_config_->h_l, default_config_->h_h);
 
-    std::uniform_real_distribution<double> rand_x_circle = std::uniform_real_distribution<double>(defualt_config_.x_l + 1.0, defualt_config_.x_h - 1.0);
-    std::uniform_real_distribution<double> rand_y_circle = std::uniform_real_distribution<double>(defualt_config_.y_l + 1.0, defualt_config_.y_h - 1.0);
-    std::uniform_real_distribution<double> rand_r_circle = std::uniform_real_distribution<double>(defualt_config_.w_c_l    , defualt_config_.w_c_h    );
+    std::uniform_real_distribution<double> rand_x_circle = std::uniform_real_distribution<double>(default_config_->x_l + 1.0, default_config_->x_h - 1.0);
+    std::uniform_real_distribution<double> rand_y_circle = std::uniform_real_distribution<double>(default_config_->y_l + 1.0, default_config_->y_h - 1.0);
+    std::uniform_real_distribution<double> rand_r_circle = std::uniform_real_distribution<double>(default_config_->w_c_l    , default_config_->w_c_h    );
 
     std::uniform_real_distribution<double> rand_roll      = std::uniform_real_distribution<double>(- M_PI,     + M_PI);
     std::uniform_real_distribution<double> rand_pitch     = std::uniform_real_distribution<double>(+ M_PI/4.0, + M_PI/2.0);
@@ -47,7 +52,7 @@ sensor_msgs::msg::PointCloud2& RandomMapGenerator::Generate()
     pcl::PointXYZ pt_random;
 
     // firstly, we put some circles
-    for(int i = 0; i < defualt_config_.cir_num; i ++)
+    for(int i = 0; i < default_config_->cir_num; i ++)
     {
         double x0, y0, z0, R;
         std::vector<Eigen::Vector3d> circle_set;
@@ -57,7 +62,7 @@ sensor_msgs::msg::PointCloud2& RandomMapGenerator::Generate()
         z0   = rand_h(eng) / 2.0;  
         R    = rand_r_circle(eng);
 
-        if(std::sqrt(std::pow(x0 - defualt_config_.init_x, 2) + std::pow(y0 -defualt_config_.init_y, 2) ) < 2.0 ) 
+        if(std::sqrt(std::pow(x0 - default_config_->init_x, 2) + std::pow(y0 -default_config_->init_y, 2) ) < 2.0 ) 
             continue;
 
         double a, b;
@@ -116,7 +121,7 @@ sensor_msgs::msg::PointCloud2& RandomMapGenerator::Generate()
         is_kdtree_empty = true;
 
     // then, we put some pilar
-    for(int i = 0; i < defualt_config_.obs_num; i ++)
+    for(int i = 0; i < default_config_->obs_num; i ++)
     {
         double x, y, w, h; 
         x    = rand_x(eng);
@@ -124,10 +129,10 @@ sensor_msgs::msg::PointCloud2& RandomMapGenerator::Generate()
         w    = rand_w(eng);
 
         //if(sqrt( pow(x - _init_x, 2) + pow(y - _init_y, 2) ) < 2.0 ) 
-        if(sqrt( pow(x - defualt_config_.init_x, 2) + pow(y - defualt_config_.init_y, 2) ) < 0.8 ) 
+        if(sqrt( pow(x - default_config_->init_x, 2) + pow(y - default_config_->init_y, 2) ) < 0.8 ) 
             continue;
         
-        pcl::PointXYZ searchPoint(x, y, (defualt_config_.h_l + defualt_config_.h_h)/2.0);
+        pcl::PointXYZ searchPoint(x, y, (default_config_->h_l + default_config_->h_h)/2.0);
         pointIdxSearch.clear();
         pointSquaredDistance.clear();
         
@@ -140,20 +145,20 @@ sensor_msgs::msg::PointCloud2& RandomMapGenerator::Generate()
             }
         }
 
-        x = std::floor(x/defualt_config_.resolution) * defualt_config_.resolution + defualt_config_.resolution / 2.0;
-        y = std::floor(y/defualt_config_.resolution) * defualt_config_.resolution + defualt_config_.resolution / 2.0;
+        x = std::floor(x/default_config_->resolution) * default_config_->resolution + default_config_->resolution / 2.0;
+        y = std::floor(y/default_config_->resolution) * default_config_->resolution + default_config_->resolution / 2.0;
 
-        int widNum = std::ceil(w / defualt_config_.resolution);
+        int widNum = std::ceil(w / default_config_->resolution);
         for(int r = -widNum/2.0; r < widNum / 2.0; r++ )
         {
             for(int s = -widNum/2.0; s < widNum/2.0; s ++ )
             {
             h    = rand_h(eng);  
-            int heiNum = 2.0 * std::ceil(h/defualt_config_.resolution);
+            int heiNum = 2.0 * std::ceil(h/default_config_->resolution);
             for(int t = 0; t < heiNum; t ++ ){
-                pt_random.x = x + (r+0.0) * defualt_config_.resolution + 0.001;
-                pt_random.y = y + (s+0.0) * defualt_config_.resolution + 0.001;
-                pt_random.z =     (t+0.0) * defualt_config_.resolution * 0.5 + 0.001;
+                pt_random.x = x + (r+0.0) * default_config_->resolution + 0.001;
+                pt_random.y = y + (s+0.0) * default_config_->resolution + 0.001;
+                pt_random.z =     (t+0.0) * default_config_->resolution * 0.5 + 0.001;
                 cloudMap.points.push_back( pt_random );
             }
             }
@@ -182,32 +187,36 @@ bool RandomMapGenerator::GetPointCloud2Data(sensor_msgs::msg::PointCloud2& data)
 
 void RandomMapGenerator::InitDefaultConfig()
 {
-    defualt_config_.init_x = 0.0;
-    defualt_config_.init_y = 0.0;
+    if (default_config_ == nullptr) {
+        default_config_ = new MapOption();
+    }
 
-    defualt_config_.x_size = 15.0;
-    defualt_config_.y_size = 15.0;
-    defualt_config_.z_size = 2.0;
+    default_config_->init_x = 0.0;
+    default_config_->init_y = 0.0;
 
-    defualt_config_.obs_num = 300;
-    defualt_config_.cir_num = 40;
-    defualt_config_.resolution = 0.1;
+    default_config_->x_size = 15.0;
+    default_config_->y_size = 15.0;
+    default_config_->z_size = 2.0;
+
+    default_config_->obs_num = 300;
+    default_config_->cir_num = 40;
+    default_config_->resolution = 0.1;
 
     // ObstacleShape
-    defualt_config_.w_l = 0.1;  // lower_rad
-    defualt_config_.w_h = 0.7;  // upper_rad
-    defualt_config_.h_l = 0.1;  // lower_hei
-    defualt_config_.h_h = 3.0;  // upper_hei
+    default_config_->w_l = 0.1;  // lower_rad
+    default_config_->w_h = 0.7;  // upper_rad
+    default_config_->h_l = 0.1;  // lower_hei
+    default_config_->h_h = 3.0;  // upper_hei
 
     // CircleShape
-    defualt_config_.w_c_l = 0.2;  // lower_circle_rad
-    defualt_config_.w_c_h = 2.0;  // upper_circle_rad
+    default_config_->w_c_l = 0.2;  // lower_circle_rad
+    default_config_->w_c_h = 2.0;  // upper_circle_rad
 
-    defualt_config_.x_l = - defualt_config_.x_size / 2.0;
-    defualt_config_.x_h = + defualt_config_.x_size / 2.0;
+    default_config_->x_l = - default_config_->x_size / 2.0;
+    default_config_->x_h = + default_config_->x_size / 2.0;
 
-    defualt_config_.y_l = - defualt_config_.y_size / 2.0;
-    defualt_config_.y_h = + defualt_config_.y_size / 2.0;
+    default_config_->y_l = - default_config_->y_size / 2.0;
+    default_config_->y_h = + default_config_->y_size / 2.0;
 }
 
 }  // namespace openbot_ros

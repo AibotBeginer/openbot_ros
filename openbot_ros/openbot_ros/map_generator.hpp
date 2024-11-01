@@ -43,12 +43,51 @@
 
 namespace openbot_ros {
 
+struct MapOption 
+{
+    int obs_num;
+    int cir_num;
+    double x_size;
+    double y_size;
+    double z_size;
+    double init_x;
+    double init_y;
+    double resolution;
+    double sense_rate;
+    double x_l;
+    double x_h;
+
+    double y_l;
+    double y_h;
+
+    double w_l;
+    double w_h;
+
+    double h_l;
+    double h_h;
+    
+    double w_c_l;
+    double w_c_h;
+};
+
 class RandomMapGenerator
 {
 public:
+    /**
+     *  @brief SharedPtr typedef
+     */
     RCLCPP_SMART_PTR_DEFINITIONS(RandomMapGenerator)
 
+
+    /**
+     * @brief Contructor for RandomMapGenerator
+     */
     RandomMapGenerator();
+
+    /**
+     * @brief Contructor for RandomMapGenerator
+     */
+    RandomMapGenerator(const MapOption& config);
 
     /**
      * @brief Generate sensor_msgs::msg::PointCloud2
@@ -66,36 +105,13 @@ public:
     bool Finished() { return _has_map; }
 
 private:
-    struct Config 
-    {
-        int obs_num;
-        int cir_num;
-        double x_size;
-        double y_size;
-        double z_size;
-        double init_x;
-        double init_y;
-        double resolution;
-        double sense_rate;
-        double x_l;
-        double x_h;
 
-        double y_l;
-        double y_h;
-
-        double w_l;
-        double w_h;
-
-        double h_l;
-        double h_h;
-        
-        double w_c_l;
-        double w_c_h;
-    };
-
+    /**
+     * @brief Init default map opiton
+     */
     void InitDefaultConfig();
 
-    Config defualt_config_;
+    MapOption* default_config_{nullptr};
     bool _has_map  = false;
 
     sensor_msgs::msg::PointCloud2 globalMap_pcd;
