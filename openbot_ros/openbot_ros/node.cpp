@@ -116,7 +116,6 @@ void Node::HandleTargetPoseCallBack(geometry_msgs::msg::PoseStamped::ConstShared
         return;
     }
 
-    global_planner_->AddPose(msg);
     if (global_planner_->start_goal().size() >= 2) {
         global_planner_->start_goal().clear();
     }
@@ -129,9 +128,11 @@ void Node::HandleTargetPoseCallBack(geometry_msgs::msg::PoseStamped::ConstShared
 
     if (!global_planner_->CheckValid(goal)) {
         LOG(WARNING) << "Infeasible Position Selected !!!";
+        return;
     }
     
     global_planner_visualizator_->VisualizeStartGoal(goal, 0.5, global_planner_->start_goal().size());
+    global_planner_->AddPose(msg);
 }
 
 ::rclcpp::Node::SharedPtr Node::node_handle()

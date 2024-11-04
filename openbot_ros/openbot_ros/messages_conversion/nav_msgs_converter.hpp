@@ -20,8 +20,23 @@
 #include <string>
 #include <tuple>
 
+// openbot::common::geometry_msgs
+#include "openbot/common/msgs/msgs.hpp"
+
+// nav_msgs
+#include "nav_msgs/msg/grid_cells.hpp"
+#include "nav_msgs/msg/map_meta_data.hpp"
+#include "nav_msgs/msg/occupancy_grid.hpp"
+#include "nav_msgs/msg/odometry.hpp"
+#include "nav_msgs/msg/path.hpp"
+
+#include "openbot/common/msgs/msgs.hpp"
 
 namespace openbot_ros {
+
+// Path
+nav_msgs::msg::Path ToRos(const ::openbot::common::nav_msgs::Path& data);
+// ::openbot::common::nav_msgs::Path FromRos(const nav_msgs::msg::Path& ros);
 
 }  // namespace openbot_ros
 

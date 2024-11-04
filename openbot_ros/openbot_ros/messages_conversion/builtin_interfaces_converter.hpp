@@ -20,8 +20,24 @@
 #include <string>
 #include <tuple>
 
+#include "openbot/common/msgs/msgs.hpp"
+
+// std_msgs
+#include "std_msgs/msg/header.hpp"
+
+#include "nav_msgs/msg/grid_cells.hpp"
+#include "nav_msgs/msg/map_meta_data.hpp"
+#include "nav_msgs/msg/occupancy_grid.hpp"
+#include "nav_msgs/msg/odometry.hpp"
+#include "nav_msgs/msg/path.hpp"
+
+#include "rclcpp/rclcpp.hpp"
 
 namespace openbot_ros {
+
+// Time
+rclcpp::Time ToRos(const ::openbot::common::builtin_interfaces::Time& data);
+::openbot::common::builtin_interfaces::Time FromRos(const rclcpp::Time& ros);
 
 }  // namespace openbot_ros
 

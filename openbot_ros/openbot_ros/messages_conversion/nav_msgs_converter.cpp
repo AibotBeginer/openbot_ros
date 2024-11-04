@@ -15,8 +15,26 @@
  */
 
 #include "nav_msgs_converter.hpp"
-
+#include "geometry_msgs_converter.hpp"
+#include "std_msgs_converter.hpp"
 
 namespace openbot_ros {
+
+// Path
+nav_msgs::msg::Path ToRos(const ::openbot::common::nav_msgs::Path& data)
+{
+    nav_msgs::msg::Path ros;
+    ros.header.frame_id = data.header.frame_id;
+    for (auto pose : data.poses) {
+        ros.poses.push_back(ToRos(pose));
+    }
+    return ros;
+}
+
+// ::openbot::common::nav_msgs::Path FromRos(const nav_msgs::msg::Path& ros)
+// {
+//     ::openbot::common::nav_msgs::Path data;
+//     return data;
+// }
 
 }  // namespace openbot_ros

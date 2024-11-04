@@ -18,6 +18,8 @@
 #include "openbot/map/voxel_map.hpp"
 #include "glog/logging.h"
 
+#include "openbot_ros/messages_conversion/nav_msgs_converter.hpp"
+
 namespace openbot_ros {
 
 GlobalPlanner::GlobalPlanner()
@@ -62,6 +64,7 @@ nav_msgs::msg::Path GlobalPlanner::CreatePath()
     goal.pose.position.z = 0.3;
 
     auto msg = planner_->CreatePlan(start, goal);
+    path = ToRos(msg);
     return path;
 }
 
@@ -86,6 +89,25 @@ void GlobalPlanner::CreateGlobalMap()
     const Eigen::Vector3d offset(mapBound[0], mapBound[2], mapBound[4]);
 
     auto voxel_map = std::make_shared<::openbot::map::VoxelMap>(xyz, offset, voxelWidth);
+    size_t cur = 0;
+    const size_t total = map_data_.data.size() / map_data_.point_step;
+    float *fdata = (float *)(&map_data_.data[0]);
+    for (size_t i = 0; i < total; i++)
+    {
+        cur = map_data_.point_step / sizeof(float) * i;
+
+        if (std::isnan(fdata[cur + 0]) || std::isinf(fdata[cur + 0]) ||
+            std::isnan(fdata[cur + 1]) || std::isinf(fdata[cur + 1]) ||
+            std::isnan(fdata[cur + 2]) || std::isinf(fdata[cur + 2]))
+        {
+            continue;
+        }
+        voxel_map->SetOccupied(Eigen::Vector3d(fdata[cur + 0],
+                                                fdata[cur + 1],
+                                                fdata[cur + 2]));
+    }
+
+    voxel_map->Dilate(std::ceil(0.1 / voxel_map->GetScale()));
     planner_->InitMap(voxel_map);
 }
 

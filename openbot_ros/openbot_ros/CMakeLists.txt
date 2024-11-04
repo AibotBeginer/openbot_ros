@@ -18,13 +18,6 @@ add_executable(${node_executable_name} node_main.cpp)
 target_link_libraries(${node_executable_name} ${PROJECT_NAME})
 ament_target_dependencies(${node_executable_name} ${dependencies})
 
-# Executables(visualization_node)
-set(visualization_executable_name visualization_node)
-add_executable(${visualization_executable_name} visualization_main.cpp)
-target_link_libraries(${visualization_executable_name} ${PROJECT_NAME})
-ament_target_dependencies(${visualization_executable_name} ${dependencies})
-
 install(TARGETS
   ${node_executable_name}
-  # ${visualization_executable_name}
   DESTINATION lib/${PROJECT_NAME})

@@ -20,8 +20,23 @@
 #include <string>
 #include <tuple>
 
+// std_msgs
+#include "std_msgs/msg/header.hpp"
+
+#include "nav_msgs/msg/grid_cells.hpp"
+#include "nav_msgs/msg/map_meta_data.hpp"
+#include "nav_msgs/msg/occupancy_grid.hpp"
+#include "nav_msgs/msg/odometry.hpp"
+#include "nav_msgs/msg/path.hpp"
+
+#include "openbot/common/msgs/msgs.hpp"
 
 namespace openbot_ros {
+
+// Header
+std_msgs::msg::Header ToRos(const ::openbot::common::std_msgs::Header& data);
+::openbot::common::std_msgs::Header FromRos(const std_msgs::msg::Header& ros);
+
 
 }  // namespace openbot_ros
 

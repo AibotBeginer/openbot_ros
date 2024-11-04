@@ -19,4 +19,16 @@
 
 namespace openbot_ros {
 
+rclcpp::Time ToRos(const ::openbot::common::builtin_interfaces::Time& data)
+{
+    rclcpp::Time ros;
+    return ros;
+}
+
+::openbot::common::builtin_interfaces::Time FromRos(const rclcpp::Time& ros)
+{
+    ::openbot::common::builtin_interfaces::Time data;
+    return data;
+}
+
 }  // namespace openbot_ros

@@ -86,8 +86,8 @@ include_directories(
 set(ALL_SRCS
   openbot_ros/global_planner.cpp
   openbot_ros/local_planner.cpp
-  openbot_ros/messages_conversion/proto_msgs_to_ros.cpp
-  openbot_ros/messages_conversion/ros_msgs_to_proto.cpp
+  # openbot_ros/messages_conversion/proto_msgs_to_ros.cpp
+  # openbot_ros/messages_conversion/ros_msgs_to_proto.cpp
   openbot_ros/messages_conversion/builtin_interfaces_converter.cpp
   openbot_ros/messages_conversion/geometry_msgs_converter.cpp
   openbot_ros/messages_conversion/nav_msgs_converter.cpp
@@ -107,7 +107,6 @@ set(ALL_SRCS
   openbot_ros/tf_bridge.cpp
   openbot_ros/time_conversion.cpp
   openbot_ros/urdf_reader.cpp
-  openbot_ros/visualization.cpp
 )
 
 
