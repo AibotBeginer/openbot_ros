@@ -27,7 +27,4 @@ ament_target_dependencies(${visualization_executable_name} ${dependencies})
 install(TARGETS
   ${node_executable_name}
   # ${visualization_executable_name}
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION bin
-)
+  DESTINATION lib/${PROJECT_NAME})

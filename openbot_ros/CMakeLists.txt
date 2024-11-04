@@ -67,6 +67,7 @@ include_directories(
   ${openbot_INCLUDE_DIRS}
   ${PCL_INCLUDE_DIRS}
   ${geometry_msgs_INCLUDE_DIRS}
+  ${openbot_ros_msgs_INCLUDE_DIRS}
   ${shape_msgs_INCLUDE_DIRS}
   ${vision_msgs_INCLUDE_DIRS}
   ${nav_msgs_INCLUDE_DIRS}
@@ -83,6 +84,8 @@ include_directories(
 )
 
 set(ALL_SRCS
+  openbot_ros/global_planner.cpp
+  openbot_ros/local_planner.cpp
   openbot_ros/messages_conversion/proto_msgs_to_ros.cpp
   openbot_ros/messages_conversion/ros_msgs_to_proto.cpp
   openbot_ros/messages_conversion/builtin_interfaces_converter.cpp
@@ -92,6 +95,8 @@ set(ALL_SRCS
   openbot_ros/messages_conversion/shape_msgs_converter.cpp
   openbot_ros/messages_conversion/std_msgs_converter.cpp
   openbot_ros/messages_conversion/vision_msgs_converter.cpp
+  openbot_ros/visualization/global_planner_visualization.cpp
+  openbot_ros/visualization/local_planner_visualization.cpp
   openbot_ros/msg_conversion.cpp
   openbot_ros/map_generator.cpp
   openbot_ros/node.cpp
@@ -161,6 +166,12 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 install(DIRECTORY configuration_files urdf launch
   DESTINATION share/${PROJECT_NAME}/
 )
+
+install(TARGETS
+  ${PROJECT_NAME}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

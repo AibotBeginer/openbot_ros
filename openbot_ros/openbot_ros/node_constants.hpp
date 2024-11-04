@@ -24,10 +24,14 @@ namespace openbot_ros {
 
 // Default topic names; expected to be remapped as needed.
 constexpr char kLaserScanTopic[] = "scan";
+constexpr char kMultiEchoLaserScanTopic[] = "echoes";
 constexpr char kPointCloud2Topic[] = "points2";
 constexpr char kImuTopic[] = "imu";
 constexpr char kOdometryTopic[] = "odom";
-constexpr char kConstraintListTopic[] = "constraint_list";
+constexpr char kNavSatFixTopic[] = "fix";
+constexpr char kLandmarkTopic[] = "landmark";
+constexpr char kGlobalMapTopic[] = "global_map";
+constexpr char kTargetTopic[] = "goal_pose";
 constexpr double kConstraintPublishPeriodSec = 0.5;
 constexpr double kTopicMismatchCheckDelaySec = 3.0;
 

@@ -43,42 +43,9 @@ void Run()
 {
   Usage();
 
-  rclcpp::Node::SharedPtr openbot_node = rclcpp::Node::make_shared("openbot_node");
-  constexpr double kTfBufferCacheTimeInSeconds = 10.;
-
-  std::shared_ptr<tf2_ros::Buffer> tf_buffer =
-      std::make_shared<tf2_ros::Buffer>(openbot_node->get_clock(), 
-        tf2::durationFromSec(kTfBufferCacheTimeInSeconds), openbot_node);
-
-  std::shared_ptr<tf2_ros::TransformListener> tf_listener =
-      std::make_shared<tf2_ros::TransformListener>(*tf_buffer);
-
   NodeOptions node_options;
-  // TrajectoryOptions trajectory_options;
-  // std::tie(node_options, trajectory_options) =
-  //     LoadOptions(FLAGS_configuration_directory, FLAGS_configuration_basename);
-
-  // auto map_builder =
-  //   cartographer::mapping::CreateMapBuilder(node_options.map_builder_options);
-  auto node = std::make_shared<openbot_ros::Node>(
-    node_options, tf_buffer, openbot_node, FLAGS_collect_metrics);
-  // if (!FLAGS_load_state_filename.empty()) {
-  //   node->LoadState(FLAGS_load_state_filename, FLAGS_load_frozen_state);
-  // }
-
-  // if (FLAGS_start_trajectory_with_default_topics) {
-  //   node->StartTrajectoryWithDefaultTopics(trajectory_options);
-  // }
-
-  rclcpp::spin(openbot_node);
-
-  // node->FinishAllTrajectories();
-  // node->RunFinalOptimization();
-
-  // if (!FLAGS_save_state_filename.empty()) {
-  //   node->SerializeState(FLAGS_save_state_filename,
-  //                       true /* include_unfinished_submaps */);
-  // }
+  auto node = std::make_shared<openbot_ros::Node>(node_options, FLAGS_collect_metrics);
+  rclcpp::spin(node);
 }
 
 }  // namespace
