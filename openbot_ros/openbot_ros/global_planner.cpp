@@ -56,7 +56,7 @@ nav_msgs::msg::Path GlobalPlanner::CreatePath()
     ::openbot::common::geometry_msgs::PoseStamped start;
     start.pose.position.x = start_goal_[0].x();
     start.pose.position.y = start_goal_[0].y();
-    start.pose.position.z = 0.2;
+    start.pose.position.z = 0.3;
 
     ::openbot::common::geometry_msgs::PoseStamped goal;
     goal.pose.position.x = start_goal_[1].x();
@@ -81,7 +81,7 @@ void GlobalPlanner::CreateGlobalMap()
     }
 
     double voxelWidth = 0.25;
-    std::vector<double> mapBound = {-25.0, 25.0, -25.0, 25.0, 0.0, 5.0};
+    std::vector<double> mapBound = {-25.0, 25.0, -25.0, 25.0, 0.0, 1.0};
     const Eigen::Vector3i xyz((mapBound[1] - mapBound[0]) / voxelWidth,
                               (mapBound[3] - mapBound[2]) / voxelWidth,
                               (mapBound[5] - mapBound[4]) / voxelWidth);
@@ -107,7 +107,7 @@ void GlobalPlanner::CreateGlobalMap()
                                                 fdata[cur + 2]));
     }
 
-    voxel_map->Dilate(std::ceil(0.1 / voxel_map->GetScale()));
+    voxel_map->Dilate(std::ceil(0.5 / voxel_map->GetScale()));
     planner_->InitMap(voxel_map);
 }
 

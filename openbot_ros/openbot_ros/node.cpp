@@ -123,7 +123,7 @@ void Node::HandleTargetPoseCallBack(geometry_msgs::msg::PoseStamped::ConstShared
     auto goal = std::make_shared<geometry_msgs::msg::PoseStamped>();
     goal->pose.position.x = msg->pose.position.x;
     goal->pose.position.y = msg->pose.position.y;
-    goal->pose.position.z = msg->pose.position.z;
+    goal->pose.position.z = 0.2;
 
 
     if (!global_planner_->CheckValid(goal)) {
@@ -131,7 +131,7 @@ void Node::HandleTargetPoseCallBack(geometry_msgs::msg::PoseStamped::ConstShared
         return;
     }
     
-    global_planner_visualizator_->VisualizeStartGoal(goal, 0.5, global_planner_->start_goal().size());
+    global_planner_visualizator_->VisualizeStartGoal(goal, 0.25, global_planner_->start_goal().size());
     global_planner_->AddPose(msg);
 }
 
