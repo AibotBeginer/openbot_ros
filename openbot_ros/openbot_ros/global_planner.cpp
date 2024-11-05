@@ -107,7 +107,7 @@ void GlobalPlanner::CreateGlobalMap()
                                                 fdata[cur + 2]));
     }
 
-    voxel_map->Dilate(std::ceil(0.5 / voxel_map->GetScale()));
+    voxel_map->Dilate(std::ceil(0.25 / voxel_map->GetScale()));
     planner_->InitMap(voxel_map);
 }
 

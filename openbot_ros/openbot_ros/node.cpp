@@ -98,7 +98,7 @@ Node::Node(const NodeOptions& node_options, const bool collect_metrics)
     LaunchSubscribers(DefaultSensorTopics());
 
     global_planner_timer_ = this->create_wall_timer(
-        std::chrono::milliseconds(1000), [this]() { PublishGlobalPath(); });
+        std::chrono::milliseconds(2000), [this]() { PublishGlobalPath(); });
 }
 
 Node::~Node() 
@@ -116,23 +116,23 @@ void Node::HandleTargetPoseCallBack(geometry_msgs::msg::PoseStamped::ConstShared
         return;
     }
 
-    if (global_planner_->start_goal().size() >= 2) {
-        global_planner_->start_goal().clear();
-    }
-
     auto goal = std::make_shared<geometry_msgs::msg::PoseStamped>();
     goal->pose.position.x = msg->pose.position.x;
     goal->pose.position.y = msg->pose.position.y;
     goal->pose.position.z = 0.2;
 
+    if (global_planner_->start_goal().size() >= 2) {
+        global_planner_->start_goal().clear();
+    }
 
     if (!global_planner_->CheckValid(goal)) {
         LOG(WARNING) << "Infeasible Position Selected !!!";
         return;
     }
-    
+   
     global_planner_visualizator_->VisualizeStartGoal(goal, 0.25, global_planner_->start_goal().size());
     global_planner_->AddPose(msg);
+    
 }
 
 ::rclcpp::Node::SharedPtr Node::node_handle()
