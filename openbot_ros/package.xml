@@ -17,6 +17,7 @@
   <depend>builtin_interfaces</depend>
   <depend>openbot</depend>
   <depend>openbot_ros_msgs</depend>
+  <depend>openbot_ros_simulator</depend>
   <depend>eigen</depend>
   <depend>geometry_msgs</depend>
   <depend>libgoogle-glog-dev</depend>

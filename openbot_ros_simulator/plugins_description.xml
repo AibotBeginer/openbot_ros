@@ -1,0 +1,9 @@
+<library path="openbot_ros_simulator">
+
+  <class name="openbot_ros_simulator/GoalTool"
+         type="openbot_ros_simulator::GoalTool"
+         base_class_type="rviz_common::Tool">
+    <description>A tool used to specify the 3D goal pose.</description>
+  </class>
+
+</library>
