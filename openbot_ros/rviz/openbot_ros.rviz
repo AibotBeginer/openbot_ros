@@ -19,6 +19,7 @@ Panels:
     Expanded:
       - /2D Goal Pose1
       - /Publish Point1
+      - /3D Goal Pose1
     Name: Tool Properties
     Splitter Ratio: 0.5886790156364441
   - Class: rviz_common/Views
@@ -68,8 +69,8 @@ Visualization Manager:
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
-        Max Value: 3.279719591140747
-        Min Value: 0.00014490123430732638
+        Max Value: 4.753676891326904
+        Min Value: 0.00019020993204321712
         Value: true
       Axis: Z
       Channel Name: intensity
@@ -179,6 +180,13 @@ Visualization Manager:
         Reliability Policy: Reliable
         Value: /clicked_point
     - Class: openbot_rviz/Goal3DTool
+    - Class: openbot_rviz/Goal3DNewTool
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: goal_pose
   Transformation:
     Current:
       Class: rviz_default_plugins/TF
