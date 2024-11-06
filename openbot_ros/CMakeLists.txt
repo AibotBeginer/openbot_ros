@@ -162,7 +162,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
-install(DIRECTORY configuration_files urdf launch
+install(DIRECTORY configuration_files urdf launch rviz
   DESTINATION share/${PROJECT_NAME}/
 )
 

@@ -194,12 +194,12 @@ void RandomMapGenerator::InitDefaultConfig()
     default_config_->init_x = 0.0;
     default_config_->init_y = 0.0;
 
-    default_config_->x_size = 25.0;
-    default_config_->y_size = 25.0;
+    default_config_->x_size = 15.0;
+    default_config_->y_size = 15.0;
     default_config_->z_size = 2.0;
 
-    default_config_->obs_num = 300;
-    default_config_->cir_num = 40;
+    default_config_->obs_num = 100;
+    default_config_->cir_num = 20;
     default_config_->resolution = 0.1;
 
     // ObstacleShape

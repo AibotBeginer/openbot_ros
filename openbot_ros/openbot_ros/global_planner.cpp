@@ -81,7 +81,7 @@ void GlobalPlanner::CreateGlobalMap()
     }
 
     double voxelWidth = 0.25;
-    std::vector<double> mapBound = {-25.0, 25.0, -25.0, 25.0, 0.0, 1.0};
+    std::vector<double> mapBound = {-15.0, 15.0, -15.0, 15.0, 0.0, 1.0};
     const Eigen::Vector3i xyz((mapBound[1] - mapBound[0]) / voxelWidth,
                               (mapBound[3] - mapBound[2]) / voxelWidth,
                               (mapBound[5] - mapBound[4]) / voxelWidth);
