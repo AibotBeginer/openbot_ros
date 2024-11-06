@@ -98,7 +98,7 @@ Node::Node(const NodeOptions& node_options, const bool collect_metrics)
     LaunchSubscribers(DefaultSensorTopics());
 
     global_planner_timer_ = this->create_wall_timer(
-        std::chrono::milliseconds(2000), [this]() { PublishGlobalPath(); });
+        std::chrono::milliseconds(1200), [this]() { PublishGlobalPath(); });
 }
 
 Node::~Node() 
@@ -115,6 +115,7 @@ void Node::HandleTargetPoseCallBack(geometry_msgs::msg::PoseStamped::ConstShared
     if (msg == nullptr) {
         return;
     }
+    LOG(INFO) << "Received Target Pose Callback: x: " << msg->pose.position.x << " y: " << msg->pose.position.y;
 
     auto goal = std::make_shared<geometry_msgs::msg::PoseStamped>();
     goal->pose.position.x = msg->pose.position.x;
