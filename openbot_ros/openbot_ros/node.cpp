@@ -37,9 +37,9 @@ namespace openbot_ros {
 
 namespace {
 
-openbot_ros_msgs::msg::SensorTopics DefaultSensorTopics() 
+openbot_msgs::msg::SensorTopics DefaultSensorTopics() 
 {
-  openbot_ros_msgs::msg::SensorTopics topics;
+  openbot_msgs::msg::SensorTopics topics;
   topics.laser_scan_topic = kLaserScanTopic;
   topics.multi_echo_laser_scan_topic = kMultiEchoLaserScanTopic;
   topics.point_cloud2_topic = kPointCloud2Topic;
@@ -145,7 +145,7 @@ GlobalPlanner::SharedPtr Node::global_planner()
     return global_planner_;
 }
 
-void Node::LaunchSubscribers(const openbot_ros_msgs::msg::SensorTopics& topics)
+void Node::LaunchSubscribers(const openbot_msgs::msg::SensorTopics& topics)
 {
     // std::string topic = kGlobalMapTopic;
     // subscribers_.push_back(
