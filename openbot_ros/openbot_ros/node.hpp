@@ -28,7 +28,7 @@
 #include "openbot_ros/ros_log_sink.hpp"
 #include "openbot_ros/node_options.hpp"
 #include "openbot_ros/node_constants.hpp"
-#include "openbot_ros_msgs/msg/sensor_topics.hpp"
+#include "openbot_msgs/msg/sensor_topics.hpp"
 #include "openbot_ros/global_planner.hpp"
 #include "openbot_ros/local_planner.hpp"
 
@@ -94,7 +94,7 @@ private:
     /**
      * @brief All sensor topics
      */
-    void LaunchSubscribers(const openbot_ros_msgs::msg::SensorTopics& topics);
+    void LaunchSubscribers(const openbot_msgs::msg::SensorTopics& topics);
 
     void PublishGlobalPath();
 

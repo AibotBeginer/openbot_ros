@@ -35,7 +35,7 @@ google_initialize_openbot_project()
 find_package(ament_cmake REQUIRED)
 find_package(builtin_interfaces REQUIRED)
 find_package(openbot REQUIRED)
-find_package(openbot_ros_msgs REQUIRED)
+find_package(openbot_msgs REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(PCL REQUIRED)
@@ -67,7 +67,7 @@ include_directories(
   ${openbot_INCLUDE_DIRS}
   ${PCL_INCLUDE_DIRS}
   ${geometry_msgs_INCLUDE_DIRS}
-  ${openbot_ros_msgs_INCLUDE_DIRS}
+  ${openbot_msgs_INCLUDE_DIRS}
   ${shape_msgs_INCLUDE_DIRS}
   ${vision_msgs_INCLUDE_DIRS}
   ${nav_msgs_INCLUDE_DIRS}
@@ -112,7 +112,7 @@ set(ALL_SRCS
 
 set(dependencies
   builtin_interfaces
-  openbot_ros_msgs
+  openbot_msgs
   geometry_msgs
   nav_msgs
   pcl_conversions

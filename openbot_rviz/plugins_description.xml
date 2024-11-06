@@ -1,0 +1,15 @@
+<library path="openbot_rviz">
+
+  <class name="openbot_rviz/Goal3DTool"
+         type="openbot_rviz::Goal3DTool"
+         base_class_type="rviz_common::Tool">
+    <description>A tool used to specify the 3D goal pose.</description>
+  </class>
+
+  <class name="openbot_rviz/PlanningPanel"
+         type="openbot_rviz::PlanningPanel"
+         base_class_type="rviz_common::Panel">
+    <description>The planning rviz panel.</description>
+  </class>
+
+</library>
