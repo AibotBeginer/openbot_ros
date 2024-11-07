@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 project(openbot_rviz)
 
-# Default to C++14
+# Default to C++17
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 17)
 endif()
@@ -30,6 +30,8 @@ find_package(tf2_geometry_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
 
 set(openbot_rviz_headers_to_moc
+  include/openbot_rviz/pose_3d_tool.hpp
+  include/openbot_rviz/goal_3d_new_tool.hpp
   include/openbot_rviz/goal_pose_updater.hpp
   include/openbot_rviz/goal_common.hpp
   include/openbot_rviz/goal_tool.hpp
@@ -45,6 +47,8 @@ set(library_name ${PROJECT_NAME})
 add_library(${library_name} SHARED
   src/goal_tool.cpp
   src/planning_panel.cpp
+  src/pose_3d_tool.cpp
+  src/goal_3d_new_tool.cpp
   ${openbot_rviz_headers_to_moc}
 )
 

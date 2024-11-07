@@ -26,57 +26,52 @@ from launch.actions import Shutdown
 import os
 
 def generate_launch_description():
-#     ## ***** Launch arguments *****
-#     bag_filename_arg = DeclareLaunchArgument('bag_filename')
 
-#   ## ***** File paths ******
-#     pkg_share = FindPackageShare('cartographer_ros').find('cartographer_ros')
-#     urdf_dir = os.path.join(pkg_share, 'urdf')
-#     urdf_file = os.path.join(urdf_dir, 'backpack_2d.urdf')
-#     with open(urdf_file, 'r') as infp:
-#         robot_desc = infp.read()
+    # Create the launch configuration variables
+    namespace = LaunchConfiguration('namespace')
+    use_namespace = LaunchConfiguration('use_namespace')
 
-    ## ***** Nodes *****
-    # robot_state_publisher_node = Node(
-    #     package = 'robot_state_publisher',
-    #     executable = 'robot_state_publisher',
-    #     parameters=[
-    #         {'robot_description': robot_desc},
-    #         {'use_sim_time': True}],
-    #     output = 'screen'
-    #     )
+     # Declare the launch arguments
+    declare_namespace_cmd = DeclareLaunchArgument(
+        'namespace',
+        default_value='navigation',
+        description=('Top-level namespace. The value will be used to replace the '
+                     '<robot_namespace> keyword on the rviz config file.'))
 
-    openbot_node = Node(
+    declare_use_namespace_cmd = DeclareLaunchArgument(
+        'use_namespace',
+        default_value='false',
+        description='Whether to apply a namespace to the navigation stack')
+
+
+    start_openbot_cmd = Node(
         package = 'openbot_ros',
         executable = 'openbot_node',
         parameters = [{'use_sim_time': True}],
-        # arguments = [
-        #     '-configuration_directory', FindPackageShare('cartographer_ros').find('openbot_ros') + '/configuration_files',
-        #     '-configuration_basename', 'revo_lds.lua'],
+        arguments = [
+            '-configuration_directory', FindPackageShare('openbot_ros').find('openbot_ros') + '/configuration_files',
+            '-configuration_basename', 'openbot.lua'],
         # remappings = [
         #     ('scan', 'horizontal_laser_2d')],
-        output = 'screen'
-        )
+        output = 'screen')
 
-    rviz_node = Node(
+    start_rviz_cmd = Node(
         package = 'rviz2',
         executable = 'rviz2',
         on_exit = Shutdown(),
-        # arguments = ['-d', FindPackageShare('openbot_ros').find('openbot_ros') + '/rviz/demo_2d.rviz'],
+        arguments = ['-d', FindPackageShare('openbot_ros').find('openbot_ros') + '/rviz/openbot_ros.rviz'],
         parameters = [{'use_sim_time': True}],
     )
 
-    # ros2_bag_play_cmd = ExecuteProcess(
-    #     cmd = ['ros2', 'bag', 'play', LaunchConfiguration('bag_filename'), '--clock'],
-    #     name = 'rosbag_play',
-    # )
+    # Create the launch description and populate
+    ld = LaunchDescription()
 
-    return LaunchDescription([
-        # Launch arguments
-        # bag_filename_arg,
-        # Nodes
-        # robot_state_publisher_node,
-        openbot_node,
-        # rviz_node,
-        # ros2_bag_play_cmd
-    ])
+    # Declare the launch options
+    ld.add_action(declare_namespace_cmd)
+    ld.add_action(declare_use_namespace_cmd)
+
+    # Add any conditioned actions
+    ld.add_action(start_rviz_cmd)
+    ld.add_action(start_openbot_cmd)
+
+    return ld

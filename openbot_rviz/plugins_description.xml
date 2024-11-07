@@ -12,4 +12,10 @@
     <description>The planning rviz panel.</description>
   </class>
 
+  <class name="openbot_rviz/Goal3DNewTool"
+         type="openbot_rviz::Goal3DNewTool"
+         base_class_type="rviz_common::Tool">
+    <description>A tool used to specify the 3D goal pose.</description>
+  </class>
+
 </library>

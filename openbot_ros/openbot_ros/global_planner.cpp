@@ -31,8 +31,8 @@ GlobalPlanner::GlobalPlanner()
 
 void GlobalPlanner::AddPose(geometry_msgs::msg::PoseStamped::ConstSharedPtr msg)
 {
-    const double zGoal = 0.3;
-    const Eigen::Vector3d goal(msg->pose.position.x, msg->pose.position.y, zGoal);
+    // const double zGoal = 0.3;
+    const Eigen::Vector3d goal(msg->pose.position.x, msg->pose.position.y, msg->pose.position.z);
     start_goal_.emplace_back(goal);
 }
 
@@ -56,12 +56,14 @@ nav_msgs::msg::Path GlobalPlanner::CreatePath()
     ::openbot::common::geometry_msgs::PoseStamped start;
     start.pose.position.x = start_goal_[0].x();
     start.pose.position.y = start_goal_[0].y();
-    start.pose.position.z = 0.3;
+    // start.pose.position.z = 0.3;
+    start.pose.position.z = start_goal_[0].z();
 
     ::openbot::common::geometry_msgs::PoseStamped goal;
     goal.pose.position.x = start_goal_[1].x();
     goal.pose.position.y = start_goal_[1].y();
-    goal.pose.position.z = 0.3;
+    // goal.pose.position.z = 0.3;
+    goal.pose.position.z = start_goal_[1].z();
 
     auto msg = planner_->CreatePlan(start, goal);
     path = ToRos(msg);
@@ -81,7 +83,7 @@ void GlobalPlanner::CreateGlobalMap()
     }
 
     double voxelWidth = 0.25;
-    std::vector<double> mapBound = {-25.0, 25.0, -25.0, 25.0, 0.0, 1.0};
+    std::vector<double> mapBound = {-20.0, 20.0, -20.0, 20.0, -20, 20.0};
     const Eigen::Vector3i xyz((mapBound[1] - mapBound[0]) / voxelWidth,
                               (mapBound[3] - mapBound[2]) / voxelWidth,
                               (mapBound[5] - mapBound[4]) / voxelWidth);

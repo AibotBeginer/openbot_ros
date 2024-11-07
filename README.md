@@ -115,9 +115,12 @@ colcon build --symlink-install --packages-up-to openbot_ros
 # .bashrc 或者.zshrc，添加一下环境变量
 export CYBER_PATH=/usr/local/share/
 export GLOG_logtostderr=1
+
+# demo_openbot
+ros2 launch openbot_ros demo_openbot.launch.py
 ```
 
-
+<img src="./docs/images/openbot_palnning.gif" alt="Example Image">
 
 
 
