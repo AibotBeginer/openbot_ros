@@ -99,6 +99,7 @@ set(ALL_SRCS
   openbot_ros/visualization/local_planner_visualization.cpp
   openbot_ros/msg_conversion.cpp
   openbot_ros/map_generator.cpp
+  openbot_ros/mockamap_generator.cpp
   openbot_ros/node.cpp
   openbot_ros/node_constants.cpp
   openbot_ros/node_options.cpp
