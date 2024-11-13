@@ -2,9 +2,9 @@
 
 ## 简介
 
-> **Robot Framework** without ros/ros2, use cyberRT node replace ros/ros2 node.
+**Robot Framework** without ros/ros2, use cyberRT node replace ros/ros2 node.
 
-
+![](./images/openbot_framework.jpeg)
 
 ## 工程代码
 
@@ -125,6 +125,9 @@ colcon build --symlink-install --packages-up-to openbot_ros
 # .bashrc 或者.zshrc，添加一下环境变量
 export CYBER_PATH=/usr/local/share/
 export GLOG_logtostderr=1
+export GLOG_log_dir=/openbot/data/log 
+export GLOG_alsologtostderr=0
+export GLOG_minloglevel=0 
 
 # demo_openbot
 ros2 launch openbot_ros demo_openbot.launch.py
