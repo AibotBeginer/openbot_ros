@@ -71,7 +71,7 @@ def generate_launch_description():
     ld.add_action(declare_use_namespace_cmd)
 
     # Add any conditioned actions
-    # ld.add_action(start_rviz_cmd)
+    ld.add_action(start_rviz_cmd)
     ld.add_action(start_openbot_cmd)
 
     return ld

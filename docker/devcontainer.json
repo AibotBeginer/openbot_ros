@@ -1,0 +1,26 @@
+{
+    "name": "ROS 2 Humble Development Container",
+    "privileged": true,
+    "remoteUser": "root",
+    "dockerComposeFile": [
+        "./docker-compose.yml"
+    ],
+    "service": "ros_dev_env",
+    "workspaceFolder": "/ros2_ws",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cpptools",
+                "ms-vscode.cpptools-themes",
+                "donjayamanne.python-extension-pack",
+                "eamodio.gitlens",
+                "ms-iot.vscode-ros",
+                "llvm-vs-code-extensions.vscode-clangd",
+                "vadimcn.vscode-lldb",
+                "ms-vscode.cmake-tools",
+                "ms-vscode.cpptools-extension-pack"
+            ],
+            "settings": {}
+        }
+    }
+}

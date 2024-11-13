@@ -20,8 +20,31 @@
 #include <string>
 #include <tuple>
 
+// sensor_msgs
+#include "sensor_msgs/msg/camera_info.hpp"
+#include "sensor_msgs/msg/channel_float32.hpp"
+#include "sensor_msgs/msg/compressed_image.hpp"
+#include "sensor_msgs/msg/illuminance.hpp"
+#include "sensor_msgs/msg/image.hpp"
+#include "sensor_msgs/msg/imu.hpp"
+#include "sensor_msgs/msg/laser_scan.hpp"
+#include "sensor_msgs/msg/point_cloud.hpp"
+#include "sensor_msgs/msg/point_cloud2.hpp"
+#include "sensor_msgs/msg/point_field.hpp"
+#include "sensor_msgs/msg/range.hpp"
+#include "sensor_msgs/msg/region_of_interest.hpp"
+
+#include "openbot/common/msgs/msgs.hpp"
 
 namespace openbot_ros {
+
+// PointField
+sensor_msgs::msg::PointField ToRos(const ::openbot::common::sensor_msgs::PointField& data);
+// ::openbot::common::sensor_msgs::PointField FromRos(const sensor_msgs::msg::PointField& ros);
+
+// PointCloud2
+sensor_msgs::msg::PointCloud2 ToRos(const ::openbot::common::sensor_msgs::PointCloud2& data);
+// ::openbot::common::sensor_msgs::PointCloud2 FromRos(const sensor_msgs::msg::PointCloud2& ros);
 
 }  // namespace openbot_ros
 

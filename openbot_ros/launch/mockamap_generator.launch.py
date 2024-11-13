@@ -44,15 +44,31 @@ def generate_launch_description():
         description='Whether to apply a namespace to the navigation stack')
 
 
-    start_openbot_cmd = Node(
+    start_mockamap_cmd = Node(
         package = 'openbot_ros',
-        executable = 'openbot_node',
-        parameters = [{'use_sim_time': True}],
-        arguments = [
-            '-configuration_directory', FindPackageShare('openbot_ros').find('openbot_ros') + '/configuration_files',
-            '-configuration_basename', 'openbot.lua'],
-        # remappings = [
-        #     ('scan', 'horizontal_laser_2d')],
+        executable = 'mockamap_generator_node',
+        parameters = [{'use_sim_time': True},
+                      {'seed': 511},
+                      {'resolution': 0.1},
+                      {'x_length': 15},
+                      {'y_length': 15},
+                      {'z_length': 1},
+                      {'type': 2},
+                      {'complexity': 0.03},
+                      {'fill': 0.3},
+                      {'fractal': 1},
+                      {'attenuation': 0.1},
+                      {'width_min': 0.6},
+                      {'width_max': 1.5},
+                      {'obstacle_number': 50},
+                      {'road_width': 0.5},
+                      {'add_wall_x': 0},
+                      {'add_wall_y': 1},
+                      {'maze_type': 1},
+                      {'num_nodes': 40},
+                      {'connectivity': 0.8},
+                      {'node_rad': 1},
+                      {'road_rad': 10}],
         output = 'screen')
 
     start_rviz_cmd = Node(
@@ -72,6 +88,6 @@ def generate_launch_description():
 
     # Add any conditioned actions
     # ld.add_action(start_rviz_cmd)
-    ld.add_action(start_openbot_cmd)
+    ld.add_action(start_mockamap_cmd)
 
     return ld

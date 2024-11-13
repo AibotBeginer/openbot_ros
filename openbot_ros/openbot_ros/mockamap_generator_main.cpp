@@ -14,23 +14,34 @@
  * limitations under the License.
  */
 
-#include "builtin_interfaces_converter.hpp"
 
+#include "openbot_ros/mockamap_generator.hpp"
+
+#include "gflags/gflags.h"
+#include "glog/logging.h"
 
 namespace openbot_ros {
+namespace {
 
-rclcpp::Time ToRos(const ::openbot::common::builtin_interfaces::Time& data)
+
+void Run() 
 {
-    return rclcpp::Time {
-        data.sec,
-        data.nanosec
-    };
+  auto node = std::make_shared<openbot_ros::MockamapGenerator>();
+  rclcpp::spin(node);
 }
 
-::openbot::common::builtin_interfaces::Time FromRos(const rclcpp::Time& ros)
-{
-    ::openbot::common::builtin_interfaces::Time data;
-    return data;
-}
-
+}  // namespace
 }  // namespace openbot_ros
+
+int main(int argc, char** argv) 
+{
+  // Init rclcpp first because gflags reorders command line flags in argv
+  rclcpp::init(argc, argv);
+
+  google::AllowCommandLineReparsing();
+  google::InitGoogleLogging(argv[0]);
+  google::ParseCommandLineFlags(&argc, &argv, false);
+  openbot_ros::Run();
+  google::ShutdownGoogleLogging();
+  ::rclcpp::shutdown();
+}
