@@ -2,7 +2,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = "Openbot"
+project = "OpenbotROS"
 copyright = "2024 OpenRobotics Team"
 author = "OpenRobotics Team"
 

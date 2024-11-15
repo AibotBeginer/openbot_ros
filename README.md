@@ -22,9 +22,10 @@ git clone https://github.com/AibotBeginer/openbot_ros.git
 
 ## :tanabata_tree:详细文档
 
-**<font color='green'>参考</font>** ：[openbot详细文档](https://openbot-doc.readthedocs.io/en/latest/)
+**<font color='green'>参考在线文档</font>** 
 
-
+* [openbot详细文档](https://openbot-doc.readthedocs.io/en/latest/)
+* [openbot_ros详细文档](https://openbot-ros-doc.readthedocs.io/en/latest/)
 
 ##  编译
 
