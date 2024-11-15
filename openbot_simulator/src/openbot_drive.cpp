@@ -1,27 +1,29 @@
-// Copyright 2019 ROBOTIS CO., LTD.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-//
-// Authors: Taehun Lim (Darby), Ryan Shim
+/*
+ * Copyright 2024 The OpenRobotic Beginner Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-#include "openbot_simulator/jdbot_drive.hpp"
+#include "openbot_simulator/openbot_drive.hpp"
 
 #include <memory>
 
 using namespace std::chrono_literals;
 
-Turtlebot3Drive::Turtlebot3Drive()
-: Node("turtlebot3_drive_node")
+namespace openbot_ros {
+
+OpenbotDrive::OpenbotDrive()
+: Node("openbot_drive_node")
 {
   /************************************************************
   ** Initialise variables
@@ -46,21 +48,21 @@ Turtlebot3Drive::Turtlebot3Drive()
     "scan", \
     rclcpp::SensorDataQoS(), \
     std::bind(
-      &Turtlebot3Drive::scan_callback, \
+      &OpenbotDrive::scan_callback, \
       this, \
       std::placeholders::_1));
   odom_sub_ = this->create_subscription<nav_msgs::msg::Odometry>(
-    "odom", qos, std::bind(&Turtlebot3Drive::odom_callback, this, std::placeholders::_1));
+    "odom", qos, std::bind(&OpenbotDrive::odom_callback, this, std::placeholders::_1));
 
   /************************************************************
   ** Initialise ROS timers
   ************************************************************/
-  update_timer_ = this->create_wall_timer(10ms, std::bind(&Turtlebot3Drive::update_callback, this));
+  update_timer_ = this->create_wall_timer(10ms, std::bind(&OpenbotDrive::update_callback, this));
 
   RCLCPP_INFO(this->get_logger(), "Turtlebot3 simulation node has been initialised");
 }
 
-Turtlebot3Drive::~Turtlebot3Drive()
+OpenbotDrive::~OpenbotDrive()
 {
   RCLCPP_INFO(this->get_logger(), "Turtlebot3 simulation node has been terminated");
 }
@@ -68,7 +70,7 @@ Turtlebot3Drive::~Turtlebot3Drive()
 /********************************************************************************
 ** Callback functions for ROS subscribers
 ********************************************************************************/
-void Turtlebot3Drive::odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
+void OpenbotDrive::odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
 {
   tf2::Quaternion q(
     msg->pose.pose.orientation.x,
@@ -82,7 +84,7 @@ void Turtlebot3Drive::odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg
   robot_pose_ = yaw;
 }
 
-void Turtlebot3Drive::scan_callback(const sensor_msgs::msg::LaserScan::SharedPtr msg)
+void OpenbotDrive::scan_callback(const sensor_msgs::msg::LaserScan::SharedPtr msg)
 {
   uint16_t scan_angle[3] = {0, 30, 330};
 
@@ -95,7 +97,7 @@ void Turtlebot3Drive::scan_callback(const sensor_msgs::msg::LaserScan::SharedPtr
   }
 }
 
-void Turtlebot3Drive::update_cmd_vel(double linear, double angular)
+void OpenbotDrive::update_cmd_vel(double linear, double angular)
 {
   geometry_msgs::msg::Twist cmd_vel;
   cmd_vel.linear.x = linear;
@@ -107,7 +109,7 @@ void Turtlebot3Drive::update_cmd_vel(double linear, double angular)
 /********************************************************************************
 ** Update functions
 ********************************************************************************/
-void Turtlebot3Drive::update_callback()
+void OpenbotDrive::update_callback()
 {
   static uint8_t turtlebot3_state_num = 0;
   double escape_range = 30.0 * DEG2RAD;
@@ -161,13 +163,15 @@ void Turtlebot3Drive::update_callback()
   }
 }
 
+}  // namespace openbot_ros 
+
 /*******************************************************************************
 ** Main
 *******************************************************************************/
 int main(int argc, char ** argv)
 {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<Turtlebot3Drive>());
+  rclcpp::spin(std::make_shared<openbot_ros::OpenbotDrive>());
   rclcpp::shutdown();
 
   return 0;
