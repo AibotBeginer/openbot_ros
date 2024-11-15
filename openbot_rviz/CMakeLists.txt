@@ -28,6 +28,7 @@ find_package(rviz_rendering REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
+find_package(class_loader REQUIRED)
 
 set(openbot_rviz_headers_to_moc
   include/openbot_rviz/pose_3d_tool.hpp
@@ -53,6 +54,7 @@ add_library(${library_name} SHARED
 )
 
 set(dependencies
+  class_loader
   geometry_msgs
   nav_msgs
   pluginlib

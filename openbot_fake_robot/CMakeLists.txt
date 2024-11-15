@@ -39,19 +39,30 @@ set(dependencies
   "tf2_msgs"
 )
 
-set(EXEC_NAME "turtlebot3_fake_node")
 
-add_executable(${EXEC_NAME} src/turtlebot3_fake_node.cpp)
-ament_target_dependencies(${EXEC_NAME} ${dependencies})
+set(EXECUTABLES
+  "turtlebot3_fake_node"
+)
+
+# Define the list of dependencies shared by both executables
+set(DEPENDENCIES ${dependencies})
+
+# Create executables and link dependencies
+foreach(executable ${EXECUTABLES})
+  add_executable(${executable} src/${executable}.cpp)
+  ament_target_dependencies(${executable} ${DEPENDENCIES})
+  
+  # Install executables
+  install(TARGETS ${executable}
+    DESTINATION lib/${PROJECT_NAME}
+  )
+endforeach()
 
 ################################################################################
 # Install
 ################################################################################
-install(TARGETS ${EXEC_NAME}
-  DESTINATION lib/${PROJECT_NAME}
-)
 
-install(DIRECTORY launch param urdf
+install(DIRECTORY launch param urdf maps
   DESTINATION share/${PROJECT_NAME}
 )
 
