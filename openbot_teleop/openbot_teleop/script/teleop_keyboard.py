@@ -104,14 +104,14 @@ def constrain(input_vel, low_bound, high_bound):
 
 
 def check_linear_limit_velocity(velocity):
-    if JDBOT_MODEL == 'burger':
+    if OPENBOT_MODEL == 'burger':
         return constrain(velocity, -BURGER_MAX_LIN_VEL, BURGER_MAX_LIN_VEL)
     else:
         return constrain(velocity, -WAFFLE_MAX_LIN_VEL, WAFFLE_MAX_LIN_VEL)
 
 
 def check_angular_limit_velocity(velocity):
-    if JDBOT_MODEL == 'burger':
+    if OPENBOT_MODEL == 'burger':
         return constrain(velocity, -BURGER_MAX_ANG_VEL, BURGER_MAX_ANG_VEL)
     else:
         return constrain(velocity, -WAFFLE_MAX_ANG_VEL, WAFFLE_MAX_ANG_VEL)

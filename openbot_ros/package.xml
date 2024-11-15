@@ -17,8 +17,9 @@
   <depend>builtin_interfaces</depend>
   <depend>openbot</depend>
   <depend>openbot_msgs</depend>
-  <!-- <depend>openbot_rviz</depend> -->
+  <depend>openbot_rviz</depend>
   <depend>openbot_simulator</depend>
+  <depend>openbot_teleop</depend>
   <depend>eigen</depend>
   <depend>geometry_msgs</depend>
   <depend>libgoogle-glog-dev</depend>
