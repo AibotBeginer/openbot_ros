@@ -36,14 +36,6 @@ def generate_launch_description():
             'param',
             TURTLEBOT3_MODEL + '.yaml'))
 
-    use_sim_time = LaunchConfiguration('use_sim_time', default='false')
-    urdf_file_name = 'turtlebot3_' + TURTLEBOT3_MODEL + '.urdf'
-
-    urdf = os.path.join(
-        get_package_share_directory('turtlebot3_gazebo'),
-        'urdf',
-        urdf_file_name)
-
     return LaunchDescription([
         LogInfo(msg=['Execute Turtlebot3 Fake Node!!']),
 
@@ -56,13 +48,5 @@ def generate_launch_description():
             package='openbot_fake_robot',
             executable='turtlebot3_fake_node',
             parameters=[param_dir],
-            output='screen'),
-
-        Node(
-            package='robot_state_publisher',
-            executable='robot_state_publisher',
-            name='robot_state_publisher',
-            output='screen',
-            parameters=[{'use_sim_time': use_sim_time}],
-            arguments=[urdf]),
+            output='screen')
     ])

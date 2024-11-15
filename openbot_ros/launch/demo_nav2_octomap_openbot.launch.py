@@ -151,10 +151,11 @@ def generate_launch_description():
         launch_arguments={
             "namespace": namespace,
             "use_sim_time": use_sim_time,
-            "autostart": autostart,
+            "autostart": "True",
             "params_file": params_file,
-            "use_composition": use_composition,
-            "use_respawn": use_respawn
+            "use_composition": "False",
+            "use_respawn": use_respawn,
+            "log_level": "info"
         }.items()
     )
     
@@ -207,7 +208,7 @@ def generate_launch_description():
         ),
         allow_substs=True,
     )
-
+    
     start_nav2_map_server_cmd = Node(
         package="nav2_map_server",
         executable="map_server",
@@ -215,13 +216,27 @@ def generate_launch_description():
         output="screen",
         respawn=use_respawn,
         respawn_delay=2.0,
-        parameters=[configured_params],
+        parameters=[configured_params, {'yaml_filename': os.path.join(sim_dir, 'maps', 'warehouse.yaml')}],
         arguments=["--ros-args", "--log-level", "info"],
         remappings=remappings,
     )
+    
+    # https://answers.ros.org/question/398094/ros2-nav2-map_server-problems-loading-map-with-nav2_map_server/
+    lifecycle_nodes = ['map_server']
+    use_sim_time = True
+    autostart = True
+
+    start_lifecycle_manager_cmd = Node(
+            package='nav2_lifecycle_manager',
+            executable='lifecycle_manager',
+            name='lifecycle_manager_map_server',
+            output='screen',
+            emulate_tty=True,  # https://github.com/ros2/launch/issues/188
+            parameters=[{'use_sim_time': use_sim_time},
+                        {'autostart': autostart},
+                        {'node_names': lifecycle_nodes}])
 
     
-
     start_fake_odom_simulator = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(
@@ -263,6 +278,8 @@ def generate_launch_description():
     ld.add_action(start_static_map_odom_transform)
     ld.add_action(start_fake_odom_simulator)
     ld.add_action(start_nav2_map_server_cmd)
+    ld.add_action(start_lifecycle_manager_cmd)
+
 
     # Add any conditioned actions
     ld.add_action(start_rviz_cmd)
