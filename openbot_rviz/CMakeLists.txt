@@ -20,7 +20,10 @@ find_package(nav_msgs REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets Test Concurrent)
 find_package(rclcpp REQUIRED)
+find_package(rclpy REQUIRED)
+find_package(rcpputils)
 find_package(rclcpp_lifecycle REQUIRED)
+find_package(yaml_cpp_vendor REQUIRED)
 find_package(rviz_common REQUIRED)
 find_package(rviz_default_plugins REQUIRED)
 find_package(rviz_ogre_vendor REQUIRED)
@@ -28,7 +31,7 @@ find_package(rviz_rendering REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
-find_package(class_loader REQUIRED)
+find_package(vision_msgs REQUIRED)
 
 set(openbot_rviz_headers_to_moc
   include/openbot_rviz/pose_3d_tool.hpp
@@ -37,6 +40,10 @@ set(openbot_rviz_headers_to_moc
   include/openbot_rviz/goal_common.hpp
   include/openbot_rviz/goal_tool.hpp
   include/openbot_rviz/planning_panel.hpp
+  include/openbot_rviz/detection_3d_array.hpp
+  include/openbot_rviz/detection_3d.hpp
+  include/openbot_rviz/bounding_box_3d.hpp
+  include/openbot_rviz/bounding_box_3d_array.hpp
 )
 
 include_directories(
@@ -50,6 +57,10 @@ add_library(${library_name} SHARED
   src/planning_panel.cpp
   src/pose_3d_tool.cpp
   src/goal_3d_new_tool.cpp
+  src/detection_3d_array.cpp
+  src/detection_3d.cpp
+  src/bounding_box_3d.cpp
+  src/bounding_box_3d_array.cpp
   ${openbot_rviz_headers_to_moc}
 )
 
@@ -60,13 +71,16 @@ set(dependencies
   pluginlib
   Qt5
   rclcpp
+  rcpputils
   rclcpp_lifecycle
+  yaml_cpp_vendor
   rviz_common
   rviz_default_plugins
   rviz_ogre_vendor
   rviz_rendering
   std_msgs
   tf2_geometry_msgs
+  vision_msgs
 )
 
 ament_target_dependencies(${library_name}
@@ -102,6 +116,17 @@ install(
   DIRECTORY include/
   DESTINATION include/
 )
+
+# Install Python executables
+install(PROGRAMS
+  samples/Detection3DArray.py
+  samples/Detection3D.py
+  samples/BoundingBox3D.py
+  samples/BoundingBox3DArray.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+install(DIRECTORY launch conf DESTINATION share/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
