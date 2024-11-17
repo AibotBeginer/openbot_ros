@@ -42,7 +42,13 @@ def generate_launch_description():
     start_fake_localization_cmd = Node(
         package='openbot_simulator',
         executable='fake_localization',
-        parameters = [{'use_sim_time': True}],
+        parameters = [{
+            'use_sim_time': True,  
+            'global_frame_id': 'map',
+            'base_frame_id': 'base_footprint'}],
+        remappings=[
+            ('base_pose_ground_truth', 'odom')
+        ],
         output='screen'
     )
 
