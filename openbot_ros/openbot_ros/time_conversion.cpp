@@ -16,7 +16,7 @@
 
 #include "openbot_ros/time_conversion.hpp"
 
-#include "openbot/common/time.hpp"
+#include "openbot/common/utils/time.hpp"
 #include <builtin_interfaces/msg/time.hpp>
 
 namespace openbot_ros {

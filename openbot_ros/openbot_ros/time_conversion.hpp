@@ -17,7 +17,7 @@
 #ifndef OPENBOT_ROS_OPENBOT_ROS_TIME_CONVERSION_HPP
 #define OPENBOT_ROS_OPENBOT_ROS_TIME_CONVERSION_HPP
 
-#include "openbot/common/time.hpp"
+#include "openbot/common/utils/time.hpp"
 #include <builtin_interfaces/msg/time.hpp>
 #include <rclcpp/rclcpp.hpp>
 

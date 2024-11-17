@@ -18,7 +18,7 @@
 
 #include <vector>
 
-#include "openbot/common/configuration_file_resolver.hpp"
+#include "openbot/common/utils/configuration_file_resolver.hpp"
 #include "glog/logging.h"
 
 namespace openbot_ros {

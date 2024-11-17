@@ -22,10 +22,10 @@
 
 #include "Eigen/Core"
 #include "absl/memory/memory.h"
-#include "openbot/common/configuration_file_resolver.hpp"
-#include "openbot/common/lua_parameter_dictionary.hpp"
+#include "openbot/common/utils/configuration_file_resolver.hpp"
+#include "openbot/common/utils/lua_parameter_dictionary.hpp"
 #include "openbot/common/port.hpp"
-#include "openbot/common/time.hpp"
+#include "openbot/common/utils/time.hpp"
 
 #include "glog/logging.h"
 #include "nav_msgs/msg/odometry.hpp"
