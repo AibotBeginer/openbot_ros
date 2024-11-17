@@ -15,10 +15,13 @@
   <depend>nav_msgs</depend>
   <depend>rclcpp</depend>
   <depend>sensor_msgs</depend>
-  <depend>tf2</depend>
   <depend>gazebo_ros</depend>
+  <depend>message_filters</depend>
+  <depend>tf2</depend>
+  <depend>tf2_ros</depend>
   <depend>tf2_geometry_msgs</depend>
   <depend>ament_index_cpp</depend>
+  <depend>angles</depend>
   <depend>tinyxml2_vendor</depend>
 
   <export>

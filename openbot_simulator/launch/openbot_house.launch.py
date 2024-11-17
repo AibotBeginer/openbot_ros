@@ -82,6 +82,13 @@ def generate_launch_description():
         }.items()
     )
 
+    fake_localization_cmd = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(launch_file_dir, 'fake_localization.launch.py')
+        ),
+        launch_arguments={'use_sim_time': use_sim_time}.items()
+    )
+
     ld = LaunchDescription()
     ld.add_action(declare_robot_name_cmd)
     ld.add_action(declare_world_file_cmd)
@@ -91,5 +98,6 @@ def generate_launch_description():
     ld.add_action(gzclient_cmd)
     ld.add_action(robot_state_publisher_cmd)
     ld.add_action(spawn_turtlebot_cmd)
+    ld.add_action(fake_localization_cmd)
 
     return ld

@@ -26,7 +26,10 @@ find_package(sensor_msgs REQUIRED)
 find_package(tinyxml2_vendor REQUIRED)
 find_package(TinyXML2 REQUIRED)
 find_package(tf2 REQUIRED)
+find_package(tf2_ros REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
+find_package(angles REQUIRED)
+find_package(message_filters REQUIRED)
 
 
 ################################################################################
@@ -49,13 +52,21 @@ set(dependencies
   "rclcpp"
   "sensor_msgs"
   "tf2"
+  "tf2_ros"
+  "tf2_geometry_msgs"
+  "message_filters"
+  "angles"
 )
 
 
+# openbot_drive
 set(EXEC_NAME "openbot_drive")
-
-add_executable(${EXEC_NAME} src/openbot_drive.cpp)
+add_executable(${EXEC_NAME} src/openbot_simulator/openbot_drive.cpp)
 ament_target_dependencies(${EXEC_NAME} ${dependencies})
+
+# fake_localization
+add_executable(fake_localization src/fake_localization/fake_localization.cpp)
+ament_target_dependencies(fake_localization ${dependencies})
 
 # add_library(obstacle1 SHARED models/openbot_dqn_world/obstacle_plugin/obstacle1.cc)
 # target_link_libraries(obstacle1 ${GAZEBO_LIBRARIES})
@@ -70,13 +81,17 @@ ament_target_dependencies(${EXEC_NAME} ${dependencies})
 # Install
 ################################################################################
 
-install(TARGETS ${EXEC_NAME}
+install(TARGETS 
+  ${EXEC_NAME}
+  fake_localization
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
 )
 
-install(TARGETS ${EXEC_NAME}
+install(TARGETS 
+  ${EXEC_NAME}
+  fake_localization
   DESTINATION lib/${PROJECT_NAME}
 )
 
