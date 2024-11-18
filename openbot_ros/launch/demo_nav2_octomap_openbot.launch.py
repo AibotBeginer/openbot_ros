@@ -169,6 +169,30 @@ def generate_launch_description():
     )
 
 
+    
+    
+    start_fake_odom_simulator = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(
+                sim_dir,
+                "launch",
+                "turtlebot3_fake_node.launch.py",
+            )
+        )
+    )
+
+    start_rviz_cmd = Node(
+        package="rviz2",
+        executable="rviz2",
+        on_exit=Shutdown(),
+        arguments=[
+            "-d",
+            os.path.join(openbot_ros_dir, "rviz/nav2_octomap_openbot.rviz"),
+        ],
+        parameters=[{"use_sim_time": True}],
+    )
+    
+    ## maps
     start_mockamap_cmd = Node(
         package="openbot_ros",
         executable="mockamap_generator_node",
@@ -179,7 +203,7 @@ def generate_launch_description():
             {"x_length": 15},
             {"y_length": 15},
             {"z_length": 1},
-            {"type": 2},
+            {"type": 1},
             {"complexity": 0.03},
             {"fill": 0.3},
             {"fractal": 1},
@@ -198,6 +222,33 @@ def generate_launch_description():
         ],
         output="screen",
     )
+    
+    start_mockamap_to_occupancy_grid_converter_cmd = Node(
+        package="openbot_ros",
+        executable="pointcloud_to_occupancy_grid_node",
+        parameters=[
+        ],
+        output="screen",
+    )
+    
+    
+    start_mockamap_to_occupancy_grid_converter_cmd =    Node(
+            package='octomap_server',
+            executable='octomap_server_node',
+            parameters=[{
+                'resolution': 0.05,
+                'sensor_model.max_range': 20.0,
+                'frame_id': 'odom'
+            }],
+            remappings=[
+                ('/cloud_in', '/global_map'),
+                ('/projected_map', '/map'),
+            ],
+            output='screen'
+        )
+    
+    
+    # nav2 map
 
     configured_params = ParameterFile(
         RewrittenYaml(
@@ -235,28 +286,7 @@ def generate_launch_description():
             parameters=[{'use_sim_time': use_sim_time},
                         {'autostart': autostart},
                         {'node_names': lifecycle_nodes}])
-
     
-    start_fake_odom_simulator = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(
-                sim_dir,
-                "launch",
-                "turtlebot3_fake_node.launch.py",
-            )
-        )
-    )
-
-    start_rviz_cmd = Node(
-        package="rviz2",
-        executable="rviz2",
-        on_exit=Shutdown(),
-        arguments=[
-            "-d",
-            os.path.join(openbot_ros_dir, "rviz/nav2_octomap_openbot.rviz"),
-        ],
-        parameters=[{"use_sim_time": True}],
-    )
 
     # Create the launch description and populate
     ld = LaunchDescription()
@@ -277,12 +307,14 @@ def generate_launch_description():
     ld.add_action(start_navigation_cmd)
     ld.add_action(start_static_map_odom_transform)
     ld.add_action(start_fake_odom_simulator)
-    ld.add_action(start_nav2_map_server_cmd)
-    ld.add_action(start_lifecycle_manager_cmd)
-
 
     # Add any conditioned actions
     ld.add_action(start_rviz_cmd)
-    # ld.add_action(start_mockamap_cmd)
-
+    
+    # maps
+    # ld.add_action(start_nav2_map_server_cmd)
+    # ld.add_action(start_lifecycle_manager_cmd)
+    ld.add_action(start_mockamap_cmd)
+    ld.add_action(start_mockamap_to_occupancy_grid_converter_cmd)
+      
     return ld

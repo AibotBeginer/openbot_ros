@@ -62,7 +62,7 @@ endforeach()
 # Install
 ################################################################################
 
-install(DIRECTORY launch param urdf maps
+install(DIRECTORY launch param urdf maps models
   DESTINATION share/${PROJECT_NAME}
 )
 

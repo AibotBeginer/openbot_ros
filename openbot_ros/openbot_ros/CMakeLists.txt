@@ -24,6 +24,11 @@ add_executable(${mockamap_generator_executable_name} mockamap_generator_main.cpp
 target_link_libraries(${mockamap_generator_executable_name} ${PROJECT_NAME})
 ament_target_dependencies(${mockamap_generator_executable_name} ${dependencies})
 
+# Executables(node_main)
+set(pointcloud_to_occupancy_grid_executable_name pointcloud_to_occupancy_grid_node)
+add_executable(${pointcloud_to_occupancy_grid_executable_name} pointcloud_to_occupancy_grid_main.cpp)
+target_link_libraries(${pointcloud_to_occupancy_grid_executable_name} ${PROJECT_NAME})
+ament_target_dependencies(${pointcloud_to_occupancy_grid_executable_name} ${dependencies})
 
 install(TARGETS
   ${node_executable_name}

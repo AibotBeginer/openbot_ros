@@ -39,6 +39,12 @@
   <depend>urdf</depend>
   <depend>visualization_msgs</depend>
   <depend>vision_msgs</depend>
+  <depend>octomap</depend>
+  <depend>octomap_ros</depend>
+  <depend>octomap_mapping</depend>
+  <depend>octomap_server</depend>
+  <depend>grid_map_octomap</depend>
+  <depend>grid_map_ros</depend>
 
   <exec_depend>launch</exec_depend>
   <exec_depend>robot_state_publisher</exec_depend>
