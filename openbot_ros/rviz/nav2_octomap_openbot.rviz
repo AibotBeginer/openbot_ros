@@ -575,21 +575,21 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: -11.840827941894531
-      Class: rviz_default_plugins/TopDownOrtho
+      Angle: 45.0  # Adjust to your preferred angle
+      Class: rviz_default_plugins/Orbit
+      Distance: 10.0  # Set the distance of the camera from the target
       Enable Stereo Rendering:
-        Stereo Eye Separation: 0.05999999865889549
+        Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
-      Invert Z Axis: false
-      Name: Current View
-      Near Clip Distance: 0.009999999776482582
-      Scale: 67.79720306396484
-      Target Frame: <Fixed Frame>
-      Value: TopDownOrtho (rviz_default_plugins)
-      X: 0.21463459730148315
-      Y: -2.9530978202819824
+      Name: 3D View
+      Near Clip Distance: 0.01
+      Target Frame: map
+      Value: Orbit (rviz_default_plugins)
+      X: 2.0  # Adjust the camera position on X-axis
+      Y: 2.0  # Adjust the camera position on Y-axis
+      Z: 1.0  # Adjust the camera position on Z-axis
     Saved: ~
 Window Geometry:
   Displays:
