@@ -35,6 +35,21 @@ def generate_launch_description():
             get_package_share_directory('openbot_fake_robot'),
             'param',
             TURTLEBOT3_MODEL + '.yaml'))
+    
+    urdf = os.path.join(get_package_share_directory('openbot_fake_robot'), "urdf", "turtlebot3_waffle_with_meshes.urdf")
+    with open(urdf, "r") as infp:
+        robot_description = infp.read()
+
+    start_robot_state_publisher_cmd = Node(
+        package="robot_state_publisher",
+        executable="robot_state_publisher",
+        name="robot_state_publisher",
+        output="screen",
+        parameters=[
+            {"robot_description": robot_description}
+        ],
+        respawn=False,  # Set this to False
+    )
 
     return LaunchDescription([
         LogInfo(msg=['Execute Turtlebot3 Fake Node!!']),
@@ -48,5 +63,6 @@ def generate_launch_description():
             package='openbot_fake_robot',
             executable='turtlebot3_fake_node',
             parameters=[param_dir],
-            output='screen')
+            output='screen'),
+        start_robot_state_publisher_cmd
     ])

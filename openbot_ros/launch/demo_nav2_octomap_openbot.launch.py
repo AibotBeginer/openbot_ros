@@ -68,16 +68,11 @@ def generate_launch_description():
 
     # Create the launch configuration variables
     namespace = LaunchConfiguration("namespace")
-    use_namespace = LaunchConfiguration("use_namespace")
     use_sim_time = LaunchConfiguration("use_sim_time")
     params_file = LaunchConfiguration("params_file")
     autostart = LaunchConfiguration("autostart")
-    use_composition = LaunchConfiguration("use_composition")
     use_respawn = LaunchConfiguration("use_respawn")
-
-    # Launch configuration variables specific to simulation
-    use_robot_state_pub = LaunchConfiguration("use_robot_state_pub")
-
+    
     remappings = [("/tf", "tf"), ("/tf_static", "tf_static")]
 
     # Declare the launch arguments
@@ -121,28 +116,6 @@ def generate_launch_description():
         description="Whether to respawn if a node crashes. Applied when composition is disabled.",
     )
 
-    declare_use_robot_state_pub_cmd = DeclareLaunchArgument(
-        "use_robot_state_pub",
-        default_value="True",
-        description="Whether to start the robot state publisher",
-    )
-
-    urdf = os.path.join(sim_dir, "urdf", "turtlebot3_waffle.urdf")
-    with open(urdf, "r") as infp:
-        robot_description = infp.read()
-
-    start_robot_state_publisher_cmd = Node(
-        condition=IfCondition(use_robot_state_pub),
-        package="robot_state_publisher",
-        executable="robot_state_publisher",
-        name="robot_state_publisher",
-        namespace=namespace,
-        output="screen",
-        parameters=[
-            {"use_sim_time": use_sim_time, "robot_description": robot_description}
-        ],
-        remappings=remappings,
-    )
 
     start_navigation_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -299,11 +272,9 @@ def generate_launch_description():
     ld.add_action(declare_autostart_cmd)
     ld.add_action(declare_use_composition_cmd)
 
-    ld.add_action(declare_use_robot_state_pub_cmd)
     ld.add_action(declare_use_respawn_cmd)
 
     # Add the actions to launch all of the navigation nodes
-    ld.add_action(start_robot_state_publisher_cmd)
     ld.add_action(start_navigation_cmd)
     ld.add_action(start_static_map_odom_transform)
     ld.add_action(start_fake_odom_simulator)
