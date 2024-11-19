@@ -140,9 +140,6 @@ def generate_launch_description():
         output="screen",
         arguments=["0", "0", "0", "0", "0", "0", "map", "odom"],
     )
-
-
-    
     
     start_fake_odom_simulator = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -173,17 +170,17 @@ def generate_launch_description():
             {"use_sim_time": True},
             {"seed": 511},
             {"resolution": 0.1},
-            {"x_length": 15},
-            {"y_length": 15},
+            {"x_length": 20},
+            {"y_length": 20},
             {"z_length": 1},
-            {"type": 1},
+            {"type": 2},
             {"complexity": 0.03},
             {"fill": 0.3},
             {"fractal": 1},
             {"attenuation": 0.1},
             {"width_min": 0.6},
             {"width_max": 1.5},
-            {"obstacle_number": 50},
+            {"obstacle_number": 60},
             {"road_width": 0.5},
             {"add_wall_x": 0},
             {"add_wall_y": 1},
@@ -205,21 +202,43 @@ def generate_launch_description():
     )
     
     
-    start_mockamap_to_occupancy_grid_converter_cmd =    Node(
-            package='octomap_server',
+    start_mockamap_to_occupancy_grid_converter_cmd = Node(
+            package='openbot_octomap_server',
             executable='octomap_server_node',
             parameters=[{
                 'resolution': 0.05,
-                'sensor_model.max_range': 20.0,
-                'frame_id': 'odom'
+                'sensor_model.max_range': 10.0,
+                'frame_id': 'map',
+                'base_frame_id': 'base_footprint',
+                'use_height_map': True,
+                'colored_map': False, #  You enabled both height map and RGB color registration. This is contradictory. Defaulting to height map.
+                'occupancy_min_z': -5.0,
+                'occupancy_max_z': 5.0,
+                # 'filter_ground_plane': True, # crashes
+                # 'incremental_2D_projection': True
             }],
+        arguments=["--ros-args", "--log-level", "info"],
             remappings=[
-                ('/cloud_in', '/global_map'),
+                ('/cloud_in', '/camera_point_cloud'),
                 ('/projected_map', '/map'),
             ],
             output='screen'
         )
     
+    
+    start_mockamap_camera_transformer_cmd =    Node(
+            package='openbot_ros',
+            executable='pointcloud_to_occupancy_grid_node',
+            parameters=[{
+                'base_frame_id': 'base_footprint',
+            }],
+            arguments=["--ros-args", "--log-level", "debug"],
+            remappings=[
+                ('/cloud_in', '/global_map'),
+                ('/cloud_out', '/camera_point_cloud'),
+            ],
+            output='screen'
+        )
     
     # nav2 map
 
@@ -287,5 +306,6 @@ def generate_launch_description():
     # ld.add_action(start_lifecycle_manager_cmd)
     ld.add_action(start_mockamap_cmd)
     ld.add_action(start_mockamap_to_occupancy_grid_converter_cmd)
+    ld.add_action(start_mockamap_camera_transformer_cmd)
       
     return ld

@@ -33,5 +33,6 @@ ament_target_dependencies(${pointcloud_to_occupancy_grid_executable_name} ${depe
 install(TARGETS
   ${node_executable_name}
   ${mockamap_generator_executable_name}
+  ${pointcloud_to_occupancy_grid_executable_name}
   DESTINATION lib/${PROJECT_NAME}
 )

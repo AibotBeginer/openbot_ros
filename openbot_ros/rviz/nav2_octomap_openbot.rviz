@@ -7,7 +7,10 @@ Panels:
         - /Global Options1
         - /TF1/Frames1
         - /TF1/Tree1
-        - /PointCloud21
+        - /MarkerArray2
+        - /MarkerArray2/Topic1
+        - /MarkerArray2/Namespaces1
+        - /MarkerArray3
       Splitter Ratio: 0.2506142556667328
     Tree Height: 513
   - Class: rviz_common/Selection
@@ -531,6 +534,30 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: MarkerArray
+      Namespaces:
+        {}
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /trajectories
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: MarkerArray
+      Namespaces:
+        {}
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /waypoints
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -575,21 +602,26 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: 45.0  # Adjust to your preferred angle
       Class: rviz_default_plugins/Orbit
-      Distance: 10.0  # Set the distance of the camera from the target
+      Distance: 6.169718265533447
       Enable Stereo Rendering:
-        Stereo Eye Separation: 0.06
+        Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
-      Name: 3D View
-      Near Clip Distance: 0.01
+      Focal Point:
+        X: 0
+        Y: 0
+        Z: 0
+      Focal Shape Fixed Size: true
+      Focal Shape Size: 0.05000000074505806
+      Invert Z Axis: false
+      Name: Current View
+      Near Clip Distance: 0.009999999776482582
+      Pitch: 1.0703989267349243
       Target Frame: map
       Value: Orbit (rviz_default_plugins)
-      X: 2.0  # Adjust the camera position on X-axis
-      Y: 2.0  # Adjust the camera position on Y-axis
-      Z: 1.0  # Adjust the camera position on Z-axis
+      Yaw: 3.2203965187072754
     Saved: ~
 Window Geometry:
   Displays:

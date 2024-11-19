@@ -24,6 +24,9 @@
 #include <grid_map_ros/grid_map_ros.hpp>
 #include <grid_map_ros/GridMapRosConverter.hpp>
 #include <grid_map_octomap/GridMapOctomapConverter.hpp>
+#include "tf2_ros/buffer.h"
+#include "tf2_ros/create_timer_ros.h"
+#include "tf2_ros/transform_listener.h"
 
 namespace openbot_ros {
 
@@ -34,9 +37,16 @@ public:
 
 private:
   void pointCloudCallback(const sensor_msgs::msg::PointCloud2::SharedPtr msg);
+  void transformPointCloud();
 
   rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr pointcloud_sub_;
-  rclcpp::Publisher<nav_msgs::msg::OccupancyGrid>::SharedPtr occupancy_grid_pub_;
+  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pointcloud_camera_frame_pub_;
+  std::string base_frame_id_;  // base of the robot for camera transformation
+  std::shared_ptr<tf2_ros::Buffer> tf2_buffer_;
+  std::shared_ptr<tf2_ros::TransformListener> tf2_listener_;
+
+  sensor_msgs::msg::PointCloud2::SharedPtr cloud_in_;
+  rclcpp::TimerBase::SharedPtr timer_{nullptr};
 };
 
 }  // namespace openbot_ros

@@ -304,16 +304,39 @@ namespace octomap_server
     map_pub_ = create_publisher<OccupancyGrid>("projected_map", qos.keep_last(5));
     fmarker_pub_ = create_publisher<MarkerArray>("free_cells_vis_array", qos);
 
+    // 创建一个 tf2_ros::Buffer 的共享指针，用于管理 TF2 转换的缓存。
+    // `get_clock()` 提供了 ROS2 中的时钟接口，用于时间戳管理。
     tf2_buffer_ = std::make_shared<tf2_ros::Buffer>(get_clock());
+
+    // `this->get_node_base_interface()` 和 `this->get_node_timers_interface()`
+    // 分别提供节点的基础接口和定时器接口
     auto timer_interface = std::make_shared<tf2_ros::CreateTimerROS>(
         this->get_node_base_interface(),
         this->get_node_timers_interface());
+
+    // 将定时器接口设置为 tf2_buffer_ 的定时器管理器，
+    // 这样 Buffer 可以根据需要触发定时任务，例如清理过期的转换数据。
     tf2_buffer_->setCreateTimerInterface(timer_interface);
+
+    // 创建一个 tf2_ros::TransformListener 的共享指针，用于监听 TF2 坐标变换。
+    // 它将自动订阅 TF 数据（如坐标帧变换），并将这些数据存储到 tf2_buffer_ 中。
     tf2_listener_ =
         std::make_shared<tf2_ros::TransformListener>(*tf2_buffer_);
 
+    // 使用标准库中的时间文字（chrono_literals）来方便地处理时间值。
+    // 这里是为之后的 5 秒时间间隔操作做准备。
     using std::chrono_literals::operator""s;
+
     point_cloud_sub_.subscribe(this, "/cloud_in", rmw_qos_profile_sensor_data);
+
+    // 创建一个 tf2_ros::MessageFilter，用于过滤并处理与 TF2 坐标变换相关联的 PointCloud2 消息。
+    // - `point_cloud_sub_`：前面定义的订阅器。
+    // - `*tf2_buffer_`：之前创建的 Buffer 对象，提供 TF 数据的缓存和查询功能。
+    // - `world_frame_id_`：目标世界坐标帧 ID，用于确定点云数据的参考帧。
+    // - `5`：缓存队列的大小（最多缓存 5 条消息）。
+    // - `this->get_node_logging_interface()`：节点的日志接口，用于记录操作或错误信息。
+    // - `this->get_node_clock_interface()`：节点的时钟接口，用于管理时间。
+    // - `5s`：消息的超时时间，如果超过这个时间还未找到有效的 TF 数据，消息会被丢弃。
     tf_point_cloud_sub_ = std::make_shared<tf2_ros::MessageFilter<PointCloud2>>(
         point_cloud_sub_, *tf2_buffer_, world_frame_id_, 5, this->get_node_logging_interface(),
         this->get_node_clock_interface(), 5s);

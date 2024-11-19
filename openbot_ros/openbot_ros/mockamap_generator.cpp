@@ -19,6 +19,9 @@
 
 #include "glog/logging.h"
 
+
+using namespace std::chrono_literals;
+
 namespace openbot_ros {
 
 MockamapGenerator::MockamapGenerator()
@@ -43,6 +46,8 @@ void MockamapGenerator::PublishPointCloud2()
        finished_ = generator_->Generate(non_ros_pcl_data_);
        ros_pcl_data_ = ToRos(non_ros_pcl_data_);
     }
+    // note(lzl): refreshes the time on every publish
+    ros_pcl_data_.header.stamp = now();
     pcl_publisher_->publish(ros_pcl_data_);
 }
 
