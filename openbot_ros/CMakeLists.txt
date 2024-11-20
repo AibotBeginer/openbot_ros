@@ -52,6 +52,12 @@ find_package(tf2_ros REQUIRED)
 find_package(urdfdom_headers REQUIRED)
 find_package(visualization_msgs REQUIRED)
 find_package(vision_msgs REQUIRED)
+find_package(octomap REQUIRED)
+find_package(octomap_ros REQUIRED)
+find_package(grid_map_octomap REQUIRED)
+find_package(grid_map_ros REQUIRED)
+find_package(pcl_ros REQUIRED)
+
 
 include(FindPkgConfig)
 
@@ -65,6 +71,11 @@ include_directories(
   include
   "."
   ${openbot_INCLUDE_DIRS}
+  ${octomap_INCLUDE_DIRS}
+  ${grid_map_octomap_INCLUDE_DIRS}
+  ${octomap_ros_INCLUDE_DIRS}
+  ${grid_map_ros_INCLUDE_DIRS}
+  ${pcl_ros_INCLUDE_DIRS}
   ${PCL_INCLUDE_DIRS}
   ${geometry_msgs_INCLUDE_DIRS}
   ${openbot_msgs_INCLUDE_DIRS}
@@ -86,6 +97,7 @@ include_directories(
 set(ALL_SRCS
   openbot_ros/global_planner.cpp
   openbot_ros/local_planner.cpp
+  openbot_ros/pointcloud_to_occupancy_grid.cpp
   # openbot_ros/messages_conversion/proto_msgs_to_ros.cpp
   # openbot_ros/messages_conversion/ros_msgs_to_proto.cpp
   openbot_ros/messages_conversion/builtin_interfaces_converter.cpp
@@ -127,6 +139,11 @@ set(dependencies
   tf2_ros
   visualization_msgs
   vision_msgs
+  octomap
+  octomap_ros
+  grid_map_octomap
+  grid_map_ros
+  pcl_ros
 )
 
 add_library(${PROJECT_NAME} ${ALL_SRCS})

@@ -65,6 +65,7 @@ add_library(${library_name} SHARED
 )
 
 set(dependencies
+  class_loader
   geometry_msgs
   nav_msgs
   pluginlib
