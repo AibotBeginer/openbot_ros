@@ -58,11 +58,23 @@ public:
 
     void PublishGlobalMap(sensor_msgs::msg::PointCloud2& msgs);
 
-    void PublishPath(const nav_msgs::msg::Path& msgs);
+    /**
+     *  @brief Publish a path on a specific topic
+     *  @param msgs The path message to publish
+     *  @param color The color suffix to determine the topic ("red", "blue", etc.)
+     */
+    void PublishPath(const nav_msgs::msg::Path& msgs, const std::string& color);
+
 
 private:
-    rclcpp::Node* node_{nullptr};
+    rclcpp::Node* node_{nullptr};    // Publishers for each color-specific topic
     rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr path_publisher_{nullptr};
+    rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr path_publisher_red_{nullptr};
+    rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr path_publisher_blue_{nullptr};
+    rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr path_publisher_green_{nullptr};
+    rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr path_publisher_yellow_{nullptr};
+    rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr path_publisher_purple_{nullptr};
+
     rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr sphere_publisher_{nullptr};
     rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr point_cloud_map_publisher_{nullptr};
 };

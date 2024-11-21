@@ -25,6 +25,12 @@ GlobalPlannerVisualizator::GlobalPlannerVisualizator(rclcpp::Node* node)
     sphere_publisher_ = node_->create_publisher<visualization_msgs::msg::Marker>("/visualizer/spheres", 1000);
     point_cloud_map_publisher_ = node_->create_publisher<sensor_msgs::msg::PointCloud2>("global_map", 1);
     path_publisher_ = node_->create_publisher<nav_msgs::msg::Path>("global_path", 10);
+     // Initialize publishers for each color-specific topic
+    path_publisher_red_ = node_->create_publisher<nav_msgs::msg::Path>("global_path_red", 10);
+    path_publisher_blue_ = node_->create_publisher<nav_msgs::msg::Path>("global_path_blue", 10);
+    path_publisher_green_ = node_->create_publisher<nav_msgs::msg::Path>("global_path_green", 10);
+    path_publisher_yellow_ = node_->create_publisher<nav_msgs::msg::Path>("global_path_yellow", 10);
+    path_publisher_purple_ = node_->create_publisher<nav_msgs::msg::Path>("global_path_purple", 10);
 }
 
 void GlobalPlannerVisualizator::VisualizeStartGoal(geometry_msgs::msg::PoseStamped::ConstSharedPtr center, const double &radius, const int sg)
@@ -68,9 +74,23 @@ void GlobalPlannerVisualizator::PublishGlobalMap(sensor_msgs::msg::PointCloud2& 
     point_cloud_map_publisher_->publish(msgs);
 }
 
-void GlobalPlannerVisualizator::PublishPath(const nav_msgs::msg::Path& msgs)
+
+void GlobalPlannerVisualizator::PublishPath(const nav_msgs::msg::Path& msgs, const std::string& color)
 {
-    path_publisher_->publish(msgs);
+    if (color == "red") {
+        path_publisher_red_->publish(msgs);
+    } else if (color == "blue") {
+        path_publisher_blue_->publish(msgs);
+    } else if (color == "green") {
+        path_publisher_green_->publish(msgs);
+    } else if (color == "yellow") {
+        path_publisher_yellow_->publish(msgs);
+    } else if (color == "purple") {
+        path_publisher_purple_->publish(msgs);
+    } else {
+        RCLCPP_WARN(node_->get_logger(), "Invalid color '%s' specified. No path was published.", color.c_str());
+        path_publisher_->publish(msgs);
+    }
 }
 
 }  // namespace openbot_ros
