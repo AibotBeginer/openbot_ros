@@ -27,6 +27,10 @@
 #include "tf2_ros/buffer.h"
 #include "tf2_ros/create_timer_ros.h"
 #include "tf2_ros/transform_listener.h"
+#include "pcl_conversions/pcl_conversions.h"
+#include "pcl_ros/transforms.hpp"
+#include <tf2_eigen/tf2_eigen.h>
+#include <tf2_sensor_msgs/tf2_sensor_msgs.h>
 
 namespace openbot_ros {
 
@@ -38,6 +42,7 @@ public:
 private:
   void pointCloudCallback(const sensor_msgs::msg::PointCloud2::SharedPtr msg);
   void transformPointCloud();
+  void simulateRgbdCamera(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered);
 
   rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr pointcloud_sub_;
   rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pointcloud_camera_frame_pub_;
