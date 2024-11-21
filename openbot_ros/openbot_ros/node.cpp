@@ -33,63 +33,65 @@
 #include "tf2_eigen/tf2_eigen.hpp"
 #include "visualization_msgs/msg/marker_array.hpp"
 
-namespace openbot_ros {
-
-namespace {
-
-openbot_msgs::msg::SensorTopics DefaultSensorTopics() 
+namespace openbot_ros
 {
-  openbot_msgs::msg::SensorTopics topics;
-  topics.laser_scan_topic = kLaserScanTopic;
-  topics.multi_echo_laser_scan_topic = kMultiEchoLaserScanTopic;
-  topics.point_cloud2_topic = kPointCloud2Topic;
-  topics.imu_topic = kImuTopic;
-  topics.odometry_topic = kOdometryTopic;
-  topics.nav_sat_fix_topic = kNavSatFixTopic;
-  topics.landmark_topic = kLandmarkTopic;
-  return topics;
-}
 
-// Subscribes to the 'topic' for 'trajectory_id' using the 'node_handle' and
-// calls 'handler' on the 'node' to handle messages. Returns the subscriber.
-template <typename MessageType>
-::rclcpp::SubscriptionBase::SharedPtr SubscribeWithHandler(
-    void (Node::*handler)(const std::string&, typename MessageType::ConstSharedPtr), 
-    const std::string& topic,
-    ::rclcpp::Node::SharedPtr node_handle, 
-    Node* const node) 
-{
-  return node_handle->create_subscription<MessageType>(
-      topic, rclcpp::SensorDataQoS(),
-      [node, handler, topic](const typename MessageType::ConstSharedPtr msg) 
-      {
-          (node->*handler)(topic, msg);
-      });
-}
+  namespace
+  {
 
-// Subscribes to the 'topic' for 'trajectory_id' using the 'node_handle' and
-// calls 'handler' on the 'node' to handle messages. Returns the subscriber.
-template <typename MessageType>
-::rclcpp::SubscriptionBase::SharedPtr SubscribeWithHandler(
-    void (Node::*handler)(typename MessageType::ConstSharedPtr), 
-    const std::string& topic,
-    ::rclcpp::Node::SharedPtr node_handle, 
-    Node* const node) 
-{
-  return node_handle->create_subscription<MessageType>(
-      topic, rclcpp::SensorDataQoS(),
-      [node, handler, topic](const typename MessageType::ConstSharedPtr msg) 
-      {
-          (node->*handler)(msg);
-      });
-}
+    openbot_msgs::msg::SensorTopics DefaultSensorTopics()
+    {
+      openbot_msgs::msg::SensorTopics topics;
+      topics.laser_scan_topic = kLaserScanTopic;
+      topics.multi_echo_laser_scan_topic = kMultiEchoLaserScanTopic;
+      topics.point_cloud2_topic = kPointCloud2Topic;
+      topics.imu_topic = kImuTopic;
+      topics.odometry_topic = kOdometryTopic;
+      topics.nav_sat_fix_topic = kNavSatFixTopic;
+      topics.landmark_topic = kLandmarkTopic;
+      return topics;
+    }
 
-}  // namespace
+    // Subscribes to the 'topic' for 'trajectory_id' using the 'node_handle' and
+    // calls 'handler' on the 'node' to handle messages. Returns the subscriber.
+    template <typename MessageType>
+    ::rclcpp::SubscriptionBase::SharedPtr SubscribeWithHandler(
+        void (Node::*handler)(const std::string &, typename MessageType::ConstSharedPtr),
+        const std::string &topic,
+        ::rclcpp::Node::SharedPtr node_handle,
+        Node *const node)
+    {
+      return node_handle->create_subscription<MessageType>(
+          topic, rclcpp::SensorDataQoS(),
+          [node, handler, topic](const typename MessageType::ConstSharedPtr msg)
+          {
+            (node->*handler)(topic, msg);
+          });
+    }
 
-Node::Node(const NodeOptions& node_options, const bool collect_metrics) 
-    : rclcpp::Node("openbot_ros_node"),
-      node_options_(node_options)
-{
+    // Subscribes to the 'topic' for 'trajectory_id' using the 'node_handle' and
+    // calls 'handler' on the 'node' to handle messages. Returns the subscriber.
+    template <typename MessageType>
+    ::rclcpp::SubscriptionBase::SharedPtr SubscribeWithHandler(
+        void (Node::*handler)(typename MessageType::ConstSharedPtr),
+        const std::string &topic,
+        ::rclcpp::Node::SharedPtr node_handle,
+        Node *const node)
+    {
+      return node_handle->create_subscription<MessageType>(
+          topic, rclcpp::SensorDataQoS(),
+          [node, handler, topic](const typename MessageType::ConstSharedPtr msg)
+          {
+            (node->*handler)(msg);
+          });
+    }
+
+  } // namespace
+
+  Node::Node(const NodeOptions &node_options, const bool collect_metrics)
+      : rclcpp::Node("openbot_ros_node"),
+        node_options_(node_options)
+  {
     node_handle_ = std::shared_ptr<::rclcpp::Node>(this, [](::rclcpp::Node *) {});
     global_planner_ = std::make_shared<GlobalPlanner>();
 
@@ -99,7 +101,7 @@ Node::Node(const NodeOptions& node_options, const bool collect_metrics)
 
     // global_planner_timer_ = this->create_wall_timer(
     //     std::chrono::milliseconds(1200), [this]() { PublishGlobalPath(); });
-    
+
     base_frame_id_ = declare_parameter("base_frame_id", "base_link");
 
     tf2_buffer_ = std::make_shared<tf2_ros::Buffer>(get_clock());
@@ -109,26 +111,28 @@ Node::Node(const NodeOptions& node_options, const bool collect_metrics)
     tf2_buffer_->setCreateTimerInterface(timer_interface);
     tf2_listener_ =
         std::make_shared<tf2_ros::TransformListener>(*tf2_buffer_);
-}
-
-Node::~Node() 
-{
-}
-
-void Node::HandleMapMessageCallBack(sensor_msgs::msg::PointCloud2::ConstSharedPtr msg)
-{
-  if (!global_map_created) {
-    global_planner_->CreateGlobalMap(msg);
-    global_map_created = true;
   }
-}
 
-void Node::HandleTargetPoseCallBack(geometry_msgs::msg::PoseStamped::ConstSharedPtr msg)
-{
-    if (msg == nullptr) {
-        return;
+  Node::~Node()
+  {
+  }
+
+  void Node::HandleMapMessageCallBack(sensor_msgs::msg::PointCloud2::ConstSharedPtr msg)
+  {
+    if (!global_map_created)
+    {
+      global_planner_->CreateGlobalMap(msg);
+      global_map_created = true;
     }
-    LOG(INFO) << "Received Target Pose Callback: x: " << msg->pose.position.x << " y: " << msg->pose.position.y  << " z: " << msg->pose.position.z;
+  }
+
+  void Node::HandleTargetPoseCallBack(geometry_msgs::msg::PoseStamped::ConstSharedPtr msg)
+  {
+    if (msg == nullptr)
+    {
+      return;
+    }
+    LOG(INFO) << "Received Target Pose Callback: x: " << msg->pose.position.x << " y: " << msg->pose.position.y << " z: " << msg->pose.position.z;
 
     geometry_msgs::msg::TransformStamped world_to_base_transform_stamped;
     try
@@ -144,11 +148,10 @@ void Node::HandleTargetPoseCallBack(geometry_msgs::msg::PoseStamped::ConstShared
     }
 
     global_planner_->start_goal().clear();
-    
 
     auto start = std::make_shared<geometry_msgs::msg::PoseStamped>();
-    start->header.frame_id = "map";  // The frame of reference
-    start->header.stamp = msg->header.stamp;  // Use the same timestamp as input
+    start->header.frame_id = "map";          // The frame of reference
+    start->header.stamp = msg->header.stamp; // Use the same timestamp as input
 
     // Set the position from the transform's translation
     start->pose.position.x = world_to_base_transform_stamped.transform.translation.x;
@@ -163,63 +166,78 @@ void Node::HandleTargetPoseCallBack(geometry_msgs::msg::PoseStamped::ConstShared
     goal->pose.position.y = msg->pose.position.y;
     goal->pose.position.z = msg->pose.position.z;
 
-    if (!global_planner_->CheckValid(goal)) {
-        LOG(WARNING) << "Infeasible Position Selected !!!";
-        return;
+    if (!global_planner_->CheckValid(goal))
+    {
+      LOG(WARNING) << "Infeasible Position Selected !!!";
+      return;
     }
-   
+
     // global_planner_visualizator_->VisualizeStartGoal(goal, 0.25, global_planner_->start_goal().size());
     global_planner_->AddPose(start);
     global_planner_->AddPose(msg);
 
-    std::vector<std::string> colors = {"simple", "red", "blue", "green", "yellow", "purple"};
+    std::vector<std::string> colors = {"simple", "blue", "green", "red"};
 
     // Define the base timeout and increment for each path
     double base_timeout = 0.5;
     double timeout_increment = 1.0;
+    std::vector<std::future<void>> futures;
+
+    auto empty_path = std::make_shared<nav_msgs::msg::Path>();
+    empty_path->header.frame_id = "map"; // Replace with your frame_id
+    empty_path->header.stamp = rclcpp::Clock().now();
+    for (size_t i = 0; i < colors.size(); ++i)
+    {
+      // clearing
+      global_planner_visualizator_->PublishPath(*empty_path, colors[i]);
+    }
 
     for (size_t i = 0; i < colors.size(); ++i)
     {
-        double timeout = base_timeout + i * timeout_increment;
-        LOG(INFO) << "Publishing path with timeout: " << timeout << " and color: " << colors[i];
+      double timeout = base_timeout + i * timeout_increment;
+      LOG(INFO) << "Publishing path with timeout: " << timeout << " and color: " << colors[i];
 
-        // Publish the global path with the current timeout and color
-        PublishGlobalPath(timeout, colors[i]);
+      // Create an asynchronous task for each PublishGlobalPath call
+      futures.emplace_back(std::async(std::launch::async, [timeout, color = colors[i], this]()
+                                      { PublishGlobalPath(timeout, color); }));
     }
-}
 
-::rclcpp::Node::SharedPtr Node::node_handle()
-{
-    return node_handle_; 
-}
+    // Wait for all tasks to complete
+    for (auto &future : futures)
+    {
+      future.get();
+    }
+  }
 
-GlobalPlanner::SharedPtr Node::global_planner()
-{
+  ::rclcpp::Node::SharedPtr Node::node_handle()
+  {
+    return node_handle_;
+  }
+
+  GlobalPlanner::SharedPtr Node::global_planner()
+  {
     return global_planner_;
-}
+  }
 
-void Node::LaunchSubscribers(const openbot_msgs::msg::SensorTopics& topics)
-{
+  void Node::LaunchSubscribers(const openbot_msgs::msg::SensorTopics &topics)
+  {
     subscribers_.push_back(
         {SubscribeWithHandler<sensor_msgs::msg::PointCloud2>(&Node::HandleMapMessageCallBack, kGlobalMapTopic, node_handle_, this),
-         kGlobalMapTopic}
-    );
+         kGlobalMapTopic});
 
     // topic: "/goal_pose";
-    subscribers_.push_back({
-        SubscribeWithHandler<geometry_msgs::msg::PoseStamped>(&Node::HandleTargetPoseCallBack, kTargetTopic, node_handle_, this),
-        kTargetTopic
-    });
-}
+    subscribers_.push_back({SubscribeWithHandler<geometry_msgs::msg::PoseStamped>(&Node::HandleTargetPoseCallBack, kTargetTopic, node_handle_, this),
+                            kTargetTopic});
+  }
 
-void Node::PublishGlobalPath(const double timeout, const std::string& color)
-{
+  void Node::PublishGlobalPath(const double timeout, const std::string &color)
+  {
     // Generate the global path
     auto path = global_planner_->CreatePath(timeout);
     LOG(INFO) << "path size: " << path.poses.size();
 
     // Publish the path with the specified color
     global_planner_visualizator_->PublishPath(path, color);
-}
+  }
 
-}  // namespace openbot_ros
+} // namespace openbot_ros

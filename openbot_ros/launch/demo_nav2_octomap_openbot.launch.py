@@ -209,7 +209,7 @@ def generate_launch_description():
             executable='octomap_server_node',
             parameters=[{
                 'resolution': 0.05,
-                'sensor_model.max_range': 8.0,
+                'sensor_model.max_range': 3.0,
                 'frame_id': 'map',
                 'base_frame_id': 'base_link',
                 'use_height_map': True,
