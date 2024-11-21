@@ -44,30 +44,26 @@
 #include "visualization/global_planner_visualization.hpp"
 #include "visualization/local_planner_visualization.hpp"
 
-namespace openbot_ros {
-class Node : public rclcpp::Node
+namespace openbot_ros
 {
-public:
-    Node(const NodeOptions& node_options, bool collect_metrics);
+  class Node : public rclcpp::Node
+  {
+  public:
+    Node(const NodeOptions &node_options, bool collect_metrics);
     ~Node();
 
-    Node(const Node&) = delete;
-    Node& operator=(const Node&) = delete;
+    Node(const Node &) = delete;
+    Node &operator=(const Node &) = delete;
 
     /**
      * @brief Receive `sensor_msgs::PointCloud2` map data as global map
      */
-    void HandleMapMessageCallBack(const std::string& sensor_id, sensor_msgs::msg::PointCloud2::ConstSharedPtr msg);
+    void HandleMapMessageCallBack(sensor_msgs::msg::PointCloud2::ConstSharedPtr msg);
 
     /**
      * @brief Receive `RVIZ2 command` tartget pose
      */
     void HandleTargetPoseCallBack(geometry_msgs::msg::PoseStamped::ConstSharedPtr msg);
-
-    /**
-     * @brief Create global path from sensor_msgs::PointCloud2
-     */
-    void CreateGlobalPath();
 
     /**
      * @brief node_handle
@@ -79,24 +75,23 @@ public:
      */
     GlobalPlanner::SharedPtr global_planner();
 
-private:
-    struct Subscriber 
+  private:
+    struct Subscriber
     {
-        rclcpp::SubscriptionBase::SharedPtr subscriber;
+      rclcpp::SubscriptionBase::SharedPtr subscriber;
 
-        // ::ros::Subscriber::getTopic() does not necessarily return the same
-        // std::string
-        // it was given in its constructor. Since we rely on the topic name as the
-        // unique identifier of a subscriber, we remember it ourselves.
-        std::string topic;
+      // ::ros::Subscriber::getTopic() does not necessarily return the same
+      // std::string
+      // it was given in its constructor. Since we rely on the topic name as the
+      // unique identifier of a subscriber, we remember it ourselves.
+      std::string topic;
     };
 
     /**
      * @brief All sensor topics
      */
-    void LaunchSubscribers(const openbot_msgs::msg::SensorTopics& topics);
-
-    void PublishGlobalPath();
+    void LaunchSubscribers(const openbot_msgs::msg::SensorTopics &topics);
+    void PublishGlobalPath(const double timeout, const std::string &color);
 
     // ROS2 Node
     ::rclcpp::Node::SharedPtr node_handle_{nullptr};
@@ -117,8 +112,14 @@ private:
     std::vector<Subscriber> subscribers_;
     std::unordered_set<std::string> subscribed_topics_;
     const NodeOptions node_options_;
-};
+    std::string base_frame_id_; // base of the robot for camera transformation
+    std::shared_ptr<tf2_ros::Buffer> tf2_buffer_;
+    std::shared_ptr<tf2_ros::TransformListener> tf2_listener_;
 
-}  // namespace openbot_ros
+    rclcpp::TimerBase::SharedPtr timer_{nullptr};
+    bool global_map_created = false;
+  };
 
-#endif  // OPENBOT_ROS_OPENBOT_ROS_NODE_HPP
+} // namespace openbot_ros
+
+#endif // OPENBOT_ROS_OPENBOT_ROS_NODE_HPP

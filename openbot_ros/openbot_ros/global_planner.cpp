@@ -26,7 +26,6 @@ GlobalPlanner::GlobalPlanner()
 {
     planner_ = std::make_shared<::openbot::planning::PlannerServer>();
     map_generator_ = std::make_shared<RandomMapGenerator>();
-    CreateGlobalMap();
 }
 
 void GlobalPlanner::AddPose(geometry_msgs::msg::PoseStamped::ConstSharedPtr msg)
@@ -46,10 +45,10 @@ std::vector<Eigen::Vector3d>& GlobalPlanner::start_goal()
     return start_goal_;
 }
 
-nav_msgs::msg::Path GlobalPlanner::CreatePath()
+nav_msgs::msg::Path GlobalPlanner::CreatePath(const double timeout)
 {
     nav_msgs::msg::Path path;
-    if (start_goal_.size() != 2) {
+    if (start_goal_.size() < 2) {
         return path;
     }
 
@@ -65,25 +64,29 @@ nav_msgs::msg::Path GlobalPlanner::CreatePath()
     // goal.pose.position.z = 0.3;
     goal.pose.position.z = start_goal_[1].z();
 
-    auto msg = planner_->CreatePlan(start, goal);
+    auto msg = planner_->CreatePlan(start, goal, timeout);
     path = ToRos(msg);
     return path;
 }
 
-void GlobalPlanner::CreateGlobalMap()
+void GlobalPlanner::CreateGlobalMap(sensor_msgs::msg::PointCloud2::ConstSharedPtr pointcloud)
 {
-    if (!map_generator_->Finished()) {
-        map_generator_->Generate();
+    if (pointcloud == nullptr) {
+      if (!map_generator_->Finished()) {
+          map_generator_->Generate();
+      }
+
+      bool success = map_generator_->GetPointCloud2Data(map_data_);
+      if (!success) {
+          LOG(INFO) << "Get pointCloud2 data error.";
+          return;
+      }
+    } else {
+      map_data_ = *pointcloud;
     }
 
-    bool success = map_generator_->GetPointCloud2Data(map_data_);
-    if (!success) {
-        LOG(INFO) << "Get pointCloud2 data error.";
-        return;
-    }
-
-    double voxelWidth = 0.25;
-    std::vector<double> mapBound = {-20.0, 20.0, -20.0, 20.0, -20, 20.0};
+    double voxelWidth = 0.1;
+    std::vector<double> mapBound = {-15.0, 15.0, -15.0, 15.0, 0, 0.5};
     const Eigen::Vector3i xyz((mapBound[1] - mapBound[0]) / voxelWidth,
                               (mapBound[3] - mapBound[2]) / voxelWidth,
                               (mapBound[5] - mapBound[4]) / voxelWidth);
@@ -104,12 +107,15 @@ void GlobalPlanner::CreateGlobalMap()
         {
             continue;
         }
+        if (fdata[cur + 2] > 0.5 || fdata[cur + 2] <= 0) {
+          continue;
+        }
         voxel_map->SetOccupied(Eigen::Vector3d(fdata[cur + 0],
                                                 fdata[cur + 1],
                                                 fdata[cur + 2]));
     }
 
-    voxel_map->Dilate(std::ceil(0.25 / voxel_map->GetScale()));
+    voxel_map->Dilate(std::ceil(0.1 / voxel_map->GetScale()));
     planner_->InitMap(voxel_map);
 }
 
