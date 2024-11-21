@@ -57,6 +57,7 @@ from launch_ros.descriptions import ParameterFile
 from nav2_common.launch import HasNodeParams, RewrittenYaml
 
 from launch_ros.actions import Node
+from launch.actions import TimerAction, ExecuteProcess
 
 
 def generate_launch_description():
@@ -138,7 +139,7 @@ def generate_launch_description():
         executable="static_transform_publisher",
         name="static_transform_publisher",
         output="screen",
-        arguments=["0", "0", "0", "0", "0", "0", "map", "odom"],
+        arguments=["-0.5", "0.5", "0", "0", "0", "0", "map", "odom"],
     )
     
     start_fake_odom_simulator = IncludeLaunchDescription(
@@ -170,17 +171,18 @@ def generate_launch_description():
             {"use_sim_time": True},
             {"seed": 511},
             {"resolution": 0.1},
-            {"x_length": 20},
-            {"y_length": 20},
+            {"x_length": 15},
+            {"y_length": 15},
             {"z_length": 1},
-            {"type": 2},
+            {"type": 1},
+            # {"type": 3},
             {"complexity": 0.03},
             {"fill": 0.3},
             {"fractal": 1},
             {"attenuation": 0.1},
             {"width_min": 0.6},
             {"width_max": 1.5},
-            {"obstacle_number": 60},
+            {"obstacle_number": 30},
             {"road_width": 0.5},
             {"add_wall_x": 0},
             {"add_wall_y": 1},
@@ -207,9 +209,9 @@ def generate_launch_description():
             executable='octomap_server_node',
             parameters=[{
                 'resolution': 0.05,
-                'sensor_model.max_range': 10.0,
+                'sensor_model.max_range': 3.0,
                 'frame_id': 'map',
-                'base_frame_id': 'base_footprint',
+                'base_frame_id': 'base_link',
                 'use_height_map': True,
                 'colored_map': False, #  You enabled both height map and RGB color registration. This is contradictory. Defaulting to height map.
                 'occupancy_min_z': -5.0,
@@ -230,15 +232,28 @@ def generate_launch_description():
             package='openbot_ros',
             executable='pointcloud_to_occupancy_grid_node',
             parameters=[{
-                'base_frame_id': 'base_footprint',
+                'base_frame_id': 'base_link',
             }],
-            arguments=["--ros-args", "--log-level", "debug"],
+            arguments=["--ros-args", "--log-level", "info"],
             remappings=[
                 ('/cloud_in', '/global_map'),
                 ('/cloud_out', '/camera_point_cloud'),
             ],
             output='screen'
         )
+    
+    
+    start_openbot_cmd = Node(
+        package = 'openbot_ros',
+        executable = 'openbot_node',
+        parameters = [{'use_sim_time': True}],
+        arguments = [
+            '-configuration_directory', FindPackageShare('openbot_ros').find('openbot_ros') + '/configuration_files',
+            '-configuration_basename', 'openbot.lua'],
+        # remappings = [
+        #     ('scan', 'horizontal_laser_2d')],
+        output = 'screen')
+
     
     # nav2 map
 
@@ -307,5 +322,26 @@ def generate_launch_description():
     ld.add_action(start_mockamap_cmd)
     ld.add_action(start_mockamap_to_occupancy_grid_converter_cmd)
     ld.add_action(start_mockamap_camera_transformer_cmd)
+    # The issue is that ros2 topic pub publishes the command as a latched publisher by default when invoked without the --once flag. This means the last message sent will continue to be available on the topi
+    # ld.add_action(ExecuteProcess(
+    #     cmd=[
+    #         'bash', '-c', '''
+    #         sleep 2 && ros2 topic pub --once /cmd_vel geometry_msgs/msg/Twist '{"linear": {"x": 0.0, "y": 0.0, "z": 0.0}, "angular": {"x": 0.0, "y": 0.0, "z": 2.14159}}'
+    #         && sleep 0.5 && ros2 topic pub --once /cmd_vel geometry_msgs/msg/Twist '{"linear": {"x": 0.0, "y": 0.0, "z": 0.0}, "angular": {"x": 0.0, "y": 0.0, "z": 0}} && sleep infinity
+    #         '''
+    #     ],
+    #     output='screen'
+    # ))
+    # ld.add_action(ExecuteProcess(
+    #     cmd=[
+    #         'bash', '-c', '''
+    #         sleep 2 && ros2 topic pub /cmd_vel geometry_msgs/msg/Twist '{"linear": {"x": 0.0, "y": 0.0, "z": 0.0}, "angular": {"x": 0.0, "y": 0.0, "z": 6.14159}}' && sleep infinity
+    #         '''
+    #     ],
+    #     output='screen'
+    # ))
+    
+    ld.add_action(start_openbot_cmd)
+  
       
     return ld

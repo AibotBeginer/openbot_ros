@@ -143,7 +143,7 @@ void Turtlebot3Fake::command_velocity_callback(
   const geometry_msgs::msg::Twist::SharedPtr cmd_vel_msg)
 {
   last_cmd_vel_time_ = this->now();
-  RCLCPP_INFO(this->get_logger(), "Received cmd_vel message: linear.x = %.2f, angular.z = %.2f",
+  RCLCPP_DEBUG(this->get_logger(), "Received cmd_vel message: linear.x = %.2f, angular.z = %.2f",
               cmd_vel_msg->linear.x, cmd_vel_msg->angular.z);
 
   goal_linear_velocity_ = cmd_vel_msg->linear.x;

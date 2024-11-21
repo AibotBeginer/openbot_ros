@@ -19,6 +19,7 @@
 
 #include "nav_msgs/msg/path.hpp"
 #include "geometry_msgs/msg/pose_stamped.hpp"
+#include <sensor_msgs/msg/point_cloud2.hpp> 
 
 #include <memory>
 #include <vector>
@@ -31,6 +32,9 @@
 #include "openbot_ros/messages_conversion/proto_msgs_to_ros.hpp"
 #include "openbot_ros/messages_conversion/ros_msgs_to_proto.hpp"
 #include "openbot_ros/map_generator.hpp"
+#include "tf2_ros/buffer.h"
+#include "tf2_ros/create_timer_ros.h"
+#include "tf2_ros/transform_listener.h"
 
 namespace openbot_ros {
 
@@ -48,9 +52,9 @@ public:
     
     std::vector<Eigen::Vector3d>& start_goal();
 
-    nav_msgs::msg::Path CreatePath();
+    nav_msgs::msg::Path CreatePath(const double timeout);
 
-    void CreateGlobalMap();
+    void CreateGlobalMap(sensor_msgs::msg::PointCloud2::ConstSharedPtr pointcloud);
     
     sensor_msgs::msg::PointCloud2& map_data();
 
