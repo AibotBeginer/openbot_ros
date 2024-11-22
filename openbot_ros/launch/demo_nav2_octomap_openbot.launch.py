@@ -142,16 +142,6 @@ def generate_launch_description():
         arguments=["-0.5", "0.5", "0", "0", "0", "0", "map", "odom"],
     )
     
-    start_fake_odom_simulator = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(
-                sim_dir,
-                "launch",
-                "turtlebot3_fake_node.launch.py",
-            )
-        )
-    )
-
     start_rviz_cmd = Node(
         package="rviz2",
         executable="rviz2",
@@ -160,7 +150,29 @@ def generate_launch_description():
             "-d",
             os.path.join(openbot_ros_dir, "rviz/nav2_octomap_openbot.rviz"),
         ],
-        parameters=[{"use_sim_time": True}],
+        parameters=[{"use_sim_time": True}]
+    )
+    
+    
+    ## robot
+    
+    start_fake_turtlebot_waffle_simulator = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(
+                sim_dir,
+                "launch",
+                "turtlebot3_fake_node.launch.py",
+            )
+        )
+    )
+    start_diablo_simulator = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(
+                sim_dir,
+                "launch",
+                "diablo_ctrl.launch.py",
+            )
+        )
     )
     
     ## maps
@@ -311,9 +323,8 @@ def generate_launch_description():
     # Add the actions to launch all of the navigation nodes
     ld.add_action(start_navigation_cmd)
     ld.add_action(start_static_map_odom_transform)
-    ld.add_action(start_fake_odom_simulator)
-
-    # Add any conditioned actions
+    
+    # rviz
     ld.add_action(start_rviz_cmd)
     
     # maps
@@ -322,6 +333,16 @@ def generate_launch_description():
     ld.add_action(start_mockamap_cmd)
     ld.add_action(start_mockamap_to_occupancy_grid_converter_cmd)
     ld.add_action(start_mockamap_camera_transformer_cmd)
+    
+    # global planner
+    ld.add_action(start_openbot_cmd)
+    
+    ## robots
+    ld.add_action(start_fake_turtlebot_waffle_simulator)
+    # ld.add_action(start_diablo_simulator)
+
+    # Add any conditioned actions
+    
     # The issue is that ros2 topic pub publishes the command as a latched publisher by default when invoked without the --once flag. This means the last message sent will continue to be available on the topi
     # ld.add_action(ExecuteProcess(
     #     cmd=[
@@ -341,7 +362,6 @@ def generate_launch_description():
     #     output='screen'
     # ))
     
-    ld.add_action(start_openbot_cmd)
   
       
     return ld

@@ -22,6 +22,10 @@
   <depend>sensor_msgs</depend>
   <depend>tf2</depend>
   <depend>tf2_msgs</depend>
+  <depend>diablo_simulation</depend>
+  <depend>diablo_ctrl</depend>
+  <depend>diablo_simpose_trans</depend>
+  
   <export>
     <build_type>ament_cmake</build_type>
   </export>
