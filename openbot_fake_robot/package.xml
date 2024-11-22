@@ -23,8 +23,9 @@
   <depend>tf2</depend>
   <depend>tf2_msgs</depend>
   <depend>diablo_simulation</depend>
-  <depend>diablo_ctrl</depend>
   <depend>diablo_simpose_trans</depend>
+  <depend>diablo_rviz2_control_plugin</depend>
+  <depend>motion_msgs</depend>
   
   <export>
     <build_type>ament_cmake</build_type>

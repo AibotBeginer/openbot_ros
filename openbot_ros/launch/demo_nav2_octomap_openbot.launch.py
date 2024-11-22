@@ -142,18 +142,6 @@ def generate_launch_description():
         arguments=["-0.5", "0.5", "0", "0", "0", "0", "map", "odom"],
     )
     
-    start_rviz_cmd = Node(
-        package="rviz2",
-        executable="rviz2",
-        on_exit=Shutdown(),
-        arguments=[
-            "-d",
-            os.path.join(openbot_ros_dir, "rviz/nav2_octomap_openbot.rviz"),
-        ],
-        parameters=[{"use_sim_time": True}]
-    )
-    
-    
     ## robot
     
     start_fake_turtlebot_waffle_simulator = IncludeLaunchDescription(
@@ -165,6 +153,19 @@ def generate_launch_description():
             )
         )
     )
+    
+    start_fake_turtlebot_rviz_cmd = Node(
+        package="rviz2",
+        executable="rviz2",
+        on_exit=Shutdown(),
+        arguments=[
+            "-d",
+            os.path.join(openbot_ros_dir, "rviz/nav2_octomap_openbot.rviz"),
+        ],
+        parameters=[{"use_sim_time": True}]
+    )
+    
+    
     start_diablo_simulator = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(
@@ -173,6 +174,17 @@ def generate_launch_description():
                 "diablo_ctrl.launch.py",
             )
         )
+    )
+    
+    start_diablo_rviz_cmd = Node(
+        package="rviz2",
+        executable="rviz2",
+        on_exit=Shutdown(),
+        arguments=[
+            "-d",
+            os.path.join(openbot_ros_dir, "rviz/nav2_octomap_diablo.rviz"),
+        ],
+        parameters=[{"use_sim_time": True}]
     )
     
     ## maps
@@ -325,7 +337,6 @@ def generate_launch_description():
     ld.add_action(start_static_map_odom_transform)
     
     # rviz
-    ld.add_action(start_rviz_cmd)
     
     # maps
     # ld.add_action(start_nav2_map_server_cmd)
@@ -338,8 +349,12 @@ def generate_launch_description():
     ld.add_action(start_openbot_cmd)
     
     ## robots
-    ld.add_action(start_fake_turtlebot_waffle_simulator)
-    # ld.add_action(start_diablo_simulator)
+    # ld.add_action(start_fake_turtlebot_waffle_simulator)
+    # ld.add_action(start_fake_turtlebot_rviz_cmd)
+    
+    ld.add_action(start_diablo_simulator)
+    ld.add_action(start_diablo_rviz_cmd)
+
 
     # Add any conditioned actions
     

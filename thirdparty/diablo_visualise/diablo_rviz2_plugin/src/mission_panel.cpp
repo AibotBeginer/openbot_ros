@@ -64,7 +64,7 @@ MissionPanel::MissionPanel(QWidget * parent) : rviz_common::Panel(parent)
   QVBoxLayout * height_layout = new QVBoxLayout;
   height_layout->addWidget(height_label_);
   height_layout->addWidget(height_slider_);
-  height_slider_->setEnabled(false);
+  height_slider_->setEnabled(true);
 
   QHBoxLayout * teleop_layout = new QHBoxLayout;
   teleop_layout->addLayout(teleop_button_);
@@ -73,7 +73,7 @@ MissionPanel::MissionPanel(QWidget * parent) : rviz_common::Panel(parent)
 
   // main layout
   layout->addLayout(mode_box_layout);
-  layout->addWidget(teleop_group_box);
+  // layout->addWidget(teleop_group_box);
   setLayout(layout);
 
   connect(robot_switch_button_, SIGNAL(valueChanged(bool)), this, SLOT(set_robot_status(bool)));

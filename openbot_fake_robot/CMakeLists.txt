@@ -58,6 +58,9 @@ foreach(executable ${EXECUTABLES})
   )
 endforeach()
 
+# find_package(ament_cmake_python REQUIRED)
+# ament_python_install_package(${PROJECT_NAME}/../src/motion_control)
+
 ################################################################################
 # Install
 ################################################################################
@@ -69,6 +72,11 @@ install(DIRECTORY launch param urdf maps models
 install(DIRECTORY include/
   DESTINATION include/
 )
+
+# Install Python scripts
+install(PROGRAMS
+  src/motion_control/diablo_fake_node.py
+  DESTINATION lib/${PROJECT_NAME})
 
 ################################################################################
 # Macro for ament package
