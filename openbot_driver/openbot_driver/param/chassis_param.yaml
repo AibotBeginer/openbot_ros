@@ -1,0 +1,13 @@
+base_driver_node:
+  ros__parameters:
+    port: /dev/base_serial
+    bandrate: 115200
+    publish_odom: false
+    wheel_base: 0.3115
+    wheel_diameter : 0.14
+    encoder_resolution : 4096
+    gear_reduction: 1.0
+    diameter_calibration_l: 1.0
+    diameter_calibration_r: 1.0
+    cliff_enable: true
+    sonar_enable: true
