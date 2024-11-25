@@ -58,13 +58,13 @@ def generate_launch_description():
         name='diablo_ctrl'
     )
     
-    start_static_footprint_transform = Node(
-        package="tf2_ros",
-        executable="static_transform_publisher",
-        name="static_transform_publisher",
-        output="screen",
-        arguments=["0", "0", "0", "0", "0", "0", "base_footprint", "base_link"],
-    )
+    # start_static_footprint_transform = Node(
+    #     package="tf2_ros",
+    #     executable="static_transform_publisher",
+    #     name="static_transform_publisher",
+    #     output="screen",
+    #     arguments=["0", "0", "0", "0", "0", "0", "base_footprint", "base_link"],
+    # )
     
     
     param_dir = LaunchConfiguration(
@@ -86,18 +86,17 @@ def generate_launch_description():
         robot_state_publisher_node,
         # joint_state_publisher_node,
         # joint_synchronization_node,
-        start_static_footprint_transform,
+        # start_static_footprint_transform,
         Node(
             package='openbot_fake_robot',
             executable='turtlebot3_fake_node',
             parameters=[param_dir],
             output='screen'),
-        diablo_ctrl_node
-        # Node(
-        #     package='openbot_fake_robot',
-        #     executable='diablo_fake_node.py',
-        #     name='motion_controller_python',  # Node name
-        #     parameters=[param_dir],
-        # arguments=["--ros-args", "--log-level", "debug"],
-        #     output='screen'),
+        Node(
+            package='openbot_fake_robot',
+            executable='diablo_fake_node.py',
+            name='motion_controller_python',  # Node name
+            parameters=[param_dir],
+        arguments=["--ros-args", "--log-level", "info"],
+            output='screen'),
     ])

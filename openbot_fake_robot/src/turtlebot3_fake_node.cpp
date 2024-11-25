@@ -182,7 +182,7 @@ void Turtlebot3Fake::update_callback()
   // joint_states
   update_joint_state();
   joint_states_.header.stamp = time_now;
-  joint_states_pub_->publish(joint_states_);
+  // joint_states_pub_->publish(joint_states_);
   RCLCPP_DEBUG(this->get_logger(), "Published joint states message");
 
   // tf

@@ -235,7 +235,7 @@ def generate_launch_description():
                 'resolution': 0.05,
                 'sensor_model.max_range': 3.0,
                 'frame_id': 'map',
-                'base_frame_id': 'base_link',
+                'base_frame_id': 'base_footprint',
                 'use_height_map': True,
                 'colored_map': False, #  You enabled both height map and RGB color registration. This is contradictory. Defaulting to height map.
                 'occupancy_min_z': -5.0,
@@ -256,7 +256,7 @@ def generate_launch_description():
             package='openbot_ros',
             executable='pointcloud_to_occupancy_grid_node',
             parameters=[{
-                'base_frame_id': 'base_link',
+                'base_frame_id': 'base_footprint',
             }],
             arguments=["--ros-args", "--log-level", "info"],
             remappings=[
