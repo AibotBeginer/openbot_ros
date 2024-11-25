@@ -1,4 +1,4 @@
-base_driver_node:
+openbot_bringup_node:
   ros__parameters:
     port: /dev/base_serial
     bandrate: 115200

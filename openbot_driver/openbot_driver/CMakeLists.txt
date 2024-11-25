@@ -69,8 +69,6 @@ if(cpp_typesupport_target)
 
   # Export old-style CMake variables
   ament_export_include_directories("include/${PROJECT_NAME}")
-
-  # Export modern CMake targets
   ament_export_targets(export_${PROJECT_NAME})
 
 endif()
@@ -82,12 +80,7 @@ target_link_libraries(openbot_bringup ${PROJECT_NAME}_library)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
-  # the following line skips the linter which checks for copyrights
-  # comment the line when a copyright and license is added to all source files
   set(ament_cmake_copyright_FOUND TRUE)
-  # the following line skips cpplint (only works in a git repo)
-  # comment the line when this package is in a git repo and when
-  # a copyright and license is added to all source files
   set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
@@ -107,7 +100,6 @@ install(TARGETS
 install(DIRECTORY include/
   DESTINATION include/
 )
-
 
 install(
   DIRECTORY launch param
