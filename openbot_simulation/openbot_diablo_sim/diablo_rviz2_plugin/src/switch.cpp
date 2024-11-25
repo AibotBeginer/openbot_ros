@@ -101,6 +101,53 @@ SwitchButton::~SwitchButton()
   delete __back_move;
 }
 
+void SwitchButton::toggle()
+{
+    if (!_enabled) return; // Ensure the switch is enabled
+
+    // Stop any ongoing animations
+    __btn_move->stop();
+    __back_move->stop();
+
+    // Set animation properties
+    __btn_move->setDuration(_duration);
+    __back_move->setDuration(_duration);
+
+    int hback = 20;
+    QSize initial_size(hback, hback);
+    QSize final_size(width() - 4, hback);
+
+    int xi = 2;
+    int y = 2;
+    int xf = width() - 22;
+
+    if (_value) {
+        final_size = QSize(hback, hback);
+        initial_size = QSize(width() - 4, hback);
+
+        xi = xf;
+        xf = 2;
+    }
+
+    // Configure animations
+    __btn_move->setStartValue(QPoint(xi, y));
+    __btn_move->setEndValue(QPoint(xf, y));
+
+    __back_move->setStartValue(initial_size);
+    __back_move->setEndValue(final_size);
+
+    // Start animations
+    __btn_move->start();
+    __back_move->start();
+
+    // Update the value
+    _value = !_value;
+
+    // Emit signal for the new value
+    Q_EMIT valueChanged(_value, _service_name);
+}
+
+
 void SwitchButton::paintEvent(QPaintEvent *)
 {
   QPainter * painter = new QPainter;

@@ -35,6 +35,8 @@ public:
   void paintEvent(QPaintEvent * event) override;
   void setEnabled(bool);
 
+  void toggle();
+
   //-- Setters
   void setDuration(int);
   void setValue(bool);

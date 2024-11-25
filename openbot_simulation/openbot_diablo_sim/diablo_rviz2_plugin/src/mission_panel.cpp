@@ -36,19 +36,20 @@ MissionPanel::MissionPanel(QWidget * parent) : rviz_common::Panel(parent)
 
   // Set header
   label_ = new QLabel;
-  QPixmap pic(icon_off_path_);
+  QPixmap pic(icon_on_path_);
   label_->setPixmap(pic);
   mode_box_layout->addWidget(label_);
 
   // Top SwitchButton
   robot_switch_button_ = new SwitchButton(this, SwitchButton::Style::EMPTY);
-  robot_switch_button_->setValue(true);
+  robot_switch_button_->setValue(false);
+  robot_switch_button_->toggle();
   robot_switch_button_->setEnabled(true);
 
   stand_up_button_ = new QPushButton("Stand Up");
-  stand_up_button_->setEnabled(false);
+  stand_up_button_->setEnabled(true);
   get_down_button_ = new QPushButton("Get Down");
-  get_down_button_->setEnabled(false);
+  get_down_button_->setEnabled(true);
 
   mode_box_layout->addWidget(robot_switch_button_);
   mode_box_layout->addWidget(stand_up_button_);
