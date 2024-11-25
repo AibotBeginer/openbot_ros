@@ -93,7 +93,7 @@ def generate_launch_description():
             parameters=[param_dir],
             output='screen'),
         Node(
-            package='openbot_fake_robot',
+            package='openbot_diablo_motion_control',
             executable='diablo_fake_node.py',
             name='motion_controller_python',  # Node name
             parameters=[param_dir],

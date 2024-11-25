@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>openbot_fake_robot</name>
+  <name>openbot_diablo_motion_control</name>
   <version>2.2.6</version>
   <description>
     Package for TurtleBot3 fake node. With this package, simple tests can be done without a robot.
@@ -23,7 +23,8 @@
   <depend>tf2</depend>
   <depend>tf2_msgs</depend>
   <depend>diablo_simulation</depend>
-  <depend>openbot_diablo_motion_control</depend>
+  <depend>diablo_rviz2_control_plugin</depend>
+  <depend>motion_msgs</depend>
   
   <export>
     <build_type>ament_cmake</build_type>
