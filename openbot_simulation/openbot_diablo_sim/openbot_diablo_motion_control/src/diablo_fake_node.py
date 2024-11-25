@@ -49,7 +49,7 @@ class JointStateSimulatorNode(Node):
         if msg.mode.stand_mode:
             self.stand_up(duration=3.0)
         else:
-            self.sit_down(duration=3.0)
+            self.sit_down(duration=2.0)
 
     @property
     def base_z(self):

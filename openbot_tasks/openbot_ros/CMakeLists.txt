@@ -57,6 +57,7 @@ find_package(octomap_ros REQUIRED)
 find_package(grid_map_octomap REQUIRED)
 find_package(grid_map_ros REQUIRED)
 find_package(pcl_ros REQUIRED)
+find_package(motion_msgs REQUIRED)
 
 
 include(FindPkgConfig)
@@ -91,6 +92,7 @@ include_directories(
   ${tf2_ros_INCLUDE_DIRS}
   ${tf2_eigen_INCLUDE_DIRS}
   ${visualization_msgs_INCLUDE_DIRS}
+  ${motion_msgs_INCLUDE_DIRS}
 
 )
 
@@ -144,6 +146,7 @@ set(dependencies
   grid_map_octomap
   grid_map_ros
   pcl_ros
+  motion_msgs
 )
 
 add_library(${PROJECT_NAME} ${ALL_SRCS})
@@ -180,7 +183,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
-install(DIRECTORY configuration_files urdf launch rviz
+install(DIRECTORY configuration_files urdf launch rviz params
   DESTINATION share/${PROJECT_NAME}/
 )
 

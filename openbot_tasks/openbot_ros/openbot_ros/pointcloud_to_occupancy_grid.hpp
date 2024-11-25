@@ -31,6 +31,7 @@
 #include "pcl_ros/transforms.hpp"
 #include <tf2_eigen/tf2_eigen.h>
 #include <tf2_sensor_msgs/tf2_sensor_msgs.h>
+#include "motion_msgs/msg/motion_ctrl.hpp"
 
 namespace openbot_ros {
 
@@ -43,6 +44,11 @@ private:
   void pointCloudCallback(const sensor_msgs::msg::PointCloud2::SharedPtr msg);
   void transformPointCloud();
   void simulateRgbdCamera(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_filtered);
+  void publishStandUpMotionCmd(bool stand_mode);
+  bool isHolePassable(const pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, 
+                    float min_z_threshold, 
+                    float max_z_threshold, 
+                    float min_width);
 
   rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr pointcloud_sub_;
   rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pointcloud_camera_frame_pub_;
@@ -52,6 +58,10 @@ private:
 
   sensor_msgs::msg::PointCloud2::SharedPtr cloud_in_;
   rclcpp::TimerBase::SharedPtr timer_{nullptr};
+
+  
+  rclcpp::Publisher<motion_msgs::msg::MotionCtrl>::SharedPtr mission_pub_;
+  std::chrono::steady_clock::time_point last_publish_time_;
 };
 
 }  // namespace openbot_ros

@@ -95,7 +95,7 @@ def generate_launch_description():
 
     declare_params_file_cmd = DeclareLaunchArgument(
         "params_file",
-        default_value=os.path.join(sim_dir, "param", "nav2_params.yaml"),
+        default_value=os.path.join(openbot_ros_dir, "params", "nav2_params.yaml"),
         description="Full path to the ROS2 parameters file to use for all launched nodes",
     )
 

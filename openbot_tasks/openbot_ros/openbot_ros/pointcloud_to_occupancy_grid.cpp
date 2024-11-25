@@ -15,16 +15,18 @@
  */
 #include "openbot_ros/pointcloud_to_occupancy_grid.hpp"
 
+using Cell = std::pair<int, int>;
 namespace openbot_ros
 {
-  PointCloudToOccupancyGridNode::PointCloudToOccupancyGridNode() : rclcpp::Node("pointcloud_to_occupancy_grid_node")
+  PointCloudToOccupancyGridNode::PointCloudToOccupancyGridNode() : rclcpp::Node("pointcloud_to_occupancy_grid_node"),
+    last_publish_time_(std::chrono::steady_clock::now())
   {
     // Initialize subscriber and publishers
     pointcloud_sub_ = this->create_subscription<sensor_msgs::msg::PointCloud2>(
         "cloud_in", 10,
         std::bind(&PointCloudToOccupancyGridNode::pointCloudCallback, this, std::placeholders::_1));
 
-    base_frame_id_ = declare_parameter("base_frame_id", "base_link");
+    base_frame_id_ = declare_parameter("base_frame_id", "base_footprint");
 
     tf2_buffer_ = std::make_shared<tf2_ros::Buffer>(get_clock());
     auto timer_interface = std::make_shared<tf2_ros::CreateTimerROS>(
@@ -38,7 +40,173 @@ namespace openbot_ros
     timer_ = this->create_wall_timer(
         std::chrono::milliseconds(200),
         std::bind(&PointCloudToOccupancyGridNode::transformPointCloud, this));
+
+        
+    mission_pub_ = this->create_publisher<motion_msgs::msg::MotionCtrl>("/diablo/MotionCmd", 10);
   }
+
+  void PointCloudToOccupancyGridNode::publishStandUpMotionCmd(bool stand_mode)
+  {
+    auto now = std::chrono::steady_clock::now();
+    auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(now - last_publish_time_).count();
+
+    if (elapsed_time < 1000) {
+      // Ensure we do not publish more than 2 messages in 500 ms.
+      RCLCPP_DEBUG(this->get_logger(), "Throttling message publication to avoid exceeding limit");
+      return;
+    }
+    motion_msgs::msg::MotionCtrl missionMsg;
+
+    missionMsg.value.up = 1.0;
+      missionMsg.mode_mark = true;
+
+    if (stand_mode) {
+      missionMsg.mode.stand_mode = true;
+    } else {
+      missionMsg.mode.stand_mode = false;
+    }
+
+    mission_pub_->publish(missionMsg);
+
+    // Update the last publish time.
+    last_publish_time_ = std::chrono::steady_clock::now();
+  }
+
+  bool PointCloudToOccupancyGridNode::isHolePassable(const pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, 
+                    float min_z_threshold, 
+                    float max_z_threshold, 
+                    float min_width) {
+
+    // Parameters for the grid
+    const float grid_size = 2.5f;  // 3x3 area
+    const float cell_resolution = 0.1f;  // Grid resolution (smaller means finer grid)
+
+    RCLCPP_DEBUG(this->get_logger(), 
+                 "Grid size: %.2f, Cell resolution: %.2f", 
+                 grid_size, cell_resolution);
+
+    // Create a grid in the x-y plane
+    std::map<std::pair<int, int>, std::vector<pcl::PointXYZ>> grid;
+    for (const auto& point : cloud->points) {
+        // Restrict points to the grid size
+        if (std::fabs(point.x) > grid_size / 2 || std::fabs(point.y) > grid_size / 2) {
+            continue;  // Skip points outside the grid_size bounds
+        }
+
+        int x_idx = static_cast<int>(std::floor(point.x / cell_resolution));
+        int y_idx = static_cast<int>(std::floor(point.y / cell_resolution));
+
+        grid[{x_idx, y_idx}].push_back(point);
+    }
+
+    RCLCPP_DEBUG(this->get_logger(), 
+                 "Point cloud divided into %lu grid cells.", 
+                 grid.size());
+
+    // Check each grid cell for conditions and mark empty cells
+    std::set<Cell> empty_cells;
+    for (const auto& cell : grid) {
+        const auto& points = cell.second;
+        bool has_points_at_z = false;
+        bool has_points_below_z = false;
+
+        // Analyze points in the cell
+        for (const auto& point : points) {
+            if (point.z >= min_z_threshold && point.z <= max_z_threshold) {
+                has_points_at_z = true;
+            }
+            if (point.z < min_z_threshold) {
+                has_points_below_z = true;
+            }
+        }
+
+        if (has_points_at_z && !has_points_below_z) {
+            empty_cells.insert(cell.first);  // Mark this cell as empty
+            RCLCPP_DEBUG(this->get_logger(), 
+                         "Cell (%d, %d) marked as empty.", 
+                         cell.first.first, cell.first.second);
+        }
+    }
+
+    RCLCPP_DEBUG(this->get_logger(), 
+                "Total empty cells detected: %lu.", 
+                empty_cells.size());
+
+    // Flood-fill to group connected empty cells
+    std::set<Cell> visited;
+    std::vector<std::vector<Cell>> connected_components;
+    const std::vector<Cell> directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+
+    for (const auto& cell : empty_cells) {
+        if (visited.count(cell)) continue;
+
+        // Start a new connected component
+        std::vector<Cell> component;
+        std::vector<Cell> stack = {cell};
+
+        while (!stack.empty()) {
+            Cell current = stack.back();
+            stack.pop_back();
+
+            if (visited.count(current)) continue;
+            visited.insert(current);
+            component.push_back(current);
+
+            // Check neighbors
+            for (const auto& dir : directions) {
+                Cell neighbor = {current.first + dir.first, current.second + dir.second};
+                if (empty_cells.count(neighbor) && !visited.count(neighbor)) {
+                    stack.push_back(neighbor);
+                }
+            }
+        }
+
+        connected_components.push_back(component);
+        RCLCPP_DEBUG(this->get_logger(), 
+                     "Connected component with %lu cells detected.", 
+                     component.size());
+    }
+
+    RCLCPP_DEBUG(this->get_logger(), 
+                "Total connected components: %lu.", 
+                connected_components.size());
+
+    // Check dimensions of connected components
+    for (const auto& component : connected_components) {
+        float min_x = std::numeric_limits<float>::max();
+        float max_x = std::numeric_limits<float>::lowest();
+        float min_y = std::numeric_limits<float>::max();
+        float max_y = std::numeric_limits<float>::lowest();
+
+        for (const auto& cell : component) {
+            float cell_x = cell.first * cell_resolution;
+            float cell_y = cell.second * cell_resolution;
+
+            min_x = std::min(min_x, cell_x);
+            max_x = std::max(max_x, cell_x);
+            min_y = std::min(min_y, cell_y);
+            max_y = std::max(max_y, cell_y);
+        }
+
+        float width = std::fabs(max_x - min_x) + std::fabs(max_y - min_y);
+
+        RCLCPP_DEBUG(this->get_logger(), 
+                     "Component dimensions - Width: %.2f, Min_x: %.2f, Max_x: %.2f, Min_y: %.2f, Max_y: %.2f", 
+                     width, min_x, max_x, min_y, max_y);
+
+        if (width >= min_width) {
+            RCLCPP_INFO(this->get_logger(), 
+                        "Passable hole found with width %.2f.", 
+                        width);
+            return true;  // Passable hole found
+        }
+    }
+
+    RCLCPP_INFO(this->get_logger(), 
+                "No passable hole found in the point cloud.");
+    return false;  // No passable hole found
+}
+
 
   void PointCloudToOccupancyGridNode::pointCloudCallback(const sensor_msgs::msg::PointCloud2::SharedPtr cloud)
   {
@@ -53,19 +221,24 @@ namespace openbot_ros
     // Filter points based on FOV
     float horizontal_fov_rad = 68.0 * M_PI / 180.0; // Horizontal FOV in radians
     float vertical_fov_rad = 68.0 * M_PI / 180.0;   // Vertical FOV in radians
+    bool publish_message = false;
+
+
+    pcl::PointCloud<pcl::PointXYZ>::Ptr camera_filtered_ptr(new pcl::PointCloud<pcl::PointXYZ>());
+    pcl::PointCloud<pcl::PointXYZ>::Ptr ultra_sonic_ptr(new pcl::PointCloud<pcl::PointXYZ>());
+    pcl::PointCloud<pcl::PointXYZ>::Ptr standup_sitdown_ptr(new pcl::PointCloud<pcl::PointXYZ>());
 
     for (const auto &point : cloud->points)
     {
-      if (std::abs(point.z) >= 0.2)
+      if (std::abs(point.x) <= 0.4 && std::abs(point.y) <= 0.4)
       {
-        // skip z bigger than 1
+        standup_sitdown_ptr->points.push_back(point);
         continue;
       }
 
-      // Ignore points behind the camera (negative depth in X)
       if (std::abs(point.x) <= 1 && std::abs(point.y) <= 1)
       {
-        cloud_filtered->points.push_back(point);
+        ultra_sonic_ptr->points.push_back(point);
         continue;
       }
 
@@ -77,11 +250,45 @@ namespace openbot_ros
       if (std::abs(angle_h) <= (horizontal_fov_rad / 2) && (true ||
           std::abs(angle_v) <= (vertical_fov_rad / 2)))
       {
-        cloud_filtered->points.push_back(point);
+        camera_filtered_ptr->points.push_back(point);
+        standup_sitdown_ptr->points.push_back(point);
       } else {
 
         // cloud_filtered->points.push_back(point);
       }
+    }
+    
+    if (isHolePassable(standup_sitdown_ptr, 
+                    0.3, 0.8,
+                    0.3)) {
+      publishStandUpMotionCmd(false);
+    } else {
+      publishStandUpMotionCmd(true);
+    }
+
+    for (const auto &point : camera_filtered_ptr->points)
+    {
+
+      if (std::abs(point.z) >= 0.8)
+      {
+        // skip z bigger than 1
+        continue;
+      }
+
+      if (std::abs(point.z) >= 0.3)
+      {
+        continue;
+      }
+      cloud_filtered->points.push_back(point);
+    }
+
+    for (const auto &point : ultra_sonic_ptr->points)
+    {
+      if (std::abs(point.z) >= 0.2)
+      {
+        continue;
+      }
+      cloud_filtered->points.push_back(point);
     }
 
     // Log the counts
