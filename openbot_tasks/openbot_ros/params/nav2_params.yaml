@@ -26,10 +26,9 @@ bt_navigator:
     error_code_names:
       - compute_path_error_code
       - follow_path_error_code
-
 controller_server:
   ros__parameters:
-    controller_frequency: 19
+    controller_frequency: 20.0
     costmap_update_timeout: 0.30
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.5
@@ -144,7 +143,7 @@ controller_server:
       #   enabled: true
       #   twirling_cost_power: 1
       #   twirling_cost_weight: 10.0
-
+      
 local_costmap:
   local_costmap:
     ros__parameters:
