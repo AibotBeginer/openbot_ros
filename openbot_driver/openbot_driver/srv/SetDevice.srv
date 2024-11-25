@@ -1,0 +1,23 @@
+# srv definition
+
+#request constants
+# device_id:            cmd                 param1                      param2          param3
+#    "motor"
+#                       "release_motor"     0 : 上电锁轴
+#                                           1 : 下电松轴
+#
+#                       "clear_alarm"       1 : 清除电机警告
+#request fields
+string  device_id       # 硬件设备id
+string  cmd             # 命令id
+int32   parameter1      # 参数1
+int32   parameter2      # 参数2
+string  parameter3	    # 参数3
+---
+
+#response constants
+
+#response fields
+bool    result          #   成功或者失败
+int32   message_code    #   额外信息代码
+string  message         #   额外信息，e.g. for error messages
