@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(openbot_octomap_server)
+project(octomap_server)
 
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 14)
