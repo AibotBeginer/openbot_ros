@@ -37,10 +37,8 @@ configurable_parameters = [{'name': 'camera_name',                  'default': '
                            {'name': 'rgb_camera.color_profile',     'default': '0,0,0', 'description': 'color stream profile'},
                            {'name': 'rgb_camera.color_format',      'default': 'RGB8', 'description': 'color stream format'},
                            {'name': 'rgb_camera.enable_auto_exposure', 'default': 'true', 'description': 'enable/disable auto exposure for color image'},
-                           {'name': 'enable_depth',                 'default': 'true', 'description': 'enable depth stream'},
-                           {'name': 'enable_infra',                 'default': 'true', 'description': 'enable infra0 stream'},
-                           {'name': 'enable_infra1',                'default': 'true', 'description': 'enable infra1 stream'},
-                           {'name': 'enable_infra2',                'default': 'true', 'description': 'enable infra2 stream'},
+                           {'name': 'enable_depth',                 'default': 'true', 'description': ''},
+                           {'name': 'depth_module.profile',         'default': '640,480,30', 'description': 'depth module profile'}, 
                            {'name': 'depth_module.depth_profile',   'default': '0,0,0', 'description': 'depth stream profile'},
                            {'name': 'depth_module.depth_format',    'default': 'Z16', 'description': 'depth stream format'},
                            {'name': 'depth_module.infra_profile',   'default': '0,0,0', 'description': 'infra streams (0/1/2) profile'},
@@ -60,7 +58,7 @@ configurable_parameters = [{'name': 'camera_name',                  'default': '
                            {'name': 'enable_gyro',                  'default': 'true', 'description': "'enable gyro stream'"},
                            {'name': 'enable_accel',                 'default': 'true', 'description': "'enable accel stream'"},
                            {'name': 'gyro_fps',                     'default': '200', 'description': "''"},
-                           {'name': 'accel_fps',                    'default': '200', 'description': "''"},
+                           {'name': 'accel_fps',                    'default': '250', 'description': "''"},
                            {'name': 'unite_imu_method',             'default': "2", 'description': '[0-None, 1-copy, 2-linear_interpolation]'},
                            {'name': 'clip_distance',                'default': '-2.', 'description': "''"},
                            {'name': 'angular_velocity_cov',         'default': '0.01', 'description': "''"},
@@ -83,6 +81,8 @@ configurable_parameters = [{'name': 'camera_name',                  'default': '
                            {'name': 'hdr_merge.enable',             'default': 'false', 'description': 'hdr_merge filter enablement flag'},
                            {'name': 'wait_for_device_timeout',      'default': '-1.', 'description': 'Timeout for waiting for device to connect (Seconds)'},
                            {'name': 'reconnect_timeout',            'default': '6.', 'description': 'Timeout(seconds) between consequtive reconnection attempts'},
+                           {'name': 'depth_module.emitter_enabled',        'default': '0', 'description': 'emitter_on_off'},
+                           {'name': 'depth_module.emitter_on_off',         'default': 'false', 'description': ''}
                           ]
 
 def declare_configurable_parameters(parameters):
