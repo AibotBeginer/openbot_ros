@@ -31,7 +31,7 @@ body_T_cam0: !!opencv-matrix
    data: [9.99921212e-01,  2.68165258e-03, -1.22629147e-02, -1.49282178e-03,
          -2.81774887e-03,  9.99934485e-01, -1.10944242e-02,  5.70976248e-04,
           1.22323599e-02,  1.11281039e-02,  9.99863258e-01,  3.19689020e-02,
-          0.00000000e+00, 0.00000000e+00,  0.00000000e+00,  1.00000000e+00]      
+          0, 0,  0,  1]      
 
 body_T_cam1: !!opencv-matrix
    rows: 4
@@ -60,17 +60,13 @@ max_num_iterations: 8   # max solver itrations, to guarantee real time
 keyframe_parallax: 10.0 # keyframe selection threshold (pixel)
 
 #imu parameters       The more accurate parameters you provide, the better performance
-acc_n: 2.9969998951768162e-02          # accelerometer measurement noise standard deviation. #0.2   0.04
-gyr_n: 4.0812952290478523e-03          # gyroscope measurement noise standard deviation.     #0.05  0.004
+acc_n: 0.029969998951768162         # accelerometer measurement noise standard deviation. #0.2   0.04
+gyr_n: 0.004081295229047852         # gyroscope measurement noise standard deviation.     #0.05  0.004
 acc_w: 1.9785145214137475e-03        # accelerometer bias random work noise standard deviation.  #0.002
-gyr_w: 3.1054997135881227e-05       # gyroscope bias random work noise standard deviation.     #4.0e-5
-g_norm: 9.805         # gravity magnitude
+gyr_w: 3.105499713588123e-05       # gyroscope bias random work noise standard deviation.     #4.0e-5
+g_norm: 9.801         # gravity magnitude
 
-gyroscope_noise_density: 4.0812952290478523e-03     # [ rad / s / sqrt(Hz) ]   ( gyro "white noise" )
-gyroscope_random_walk: 3.1054997135881227e-05      # [ rad / s^2 / sqrt(Hz) ] ( gyro bias diffusion )
-accelerometer_noise_density: 2.9969998951768162e-02  # [ m / s^2 / sqrt(Hz) ]   ( accel "white noise" )
-accelerometer_random_walk: 1.9785145214137475e-03
-
+  
 #unsynchronization parameters
 estimate_td: 1                      # online estimate time offset between camera and imu
 td: 0.00                             # initial value of time offset. unit: s. readed image clock + td = real image clock (IMU clock)
@@ -79,3 +75,4 @@ td: 0.00                             # initial value of time offset. unit: s. re
 load_previous_pose_graph: 0        # load and reuse previous pose graph; load from 'pose_graph_save_path'
 pose_graph_save_path: "/home/quandy/workspace/project/openbot/src/VINS-Fusion/output/pose_graph/" # save and load path
 save_image: 0                   # save image in pose graph for visualization prupose; you can close this function by setting 0 
+

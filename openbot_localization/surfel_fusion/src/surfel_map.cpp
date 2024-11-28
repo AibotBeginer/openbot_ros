@@ -67,10 +67,10 @@ SurfelMap::SurfelMap() : Node("surfel_map_node")
 
     // 创建订阅者
     sub_image = this->create_subscription<sensor_msgs::msg::Image>(
-        "image", 1, std::bind(&SurfelMap::image_input, this, std::placeholders::_1));
+        "camera/color/image_raw", 1, std::bind(&SurfelMap::image_input, this, std::placeholders::_1));
     
     sub_depth = this->create_subscription<sensor_msgs::msg::Image>(
-        "camera/aligned_depth_to_color/image_raw", 1, std::bind(&SurfelMap::depth_input, this, std::placeholders::_1));
+        "camera/depth/image_rect_raw", 1, std::bind(&SurfelMap::depth_input, this, std::placeholders::_1));
     
     sub_color = this->create_subscription<sensor_msgs::msg::Image>(
         "camera/color/image_raw", 1, std::bind(&SurfelMap::color_input, this, std::placeholders::_1));
@@ -170,9 +170,6 @@ void SurfelMap::color_input(const sensor_msgs::msg::Image::ConstPtr &image_input
 
 void SurfelMap::depth_input(const sensor_msgs::msg::Image::ConstPtr &depth_input)
 {
-
-    std::cout << "------------------------1 " << std::endl;
-
     if(surfel_state){
         cv_bridge::CvImagePtr image_ptr;
         image_ptr = cv_bridge::toCvCopy(depth_input, depth_input->encoding);
@@ -183,7 +180,6 @@ void SurfelMap::depth_input(const sensor_msgs::msg::Image::ConstPtr &depth_input
         rclcpp::Time stamp = image_ptr->header.stamp;
         depth_buffer.push_back(std::make_pair(stamp, image));
         synchronize_msgs();
-        std::cout << "------------------------2 " << std::endl;
     }
 }
 
@@ -303,7 +299,7 @@ void SurfelMap::path_input(const nav_msgs::msg::Path::ConstPtr &loop_path_input)
             camera_path.poses.push_back(cam_posestamped);
         }
 
-        cam_posestamped.header.frame_id = "world";
+        cam_posestamped.header.frame_id = "map";
         cam_pose_publish->publish(cam_posestamped);
 
         bool have_new_pose = false;
@@ -558,10 +554,10 @@ void SurfelMap::publish_pose_graph(rclcpp::Time pub_stamp, int reference_index)
 {
     nav_msgs::msg::Path loop_path;
     loop_path.header.stamp = pub_stamp;
-    loop_path.header.frame_id = "world";
+    loop_path.header.frame_id = "map";
 
     visualization_msgs::msg::Marker loop_marker;
-    loop_marker.header.frame_id = "world";
+    loop_marker.header.frame_id = "map";
     loop_marker.header.stamp = pub_stamp;
     loop_marker.ns = "namespace";
     loop_marker.id = 0;
@@ -607,7 +603,7 @@ void SurfelMap::publish_pose_graph(rclcpp::Time pub_stamp, int reference_index)
 
     // publish driftfree poses
     visualization_msgs::msg::Marker driftfree_marker;
-    driftfree_marker.header.frame_id = "world";
+    driftfree_marker.header.frame_id = "map";
     driftfree_marker.header.stamp = pub_stamp;
     driftfree_marker.ns = "namespace";
     driftfree_marker.id = 0;
@@ -726,7 +722,7 @@ void SurfelMap::publish_raw_pointcloud(cv::Mat &depth, cv::Mat &reference, geome
         }
     
     sensor_msgs::msg::PointCloud2 ros_cloud = ToPointCloud2(pointcloud);
-    ros_cloud.header.frame_id = "world";
+    ros_cloud.header.frame_id = "map";
     ros_cloud.header.stamp = rclcpp::Clock().now();
     raw_pointcloud_publish->publish(ros_cloud);
 }
@@ -918,7 +914,7 @@ void SurfelMap::publish_neighbor_pointcloud(rclcpp::Time pub_stamp, int referenc
     total_time = end_time - start_time;
     start_time = std::chrono::system_clock::now();
 
-    pointcloud->header.frame_id = "world";
+    pointcloud->header.frame_id = "map";
     pcl_conversions::toPCL(pub_stamp, pointcloud->header.stamp);
 
     sensor_msgs::msg::PointCloud2 ros_cloud = ToPointCloud2(pointcloud);
@@ -985,25 +981,22 @@ void SurfelMap::publish_all_pointcloud()
     total_time = end_time - start_time;
     start_time = std::chrono::system_clock::now();
 
-
-
     PointCloud::Ptr pointcloud_noceil(new PointCloud);
     for(int i = 0; i < pointcloud->points.size(); i++)
     {   
-
         pointcloud_noceil->points.push_back(pointcloud->points[i]);
     }
 
-    pointcloud->header.frame_id = "world";
+    pointcloud->header.frame_id = "map";
     sensor_msgs::msg::PointCloud2 ros_cloud = ToPointCloud2(pointcloud_noceil);
-    ros_cloud.header.frame_id = "world";
+    ros_cloud.header.frame_id = "map";
     ros_cloud.header.stamp = rclcpp::Clock().now();
     pointcloud_publish->publish(ros_cloud);
 
 
     std::cout << "pointcloud->points.size(): " << pointcloud->points.size() << std::endl;
     std::cout << "local_surfels.size(): " << local_surfels.size() << std::endl;
-    rgb_pointcloud->header.frame_id = "world";
+    rgb_pointcloud->header.frame_id = "map";
     // rgb_pointcloud->header.stamp = rclcpp::Clock().now();
     // rgb_pointcloud_publish->publish(rgb_pointcloud);
 }
@@ -1269,7 +1262,7 @@ void SurfelMap::get_driftfree_poses(int root_index, vector<int> &driftfree_poses
 sensor_msgs::msg::PointCloud2 SurfelMap::ToPointCloud2(const PointCloud::Ptr points)
 {
     sensor_msgs::msg::PointCloud2 cloud;
-    cloud.header.frame_id = "world";
+    cloud.header.frame_id = "map";
     cloud.header.stamp = rclcpp::Clock().now();
     pcl::toROSMsg(*points, cloud);
     return cloud;

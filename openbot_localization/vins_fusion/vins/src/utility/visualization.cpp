@@ -351,34 +351,9 @@ void pubTF(Estimator &estimator, const std_msgs::msg::Header &header)
     q.setZ(correct_q.z());
     transform.setRotation(q);
 
-
-    // 构造变换消息
     geometry_msgs::msg::TransformStamped transform1;
-    transform1.header.stamp = header.stamp;
     transform1.header.frame_id = "map"; 
-    transform1.child_frame_id = "base_link"; 
-    transform1.transform.translation.x = transform.getOrigin().x(); 
-    transform1.transform.translation.y = transform.getOrigin().y(); 
-    transform1.transform.translation.z = transform.getOrigin().z(); 
-    transform1.transform.rotation.w = transform.getRotation().w();
-    transform1.transform.rotation.x = transform.getRotation().x();
-    transform1.transform.rotation.y = transform.getRotation().y();
-    transform1.transform.rotation.z = transform.getRotation().z();
-    broadcaster->sendTransform(transform1);
-
-    // camera frame
-    transform.setOrigin(tf2::Vector3(estimator.tic[0].x(),
-                                    estimator.tic[0].y(),
-                                    estimator.tic[0].z()));
-    q.setW(Quaterniond(estimator.ric[0]).w());
-    q.setX(Quaterniond(estimator.ric[0]).x());
-    q.setY(Quaterniond(estimator.ric[0]).y());
-    q.setZ(Quaterniond(estimator.ric[0]).z());
-    transform.setRotation(q);
-
-
-    transform1.header.frame_id = "base_link"; 
-    transform1.child_frame_id = "base_footprint"; 
+    transform1.child_frame_id = "odom"; 
     transform1.transform.translation.x = 0; 
     transform1.transform.translation.y = 0; 
     transform1.transform.translation.z = 0; 
@@ -388,8 +363,10 @@ void pubTF(Estimator &estimator, const std_msgs::msg::Header &header)
     transform1.transform.rotation.z = 0;
     broadcaster->sendTransform(transform1);
 
-    transform1.header.frame_id = "base_footprint"; 
-    transform1.child_frame_id = "camera_link"; 
+    // 构造变换消息
+    transform1.header.stamp = header.stamp;
+    transform1.header.frame_id = "odom"; 
+    transform1.child_frame_id = "base_link"; 
     transform1.transform.translation.x = transform.getOrigin().x(); 
     transform1.transform.translation.y = transform.getOrigin().y(); 
     transform1.transform.translation.z = transform.getOrigin().z(); 

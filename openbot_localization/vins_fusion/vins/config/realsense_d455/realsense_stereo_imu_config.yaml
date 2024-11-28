@@ -2,53 +2,57 @@
 
 #common parameters
 #support: 1 imu 1 cam; 1 imu 2 cam: 2 cam; 
-imu: 1     
+imu: 1
 num_of_cam: 2  
 
 imu_topic: "/camera/imu"
 image0_topic: "/camera/infra1/image_rect_raw"
 image1_topic: "/camera/infra2/image_rect_raw"
-output_path: "/home/quandy/Pictures/output/"
+output_path: "/home/dji/output/"
 
 cam0_calib: "left.yaml"
 cam1_calib: "right.yaml"
-image_width: 848
+image_width: 640
 image_height: 480
-   
+
+# GPU acceleration
+use_gpu         : 0
+use_gpu_acc_flow: 0
+use_gpu_ceres   : 0
 
 # Extrinsic parameter between IMU and Camera.
 estimate_extrinsic: 1   # 0  Have an accurate extrinsic parameters. We will trust the following imu^R_cam, imu^T_cam, don't change it.
                         # 1  Have an initial guess about extrinsic parameters. We will optimize around your initial guess.
-#相机到imu的变换矩阵
+
+
 body_T_cam0: !!opencv-matrix
    rows: 4
    cols: 4
    dt: d
-   data: [0.9999847501085886, -0.004084374335355552, 0.0037171812644855693, -0.02994183763037689,
-       0.004086864775194921, 0.999991429191068, -0.0006626316588062752, 0.004559129006155033,
-       -0.0037144429694941617, 0.0006778131709182729, 0.99999287171596, 0.01766686359125119,
-        0.0, 0.0, 0.0, 1.0]
-
+   data: [9.97811221e-01,  9.79817295e-04, -6.61196378e-02, -5.79470422e-01,
+         -1.30716204e-04,  9.99917491e-01, 1.28449941e-02,  -9.82726167e-02,
+          6.61267681e-02,  -1.28082363e-02,  9.97729021e-01,  3.49322029e-01,
+          0, 0,  0,  1]      
 
 body_T_cam1: !!opencv-matrix
    rows: 4
    cols: 4
    dt: d
-   data: [0.9999887972997616, -0.004224561368945015,  0.0021350307295388425, 0.06510852338269565,
-       0.004225660403089795, 0.9999909415437157, -0.0005105141239311359, 0.004589801762755343,
-       -0.002132854691210053, 0.0005195303196076303, 0.9999975905066537, 0.01765349149011269,
-        0.0, 0.0, 0.0, 1.0]
+   data: [9.97739548e-01,  1.02710908e-03, -6.71918100e-02, 3.69633309e-01,
+         -1.26228782e-04,  9.99910068e-01, 1.34104626e-02,  -9.73571105e-02,
+          6.71995413e-02,  -1.33716674e-02,  9.97649949e-01,   4.13224584e-01,
+          0,          0,          0,          1        ]
 
 
 #Multiple thread support
-multiple_thread: 1
+multiple_thread: 4
 
 #feature traker paprameters
 max_cnt: 150            # max feature number in feature tracking
 min_dist: 30            # min distance between two features 
 freq: 10                # frequence (Hz) of publish tracking result. At least 10Hz for good estimation. If set 0, the frequence will be same as raw image 
 F_threshold: 1.0        # ransac threshold (pixel)
-show_track: 0           # publish tracking image as topic
+show_track: 1           # publish tracking image as topic
 flow_back: 1            # perform forward and backward optical flow to improve feature tracking accuracy
 
 #optimization parameters
@@ -57,25 +61,18 @@ max_num_iterations: 8   # max solver itrations, to guarantee real time
 keyframe_parallax: 10.0 # keyframe selection threshold (pixel)
 
 #imu parameters       The more accurate parameters you provide, the better performance
-acc_n: 1.2593944976205888e-02        # accelerometer measurement noise standard deviation. #0.2   0.04
-gyr_n: 1.9347838731899037e-03     # gyroscope measurement noise standard deviation.     #0.05  0.004
-acc_w: 3.6390660180030365e-04     # accelerometer bias random work noise standard deviation.  #0.002
-gyr_w: 1.9306973491814847e-05    # gyroscope bias random work noise standard deviation.     #4.0e-5
-g_norm: 9.721        # gravity magnitude
-
-
-# rostopic: /camera/imu
-# update_rate: 200.0   #Hz 
-# gyroscope_noise_density: 1.9347838731899037e-03     # [ rad / s / sqrt(Hz) ]   ( gyro "white noise" )
-# gyroscope_random_walk: 1.9306973491814847e-05      # [ rad / s^2 / sqrt(Hz) ] ( gyro bias diffusion )
-# accelerometer_noise_density: 1.2593944976205888e-02  # [ m / s^2 / sqrt(Hz) ]   ( accel "white noise" )
-# accelerometer_random_walk: 3.6390660180030365e-04
+acc_n: 1.2593944976205888e-02         # accelerometer measurement noise standard deviation. #0.2   0.04
+gyr_n: 1.9347838731899037e-03         # gyroscope measurement noise standard deviation.     #0.05  0.004
+acc_w: 3.6390660180030365e-04        # accelerometer bias random work noise standard deviation.  #0.002
+gyr_w: 1.9306973491814847e-05       # gyroscope bias random work noise standard deviation.     #4.0e-5
+g_norm: 9.801         # gravity magnitude
 
 #unsynchronization parameters
 estimate_td: 1                      # online estimate time offset between camera and imu
-td: -0.004528525521911893           # initial value of time offset. unit: s. readed image clock + td = real image clock (IMU clock)
+td: 0.00                             # initial value of time offset. unit: s. readed image clock + td = real image clock (IMU clock)
 
 #loop closure parameters
 load_previous_pose_graph: 0        # load and reuse previous pose graph; load from 'pose_graph_save_path'
-pose_graph_save_path: "/home/quandy/Pictures/output/pose_graph/" # save and load path
+pose_graph_save_path: "/home/quandy/workspace/project/openbot/src/VINS-Fusion/output/pose_graph/" # save and load path
 save_image: 0                   # save image in pose graph for visualization prupose; you can close this function by setting 0 
+

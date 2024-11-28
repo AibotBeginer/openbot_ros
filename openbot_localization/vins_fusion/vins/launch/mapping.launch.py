@@ -69,6 +69,6 @@ def generate_launch_description():
 
     # Add any conditioned actions
     ld.add_action(start_vins_cmd)
-    # ld.add_action(camera_link_to_base_link_cmd)
+    ld.add_action(camera_link_to_base_link_cmd)
 
     return ld
