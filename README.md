@@ -52,8 +52,6 @@ export GLOG_minloglevel=0
 ros2 launch openbot_ros demo_openbot.launch.py
 ```
 
-<img src="./docs/images/openbot_palnning.gif" alt="Example Image">
-
 
 
 
