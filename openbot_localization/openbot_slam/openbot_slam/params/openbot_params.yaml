@@ -1,5 +1,0 @@
-stereo_inertial_node:
-  ros__parameters:
-    use_sim_time: True
-    vocabulary_file: 20.0
-    yaml_config_file: 0.001
