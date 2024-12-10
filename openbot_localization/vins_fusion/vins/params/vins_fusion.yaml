@@ -1,3 +1,0 @@
-/vins_node:
-  ros__parameters:
-    config_filename: "realsense_d435i/realsense_stereo_imu_config.yaml" # "realsense_d455/realsense_stereo_imu_config.yaml"
