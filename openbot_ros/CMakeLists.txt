@@ -24,8 +24,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra)
 endif()
 
-find_package(openbot REQUIRED)
-include("${OPENBOT_CMAKE_DIR}/functions.cmake")
+include("${PROJECT_SOURCE_DIR}/cmake/functions.cmake")
 set(BUILD_SHARED_LIBS OFF)
 option(BUILD_GRPC "build features that require Openbot_ros_msgs gRPC support" false)
 
@@ -34,7 +33,6 @@ google_initialize_openbot_project()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(builtin_interfaces REQUIRED)
-find_package(openbot REQUIRED)
 find_package(openbot_msgs REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(geometry_msgs REQUIRED)
@@ -57,8 +55,6 @@ find_package(octomap_ros REQUIRED)
 find_package(grid_map_octomap REQUIRED)
 find_package(grid_map_ros REQUIRED)
 find_package(pcl_ros REQUIRED)
-find_package(motion_msgs REQUIRED)
-
 
 include(FindPkgConfig)
 
@@ -71,7 +67,6 @@ endif()
 include_directories(
   include
   "."
-  ${openbot_INCLUDE_DIRS}
   ${octomap_INCLUDE_DIRS}
   ${grid_map_octomap_INCLUDE_DIRS}
   ${octomap_ros_INCLUDE_DIRS}
@@ -92,8 +87,6 @@ include_directories(
   ${tf2_ros_INCLUDE_DIRS}
   ${tf2_eigen_INCLUDE_DIRS}
   ${visualization_msgs_INCLUDE_DIRS}
-  ${motion_msgs_INCLUDE_DIRS}
-
 )
 
 set(ALL_SRCS
@@ -146,13 +139,10 @@ set(dependencies
   grid_map_octomap
   grid_map_ros
   pcl_ros
-  motion_msgs
 )
 
-add_library(${PROJECT_NAME} ${ALL_SRCS})
-target_link_libraries(${PROJECT_NAME} PUBLIC openbot)
-
 add_subdirectory("openbot_ros")
+add_library(${PROJECT_NAME} ${ALL_SRCS})
 
 # PCL
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${PCL_INCLUDE_DIRS})
@@ -195,12 +185,7 @@ install(TARGETS
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
-  # the following line skips the linter which checks for copyrights
-  # comment the line when a copyright and license is added to all source files
   set(ament_cmake_copyright_FOUND TRUE)
-  # the following line skips cpplint (only works in a git repo)
-  # comment the line when this package is in a git repo and when
-  # a copyright and license is added to all source files
   set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()

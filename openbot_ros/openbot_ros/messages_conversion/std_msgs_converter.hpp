@@ -29,8 +29,6 @@
 #include "nav_msgs/msg/odometry.hpp"
 #include "nav_msgs/msg/path.hpp"
 
-#include "openbot/common/msgs/msgs.hpp"
-
 namespace openbot_ros {
 
 // Header

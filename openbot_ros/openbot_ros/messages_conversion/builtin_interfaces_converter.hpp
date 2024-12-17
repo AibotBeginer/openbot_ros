@@ -20,8 +20,6 @@
 #include <string>
 #include <tuple>
 
-#include "openbot/common/msgs/msgs.hpp"
-
 // std_msgs
 #include "std_msgs/msg/header.hpp"
 

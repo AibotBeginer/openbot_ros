@@ -21,7 +21,6 @@
 #include <tuple>
 
 #include "rclcpp/rclcpp.hpp"
-#include "openbot/common/port.hpp"
 
 // geometry_msgs
 #include "geometry_msgs/msg/accel.hpp"

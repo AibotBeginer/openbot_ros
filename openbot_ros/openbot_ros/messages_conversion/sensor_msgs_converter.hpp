@@ -20,7 +20,7 @@
 #include <string>
 #include <tuple>
 
-// sensor_msgs
+// ros sensor_msgs
 #include "sensor_msgs/msg/camera_info.hpp"
 #include "sensor_msgs/msg/channel_float32.hpp"
 #include "sensor_msgs/msg/compressed_image.hpp"
@@ -34,7 +34,6 @@
 #include "sensor_msgs/msg/range.hpp"
 #include "sensor_msgs/msg/region_of_interest.hpp"
 
-#include "openbot/common/msgs/msgs.hpp"
 
 namespace openbot_ros {
 
