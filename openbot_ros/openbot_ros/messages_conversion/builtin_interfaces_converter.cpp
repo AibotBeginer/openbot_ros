@@ -19,18 +19,18 @@
 
 namespace openbot_ros {
 
-rclcpp::Time ToRos(const ::openbot::common::builtin_interfaces::Time& data)
-{
-    return rclcpp::Time {
-        data.sec,
-        data.nanosec
-    };
-}
+// rclcpp::Time ToRos(const ::openbot::common::builtin_interfaces::Time& data)
+// {
+//     return rclcpp::Time {
+//         data.sec,
+//         data.nanosec
+//     };
+// }
 
-::openbot::common::builtin_interfaces::Time FromRos(const rclcpp::Time& ros)
-{
-    ::openbot::common::builtin_interfaces::Time data;
-    return data;
-}
+// ::openbot::common::builtin_interfaces::Time FromRos(const rclcpp::Time& ros)
+// {
+//     ::openbot::common::builtin_interfaces::Time data;
+//     return data;
+// }
 
 }  // namespace openbot_ros

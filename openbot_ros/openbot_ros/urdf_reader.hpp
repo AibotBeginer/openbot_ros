@@ -19,7 +19,6 @@
 
 #include <vector>
 
-#include "openbot/common/port.hpp"
 #include "tf2_ros/buffer.h"
 
 namespace openbot_ros {

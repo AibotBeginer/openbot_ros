@@ -37,12 +37,12 @@
 
 namespace openbot_ros {
 
-// PointField
-sensor_msgs::msg::PointField ToRos(const ::openbot::common::sensor_msgs::PointField& data);
-// ::openbot::common::sensor_msgs::PointField FromRos(const sensor_msgs::msg::PointField& ros);
+// // PointField
+// sensor_msgs::msg::PointField ToRos(const ::openbot::common::sensor_msgs::PointField& data);
+// // ::openbot::common::sensor_msgs::PointField FromRos(const sensor_msgs::msg::PointField& ros);
 
-// PointCloud2
-sensor_msgs::msg::PointCloud2 ToRos(const ::openbot::common::sensor_msgs::PointCloud2& data);
+// // PointCloud2
+// sensor_msgs::msg::PointCloud2 ToRos(const ::openbot::common::sensor_msgs::PointCloud2& data);
 // ::openbot::common::sensor_msgs::PointCloud2 FromRos(const sensor_msgs::msg::PointCloud2& ros);
 
 }  // namespace openbot_ros

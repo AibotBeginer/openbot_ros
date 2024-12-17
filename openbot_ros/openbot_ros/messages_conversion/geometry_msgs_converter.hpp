@@ -20,9 +20,6 @@
 #include <string>
 #include <tuple>
 
-// openbot::common::geometry_msgs
-#include "openbot/common/msgs/msgs.hpp"
-
 // nav_msgs
 #include "nav_msgs/msg/grid_cells.hpp"
 #include "nav_msgs/msg/map_meta_data.hpp"
@@ -32,21 +29,21 @@
 
 namespace openbot_ros {
 
-// Point
-geometry_msgs::msg::Point ToRos(const ::openbot::common::geometry_msgs::Point& data);
-::openbot::common::geometry_msgs::Point FromRos(const geometry_msgs::msg::Point& ros);
+// // Point
+// geometry_msgs::msg::Point ToRos(const ::openbot::common::geometry_msgs::Point& data);
+// ::openbot::common::geometry_msgs::Point FromRos(const geometry_msgs::msg::Point& ros);
 
-// Quaternion
-geometry_msgs::msg::Quaternion ToRos(const ::openbot::common::geometry_msgs::Quaternion& data);
-::openbot::common::geometry_msgs::Quaternion FromRos(const geometry_msgs::msg::Quaternion& ros);
+// // Quaternion
+// geometry_msgs::msg::Quaternion ToRos(const ::openbot::common::geometry_msgs::Quaternion& data);
+// ::openbot::common::geometry_msgs::Quaternion FromRos(const geometry_msgs::msg::Quaternion& ros);
 
-// Pose
-geometry_msgs::msg::Pose ToRos(const ::openbot::common::geometry_msgs::Pose& data);
-::openbot::common::geometry_msgs::Pose FromRos(const geometry_msgs::msg::Pose& ros);
+// // Pose
+// geometry_msgs::msg::Pose ToRos(const ::openbot::common::geometry_msgs::Pose& data);
+// ::openbot::common::geometry_msgs::Pose FromRos(const geometry_msgs::msg::Pose& ros);
 
-// PoseStamped
-geometry_msgs::msg::PoseStamped ToRos(const ::openbot::common::geometry_msgs::PoseStamped& data);
-::openbot::common::geometry_msgs::PoseStamped FromRos(const geometry_msgs::msg::PoseStamped& ros);
+// // PoseStamped
+// geometry_msgs::msg::PoseStamped ToRos(const ::openbot::common::geometry_msgs::PoseStamped& data);
+// ::openbot::common::geometry_msgs::PoseStamped FromRos(const geometry_msgs::msg::PoseStamped& ros);
 
 
 }  // namespace openbot_ros

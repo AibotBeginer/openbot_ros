@@ -24,13 +24,6 @@
 
 #include "openbot_ros/messages_conversion/proto_msgs_to_ros.hpp"
 #include "openbot_ros/messages_conversion/ros_msgs_to_proto.hpp"
-#include "openbot_ros/map_generator.hpp"
-
-#include "openbot/common/proto/nav_msgs/grid_cells.pb.h" 
-#include "openbot/common/proto/nav_msgs/map_meta_data.pb.h"
-#include "openbot/common/proto/nav_msgs/occupancy_grid.pb.h" 
-#include "openbot/common/proto/nav_msgs/odometry.pb.h"
-#include "openbot/common/proto/nav_msgs/path.pb.h" 
 
 namespace openbot_ros {
 
@@ -51,8 +44,6 @@ public:
 
 private:
     rclcpp::Node* node_{nullptr};
-    // rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr path_publisher_{nullptr};
-    // rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr point_cloud_map_publisher_{nullptr};
 };
 
 }  // namespace openbot_ros

@@ -31,9 +31,9 @@
 
 namespace openbot_ros {
 
-// Header
-std_msgs::msg::Header ToRos(const ::openbot::common::std_msgs::Header& data);
-::openbot::common::std_msgs::Header FromRos(const std_msgs::msg::Header& ros);
+// // Header
+// std_msgs::msg::Header ToRos(const ::openbot::common::std_msgs::Header& data);
+// ::openbot::common::std_msgs::Header FromRos(const std_msgs::msg::Header& ros);
 
 
 }  // namespace openbot_ros

@@ -24,13 +24,9 @@
 #include <unordered_set>
 #include <vector>
 
-#include "openbot/common/msgs/msgs.hpp"
-#include "openbot_ros/ros_log_sink.hpp"
 #include "openbot_ros/node_options.hpp"
 #include "openbot_ros/node_constants.hpp"
 #include "openbot_msgs/msg/sensor_topics.hpp"
-#include "openbot_ros/global_planner.hpp"
-#include "openbot_ros/local_planner.hpp"
 
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/point.hpp"
@@ -70,11 +66,6 @@ namespace openbot_ros
      */
     rclcpp::Node::SharedPtr node_handle();
 
-    /**
-     * @brief Get global_planner
-     */
-    GlobalPlanner::SharedPtr global_planner();
-
   private:
     struct Subscriber
     {
@@ -97,17 +88,6 @@ namespace openbot_ros
     ::rclcpp::Node::SharedPtr node_handle_{nullptr};
     ::rclcpp::TimerBase::SharedPtr global_planner_timer_{nullptr};
 
-    // global_planer_visualizator
-    GlobalPlannerVisualizator::SharedPtr global_planner_visualizator_{nullptr};
-
-    // local planner_visualizator
-    LocalPlannerVisualizator::SharedPtr local_planner_visualizator_{nullptr};
-
-    // global_planner
-    GlobalPlanner::SharedPtr global_planner_{nullptr};
-
-    // local_planner
-    LocalPlanner::SharedPtr local_planner_{nullptr};
 
     std::vector<Subscriber> subscribers_;
     std::unordered_set<std::string> subscribed_topics_;

@@ -20,30 +20,14 @@
 #include <string>
 #include <tuple>
 
-#include "openbot/common/utils/lua_parameter_dictionary.hpp"
-#include "openbot/common/port.hpp"
-
 namespace openbot_ros {
 
 // Top-level options of Cartographer's ROS integration.
 struct NodeOptions 
 {
-//   ::cartographer::mapping::proto::MapBuilderOptions map_builder_options;
-//   std::string map_frame;
-//   double lookup_transform_timeout_sec;
-//   double submap_publish_period_sec;
-//   double pose_publish_period_sec;
-//   double trajectory_publish_period_sec;
-//   bool publish_to_tf = true;
-//   bool publish_tracked_pose = false;
-//   bool use_pose_extrapolator = true;
 };
 
-NodeOptions CreateNodeOptions(::openbot::common::LuaParameterDictionary* lua_parameter_dictionary);
 
-// std::tuple<NodeOptions, TrajectoryOptions> LoadOptions(
-//     const std::string& configuration_directory,
-//     const std::string& configuration_basename);
 }  // namespace openbot_ros
 
 #endif  // OPENBOT_ROS_OPENBOT_ROS_NODE_OPTIONS_HPP

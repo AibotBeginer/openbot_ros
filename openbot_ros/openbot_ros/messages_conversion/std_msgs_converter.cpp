@@ -19,20 +19,20 @@
 
 namespace openbot_ros {
 
-std_msgs::msg::Header ToRos(const ::openbot::common::std_msgs::Header& data)
-{
-    std_msgs::msg::Header ros;
-    ros.stamp = ToRos(data.stamp);
-    ros.frame_id = data.frame_id;
-    return ros;
-}
+// std_msgs::msg::Header ToRos(const ::openbot::common::std_msgs::Header& data)
+// {
+//     std_msgs::msg::Header ros;
+//     ros.stamp = ToRos(data.stamp);
+//     ros.frame_id = data.frame_id;
+//     return ros;
+// }
 
-::openbot::common::std_msgs::Header FromRos(const std_msgs::msg::Header& ros)
-{
-    ::openbot::common::std_msgs::Header data;
-    data.stamp = FromRos(ros.stamp);
-    data.frame_id = ros.frame_id;
-    return data;
-}
+// ::openbot::common::std_msgs::Header FromRos(const std_msgs::msg::Header& ros)
+// {
+//     ::openbot::common::std_msgs::Header data;
+//     data.stamp = FromRos(ros.stamp);
+//     data.frame_id = ros.frame_id;
+//     return data;
+// }
 
 }  // namespace openbot_ros

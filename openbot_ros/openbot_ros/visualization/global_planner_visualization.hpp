@@ -24,13 +24,6 @@
 
 #include "openbot_ros/messages_conversion/proto_msgs_to_ros.hpp"
 #include "openbot_ros/messages_conversion/ros_msgs_to_proto.hpp"
-#include "openbot_ros/map_generator.hpp"
-
-#include "openbot/common/proto/nav_msgs/grid_cells.pb.h" 
-#include "openbot/common/proto/nav_msgs/map_meta_data.pb.h"
-#include "openbot/common/proto/nav_msgs/occupancy_grid.pb.h" 
-#include "openbot/common/proto/nav_msgs/odometry.pb.h"
-#include "openbot/common/proto/nav_msgs/path.pb.h" 
 
 #include "visualization_msgs/msg/marker.hpp"
 #include "visualization_msgs/msg/marker_array.hpp"

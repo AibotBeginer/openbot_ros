@@ -20,7 +20,6 @@
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 
-#include "openbot/common/utils/time.hpp"
 #include "geometry_msgs/msg/pose.hpp"
 #include "geometry_msgs/msg/point.hpp"
 #include "geometry_msgs/msg/transform.hpp"
@@ -31,14 +30,12 @@
 
 namespace openbot_ros {
 
-geometry_msgs::msg::Point ToGeometryMsgPoint(const Eigen::Vector3d& vector3d);
+// geometry_msgs::msg::Point ToGeometryMsgPoint(const Eigen::Vector3d& vector3d);
 
-Eigen::Vector3d ToEigen(const geometry_msgs::msg::Vector3& vector3);
+// Eigen::Vector3d ToEigen(const geometry_msgs::msg::Vector3& vector3);
 
-Eigen::Quaterniond ToEigen(const geometry_msgs::msg::Quaternion& quaternion);
+// Eigen::Quaterniond ToEigen(const geometry_msgs::msg::Quaternion& quaternion);
 
-// Converts from WGS84 (latitude, longitude, altitude) to ECEF.
-Eigen::Vector3d LatLongAltToEcef(double latitude, double longitude, double altitude);
 
 }  // namespace openbot_ros
 

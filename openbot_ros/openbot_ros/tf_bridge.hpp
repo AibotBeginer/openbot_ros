@@ -19,8 +19,7 @@
 
 #include <memory>
 
-#include "openbot/common/transform/rigid_transform.hpp"
-#include "openbot_ros/time_conversion.hpp"
+
 #include <tf2_ros/buffer.h>
 #include <rclcpp/rclcpp.hpp>
 
@@ -35,9 +34,6 @@ class TfBridge {
   TfBridge(const TfBridge&) = delete;
   TfBridge& operator=(const TfBridge&) = delete;
 
-  // Returns the transform for 'frame_id' to 'tracking_frame_' if it exists at 'time'.
-  std::unique_ptr<::openbot::common::transform::Rigid3d> LookupToTracking(
-      ::openbot::common::Time time, const std::string& frame_id) const;
 
  private:
   const std::string tracking_frame_;

@@ -37,6 +37,7 @@ find_package(openbot_msgs REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(PCL REQUIRED)
+find_package(Glog REQUIRED)
 find_package(shape_msgs REQUIRED)
 find_package(pcl_conversions REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -90,11 +91,6 @@ include_directories(
 )
 
 set(ALL_SRCS
-  openbot_ros/global_planner.cpp
-  openbot_ros/local_planner.cpp
-  openbot_ros/pointcloud_to_occupancy_grid.cpp
-  # openbot_ros/messages_conversion/proto_msgs_to_ros.cpp
-  # openbot_ros/messages_conversion/ros_msgs_to_proto.cpp
   openbot_ros/messages_conversion/builtin_interfaces_converter.cpp
   openbot_ros/messages_conversion/geometry_msgs_converter.cpp
   openbot_ros/messages_conversion/nav_msgs_converter.cpp
@@ -105,15 +101,11 @@ set(ALL_SRCS
   openbot_ros/visualization/global_planner_visualization.cpp
   openbot_ros/visualization/local_planner_visualization.cpp
   openbot_ros/msg_conversion.cpp
-  openbot_ros/map_generator.cpp
-  openbot_ros/mockamap_generator.cpp
   openbot_ros/node.cpp
   openbot_ros/node_constants.cpp
   openbot_ros/node_options.cpp
-  openbot_ros/ros_log_sink.cpp
   openbot_ros/sensor_bridge.cpp
   openbot_ros/tf_bridge.cpp
-  openbot_ros/time_conversion.cpp
   openbot_ros/urdf_reader.cpp
 )
 
@@ -147,6 +139,10 @@ add_library(${PROJECT_NAME} ${ALL_SRCS})
 # PCL
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${PCL_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${PCL_LIBRARIES})
+
+# glog
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${GLOG_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${GLOG_LIBRARIES})
 
 set(BLACKLISTED_PCL_DEFINITIONS " -march=native -msse4.2 -mfpmath=sse ")
 foreach(DEFINITION ${PCL_DEFINITIONS})
