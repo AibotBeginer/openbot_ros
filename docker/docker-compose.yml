@@ -1,32 +1,44 @@
 # docker-compose.yml
+
 version: '3.8'
 services:
-  ros_dev_env:
-    container_name: ROS2_Humble
-    build: ./
-    volumes:
-      - ../../:/ros2_ws/
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      # - /tmp/.docker.xauth:/tmp/.docker.xauth
-    environment:
-      - DISPLAY=:10.0
-      - QT_X11_NO_MITSHM=1
-      # - XAUTHORITY=/tmp/.docker.xauth
-      - NVIDIA_DRIVER_CAPABILITIES=all # Ensures all NVIDIA capabilities are enabled
-      - NVIDIA_VISIBLE_DEVICES=all # Makes all GPUs visible to the container
-    devices:
-      - /dev/dri:/dev/dri # Maps video device resources for GPU access
-    stdin_open: true
-    tty: true
-    cap_add:
-      - SYS_PTRACE
-    security_opt:
-      - seccomp:unconfined
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - capabilities: [ gpu ]
-    runtime: nvidia
-    privileged: true # Gives the container privileged access
-    network_mode: host # Allows the container to share the host network
+    ros_dev_env:
+        container_name: openbot_ros
+        build: ./
+        environment:
+            - DISPLAY=novnc:0.0
+        networks:
+            - x11
+        stdin_open: true
+        tty: true
+        ports:
+            - "127.0.0.1:2222:22"
+            - "9090:9090"
+        cap_add:
+            - SYS_PTRACE
+        security_opt:
+            - seccomp:unconfined
+            
+    novnc:
+        #  novnc The requested image's platform (linux/amd64) does not match the detected host platform (linux/arm64/v8) and no specific platform was requeste
+        # image: theasp/novnc:latest
+        container_name: novnc
+        build: ./docker-novnc
+        environment:
+            - DISPLAY_WIDTH=2560
+            - DISPLAY_HEIGHT=1440
+        ports:
+            - "8080:8080"
+        networks:
+            - x11
+        restart: on-failure
+
+    # amd64
+    # webviz:
+    #   image: cruise/webviz
+    #   ports:
+    #         - "8081:8080"
+    #   networks:
+    #       - x11
+networks:
+    x11:
