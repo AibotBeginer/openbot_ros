@@ -1,3 +1,6 @@
 [submodule "openbot_ros/openbot_ros/openbot_ros/common_msgs"]
 	path = openbot_ros/openbot_ros/openbot_ros/common_msgs
 	url = https://github.com/AibotBeginer/common_msgs
+[submodule "openbot_ros/openbot_ros/common_msgs"]
+	path = openbot_ros/openbot_ros/common_msgs
+	url = https://github.com/AibotBeginer/common_msgs
