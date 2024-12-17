@@ -102,140 +102,97 @@
 #include "vision_msgs/msg/vision_info.hpp"
 
 
+// common msgs proto
+#include "ros2_msgs/builtin_interfaces.pb.h"
+#include "ros2_msgs/diagnostic_msgs.pb.h"
+#include "ros2_msgs/geometry_msgs.pb.h"
+#include "ros2_msgs/nav_msgs.pb.h"
+#include "ros2_msgs/pcl_msgs.pb.h"
+#include "ros2_msgs/sensor_msgs.pb.h"
+#include "ros2_msgs/shape_msgs.pb.h"
+#include "ros2_msgs/std_msgs.pb.h"
+#include "ros2_msgs/trajectory_msgs.pb.h"
+#include "ros2_msgs/vision_msgs.pb.h"
+#include "ros2_msgs/visualization_msgs.pb.h"
 
 namespace openbot_ros {
 
-// //------------------------------------------ builtin_interfaces -------------------------------------
+//------------------------------------------ builtin_interfaces -------------------------------------
 
-// // Time
-// rclcpp::Time ToRos(const ::openbot::common::proto::builtin_interfaces::Time& proto);
+// Time
+rclcpp::Time ToRos(const ::openbot::ros2_msgs::builtin_interfaces::Time& proto);
 
-// //------------------------------------------ geometry_msgs ------------------------------------------
+//------------------------------------------ geometry_msgs ------------------------------------------
 
-// // Accel
-// geometry_msgs::msg::Accel ToRos(const ::openbot::common::proto::geometry_msgs::Accel& proto);
-// geometry_msgs::msg::AccelStamped ToRos(const ::openbot::common::proto::geometry_msgs::AccelStamped& proto);
-// geometry_msgs::msg::AccelWithCovariance ToRos(const ::openbot::common::proto::geometry_msgs::AccelWithCovariance& proto);
-// geometry_msgs::msg::AccelWithCovarianceStamped ToRos(const ::openbot::common::proto::geometry_msgs::AccelWithCovarianceStamped& proto);
+// Accel
+geometry_msgs::msg::Accel ToRos(const ::openbot::ros2_msgs::geometry_msgs::Accel& proto);
+geometry_msgs::msg::AccelStamped ToRos(const ::openbot::ros2_msgs::geometry_msgs::AccelStamped& proto);
+geometry_msgs::msg::AccelWithCovariance ToRos(const ::openbot::ros2_msgs::geometry_msgs::AccelWithCovariance& proto);
+geometry_msgs::msg::AccelWithCovarianceStamped ToRos(const ::openbot::ros2_msgs::geometry_msgs::AccelWithCovarianceStamped& proto);
+geometry_msgs::msg::Inertia ToRos(const ::openbot::ros2_msgs::geometry_msgs::Inertia& proto);
+geometry_msgs::msg::InertiaStamped ToRos(const ::openbot::ros2_msgs::geometry_msgs::InertiaStamped& proto);
+geometry_msgs::msg::Point ToRos(const ::openbot::ros2_msgs::geometry_msgs::Point& proto);
+geometry_msgs::msg::Point32 ToRos(const ::openbot::ros2_msgs::geometry_msgs::Point32& proto);
+geometry_msgs::msg::PointStamped ToRos(const ::openbot::ros2_msgs::geometry_msgs::PointStamped& proto);
+geometry_msgs::msg::Polygon ToRos(const ::openbot::ros2_msgs::geometry_msgs::Polygon& proto);
+geometry_msgs::msg::PolygonStamped ToRos(const ::openbot::ros2_msgs::geometry_msgs::PolygonStamped& proto);
+geometry_msgs::msg::Pose ToRos(const ::openbot::ros2_msgs::geometry_msgs::Pose& proto);
+geometry_msgs::msg::Pose2D ToRos(const ::openbot::ros2_msgs::geometry_msgs::Pose2D& proto);
+geometry_msgs::msg::PoseArray ToRos(const ::openbot::ros2_msgs::geometry_msgs::PoseArray& proto);
+geometry_msgs::msg::PoseStamped ToRos(const ::openbot::ros2_msgs::geometry_msgs::PoseStamped& proto);
+geometry_msgs::msg::PoseWithCovariance ToRos(const ::openbot::ros2_msgs::geometry_msgs::PoseWithCovariance& proto);
+geometry_msgs::msg::PoseWithCovarianceStamped ToRos(const ::openbot::ros2_msgs::geometry_msgs::PoseWithCovarianceStamped& proto);
+geometry_msgs::msg::Quaternion ToRos(const ::openbot::ros2_msgs::geometry_msgs::Quaternion& proto);
+geometry_msgs::msg::QuaternionStamped ToRos(const ::openbot::ros2_msgs::geometry_msgs::QuaternionStamped& proto);
+geometry_msgs::msg::Transform ToRos(const ::openbot::ros2_msgs::geometry_msgs::Transform& proto);
+geometry_msgs::msg::TransformStamped ToRos(const ::openbot::ros2_msgs::geometry_msgs::TransformStamped& proto);
+geometry_msgs::msg::Twist ToRos(const ::openbot::ros2_msgs::geometry_msgs::Twist& proto);
+geometry_msgs::msg::TwistStamped ToRos(const ::openbot::ros2_msgs::geometry_msgs::TwistStamped& proto);
+geometry_msgs::msg::TwistWithCovariance ToRos(const ::openbot::ros2_msgs::geometry_msgs::TwistWithCovariance& proto);
+geometry_msgs::msg::TwistWithCovarianceStamped ToRos(const ::openbot::ros2_msgs::geometry_msgs::TwistWithCovarianceStamped& proto);
+geometry_msgs::msg::Vector3 ToRos(const ::openbot::ros2_msgs::geometry_msgs::Vector3& proto);
+geometry_msgs::msg::Vector3Stamped ToRos(const ::openbot::ros2_msgs::geometry_msgs::Vector3Stamped& proto);
+geometry_msgs::msg::VelocityStamped ToRos(const ::openbot::ros2_msgs::geometry_msgs::VelocityStamped& proto);
 
-// // Inertia
-// geometry_msgs::msg::Inertia ToRos(const ::openbot::common::proto::geometry_msgs::Inertia& proto);
-// geometry_msgs::msg::InertiaStamped ToRos(const ::openbot::common::proto::geometry_msgs::InertiaStamped& proto);
+//------------------------------------------ nav_msgs ------------------------------------------
 
-// // Point
-// geometry_msgs::msg::Point ToRos(const ::openbot::common::proto::geometry_msgs::Point& proto);
-// geometry_msgs::msg::Point32 ToRos(const ::openbot::common::proto::geometry_msgs::Point32& proto);
-// geometry_msgs::msg::PointStamped ToRos(const ::openbot::common::proto::geometry_msgs::PointStamped& proto);
-
-// // polygon
-// geometry_msgs::msg::Polygon ToRos(const ::openbot::common::proto::geometry_msgs::Polygon& proto);
-// geometry_msgs::msg::PolygonStamped ToRos(const ::openbot::common::proto::geometry_msgs::PolygonStamped& proto);
-
-// // Pose
-// geometry_msgs::msg::Pose ToRos(const ::openbot::common::proto::geometry_msgs::Pose& proto);
-// geometry_msgs::msg::Pose2D ToRos(const ::openbot::common::proto::geometry_msgs::Pose2D& proto);
-// geometry_msgs::msg::PoseArray ToRos(const ::openbot::common::proto::geometry_msgs::PoseArray& proto);
-// geometry_msgs::msg::PoseStamped ToRos(const ::openbot::common::proto::geometry_msgs::PoseStamped& proto);
-// geometry_msgs::msg::PoseWithCovariance ToRos(const ::openbot::common::proto::geometry_msgs::PoseWithCovariance& proto);
-// geometry_msgs::msg::PoseWithCovarianceStamped ToRos(const ::openbot::common::proto::geometry_msgs::PoseWithCovarianceStamped& proto);
-
-// // Quaternion
-// geometry_msgs::msg::Quaternion ToRos(const ::openbot::common::proto::geometry_msgs::Quaternion& proto);
-// geometry_msgs::msg::QuaternionStamped ToRos(const ::openbot::common::proto::geometry_msgs::QuaternionStamped& proto);
-
-// // transform
-// geometry_msgs::msg::Transform ToRos(const ::openbot::common::proto::geometry_msgs::Transform& proto);
-// geometry_msgs::msg::TransformStamped ToRos(const ::openbot::common::proto::geometry_msgs::TransformStamped& proto);
-
-// // Twist
-// geometry_msgs::msg::Twist ToRos(const ::openbot::common::proto::geometry_msgs::Twist& proto);
-// geometry_msgs::msg::TwistStamped ToRos(const ::openbot::common::proto::geometry_msgs::TwistStamped& proto);
-// geometry_msgs::msg::TwistWithCovariance ToRos(const ::openbot::common::proto::geometry_msgs::TwistWithCovariance& proto);
-// geometry_msgs::msg::TwistWithCovarianceStamped ToRos(const ::openbot::common::proto::geometry_msgs::TwistWithCovarianceStamped& proto);
-
-// // Vector3
-// geometry_msgs::msg::Vector3 ToRos(const ::openbot::common::proto::geometry_msgs::Vector3& proto);
-// geometry_msgs::msg::Vector3Stamped ToRos(const ::openbot::common::proto::geometry_msgs::Vector3Stamped& proto);
-// geometry_msgs::msg::VelocityStamped ToRos(const ::openbot::common::proto::geometry_msgs::VelocityStamped& proto);
-
-// //------------------------------------------ nav_msgs ------------------------------------------
-
-// // GridCells
-// nav_msgs::msg::GridCells ToRos(const ::openbot::common::proto::nav_msgs::GridCells& proto);
-
-// // MapMetaData
-// nav_msgs::msg::MapMetaData ToRos(const ::openbot::common::proto::nav_msgs::MapMetaData& proto);
-
-// // OccupancyGrid
-// nav_msgs::msg::OccupancyGrid ToRos(const ::openbot::common::proto::nav_msgs::OccupancyGrid& proto);
-
-// // Odometry
-// nav_msgs::msg::Odometry ToRos(const ::openbot::common::proto::nav_msgs::Odometry& proto);
-
-// // Path
-// nav_msgs::msg::Path ToRos(const ::openbot::common::proto::nav_msgs::Path& proto);
+nav_msgs::msg::GridCells ToRos(const ::openbot::ros2_msgs::nav_msgs::GridCells& proto);
+nav_msgs::msg::MapMetaData ToRos(const ::openbot::ros2_msgs::nav_msgs::MapMetaData& proto);
+nav_msgs::msg::OccupancyGrid ToRos(const ::openbot::ros2_msgs::nav_msgs::OccupancyGrid& proto);
+nav_msgs::msg::Odometry ToRos(const ::openbot::ros2_msgs::nav_msgs::Odometry& proto);
+nav_msgs::msg::Path ToRos(const ::openbot::ros2_msgs::nav_msgs::Path& proto);
 
 
-// //------------------------------------------ sensor_msgs ------------------------------------------
+//------------------------------------------ sensor_msgs ------------------------------------------
 
-// // CameraInfo
-// sensor_msgs::msg::CameraInfo ToRos(const ::openbot::common::proto::sensor_msgs::CameraInfo& proto);
+sensor_msgs::msg::CameraInfo ToRos(const ::openbot::ros2_msgs::sensor_msgs::CameraInfo& proto);
+sensor_msgs::msg::ChannelFloat32 ToRos(const ::openbot::ros2_msgs::sensor_msgs::ChannelFloat32& proto);
+sensor_msgs::msg::CompressedImage ToRos(const ::openbot::ros2_msgs::sensor_msgs::CompressedImage& proto);
+sensor_msgs::msg::Illuminance ToRos(const ::openbot::ros2_msgs::sensor_msgs::Illuminance& proto);
+sensor_msgs::msg::Image ToRos(const ::openbot::ros2_msgs::sensor_msgs::Image& proto);
+sensor_msgs::msg::Imu ToRos(const ::openbot::ros2_msgs::sensor_msgs::Imu& proto);
+sensor_msgs::msg::LaserScan ToRos(const ::openbot::ros2_msgs::sensor_msgs::LaserScan& proto);
+sensor_msgs::msg::PointCloud ToRos(const ::openbot::ros2_msgs::sensor_msgs::PointCloud& proto);
+sensor_msgs::msg::PointCloud2 ToRos(const ::openbot::ros2_msgs::sensor_msgs::PointCloud2& proto);
+sensor_msgs::msg::PointField ToRos(const ::openbot::ros2_msgs::sensor_msgs::PointField& proto);
+sensor_msgs::msg::Range ToRos(const ::openbot::ros2_msgs::sensor_msgs::Range& proto);
+sensor_msgs::msg::RegionOfInterest ToRos(const ::openbot::ros2_msgs::sensor_msgs::RegionOfInterest& proto);
 
-// // ChannelFloat32
-// sensor_msgs::msg::ChannelFloat32 ToRos(const ::openbot::common::proto::sensor_msgs::ChannelFloat32& proto);
-
-// // CompressedImage
-// sensor_msgs::msg::CompressedImage ToRos(const ::openbot::common::proto::sensor_msgs::CompressedImage& proto);
-
-// // Illuminance
-// sensor_msgs::msg::Illuminance ToRos(const ::openbot::common::proto::sensor_msgs::Illuminance& proto);
-
-// // Image
-// sensor_msgs::msg::Image ToRos(const ::openbot::common::proto::sensor_msgs::Image& proto);
-
-// // Imu
-// sensor_msgs::msg::Imu ToRos(const ::openbot::common::proto::sensor_msgs::Imu& proto);
-
-// // LaserScan
-// sensor_msgs::msg::LaserScan ToRos(const ::openbot::common::proto::sensor_msgs::LaserScan& proto);
-
-// // PointCloud
-// sensor_msgs::msg::PointCloud ToRos(const ::openbot::common::proto::sensor_msgs::PointCloud& proto);
-
-// // PointCloud2
-// sensor_msgs::msg::PointCloud2 ToRos(const ::openbot::common::proto::sensor_msgs::PointCloud2& proto);
-
-// // PointField
-// sensor_msgs::msg::PointField ToRos(const ::openbot::common::proto::sensor_msgs::PointField& proto);
-
-// // Range
-// sensor_msgs::msg::Range ToRos(const ::openbot::common::proto::sensor_msgs::Range& proto);
-
-// // RegionOfInterest
-// sensor_msgs::msg::RegionOfInterest ToRos(const ::openbot::common::proto::sensor_msgs::RegionOfInterest& proto);
-
-// //------------------------------------------ shape_msgs ------------------------------------------
-
-// // Mesh
-// shape_msgs::msg::Mesh ToRos(const ::openbot::common::proto::shape_msgs::Mesh& proto);
-
-// // MeshTriangle
-// shape_msgs::msg::MeshTriangle ToRos(const ::openbot::common::proto::shape_msgs::MeshTriangle& proto);
-
-// // Plane
-// shape_msgs::msg::Plane ToRos(const ::openbot::common::proto::shape_msgs::Plane& proto);
-
-// // SolidPrimitive
-// shape_msgs::msg::SolidPrimitive ToRos(const ::openbot::common::proto::shape_msgs::SolidPrimitive& proto);
+//------------------------------------------ shape_msgs ------------------------------------------
 
 
-// //------------------------------------------ std_msgs --------------------------------------------
+shape_msgs::msg::Mesh ToRos(const ::openbot::ros2_msgs::shape_msgs::Mesh& proto);
+shape_msgs::msg::MeshTriangle ToRos(const ::openbot::ros2_msgs::shape_msgs::MeshTriangle& proto);
+shape_msgs::msg::Plane ToRos(const ::openbot::ros2_msgs::shape_msgs::Plane& proto);
+shape_msgs::msg::SolidPrimitive ToRos(const ::openbot::ros2_msgs::shape_msgs::SolidPrimitive& proto);
 
-// // Header
-// std_msgs::msg::Header ToRos(const ::openbot::common::proto::std_msgs::Header& proto);
+
+//------------------------------------------ std_msgs --------------------------------------------
+
+std_msgs::msg::Header ToRos(const ::openbot::ros2_msgs::std_msgs::Header& proto);
 
 
-// //------------------------------------------ vision_msgs --------------------------------------------
+//------------------------------------------ vision_msgs --------------------------------------------
 
 
 }  // namespace openbot_ros

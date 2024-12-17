@@ -93,13 +93,8 @@ include_directories(
 )
 
 set(ALL_SRCS
-  openbot_ros/messages_conversion/builtin_interfaces_converter.cpp
-  openbot_ros/messages_conversion/geometry_msgs_converter.cpp
-  openbot_ros/messages_conversion/nav_msgs_converter.cpp
-  openbot_ros/messages_conversion/sensor_msgs_converter.cpp
-  openbot_ros/messages_conversion/shape_msgs_converter.cpp
-  openbot_ros/messages_conversion/std_msgs_converter.cpp
-  openbot_ros/messages_conversion/vision_msgs_converter.cpp
+  openbot_ros/messages_conversion/proto_msgs_to_ros.cpp
+  openbot_ros/messages_conversion/ros_msgs_to_proto.cpp
   openbot_ros/visualization/global_planner_visualization.cpp
   openbot_ros/visualization/local_planner_visualization.cpp
   openbot_ros/msg_conversion.cpp
