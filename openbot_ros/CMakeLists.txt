@@ -32,7 +32,8 @@ google_initialize_openbot_project()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(builtin_interfaces REQUIRED)
+find_package(builtin_interfaces REQUIRED) 
+find_package(common_msgs REQUIRED)
 find_package(openbot_msgs REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(geometry_msgs REQUIRED)
@@ -68,6 +69,7 @@ endif()
 include_directories(
   include
   "."
+  ${common_msgs_INCLUDE_DIRS}
   ${octomap_INCLUDE_DIRS}
   ${grid_map_octomap_INCLUDE_DIRS}
   ${octomap_ros_INCLUDE_DIRS}
@@ -109,9 +111,9 @@ set(ALL_SRCS
   openbot_ros/urdf_reader.cpp
 )
 
-
 set(dependencies
   builtin_interfaces
+  common_msgs
   openbot_msgs
   geometry_msgs
   nav_msgs
@@ -136,13 +138,12 @@ set(dependencies
 add_subdirectory("openbot_ros")
 add_library(${PROJECT_NAME} ${ALL_SRCS})
 
+ament_target_dependencies(${PROJECT_NAME} ${dependencies})
+target_link_libraries(${PROJECT_NAME} common_msgs)
+
 # PCL
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${PCL_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} PUBLIC ${PCL_LIBRARIES})
-
-# glog
-target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${GLOG_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} PUBLIC ${GLOG_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${PCL_LIBRARIES})
 
 set(BLACKLISTED_PCL_DEFINITIONS " -march=native -msse4.2 -mfpmath=sse ")
 foreach(DEFINITION ${PCL_DEFINITIONS})
