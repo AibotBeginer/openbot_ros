@@ -33,7 +33,7 @@ google_initialize_openbot_project()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(builtin_interfaces REQUIRED) 
-find_package(common_msgs REQUIRED)
+find_package(openbot_bridge REQUIRED)
 find_package(openbot_msgs REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(geometry_msgs REQUIRED)
@@ -69,7 +69,7 @@ endif()
 include_directories(
   include
   "."
-  ${common_msgs_INCLUDE_DIRS}
+  ${openbot_bridge_INCLUDE_DIRS}
   ${octomap_INCLUDE_DIRS}
   ${grid_map_octomap_INCLUDE_DIRS}
   ${octomap_ros_INCLUDE_DIRS}
@@ -108,7 +108,7 @@ set(ALL_SRCS
 
 set(dependencies
   builtin_interfaces
-  common_msgs
+  openbot_bridge
   openbot_msgs
   geometry_msgs
   nav_msgs
@@ -134,7 +134,7 @@ add_subdirectory("openbot_ros")
 add_library(${PROJECT_NAME} ${ALL_SRCS})
 
 ament_target_dependencies(${PROJECT_NAME} ${dependencies})
-target_link_libraries(${PROJECT_NAME} common_msgs)
+target_link_libraries(${PROJECT_NAME} openbot_bridge)
 
 # PCL
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${PCL_INCLUDE_DIRS})

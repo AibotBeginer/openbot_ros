@@ -18,12 +18,12 @@
 
 namespace openbot_ros {
 
-rclcpp::Time ToRos(const ::openbot::ros2_msgs::builtin_interfaces::Time& proto)
+rclcpp::Time ToRos(const ::openbot_bridge::ros2_msgs::builtin_interfaces::Time& proto)
 {
     return rclcpp::Time {proto.seconds(), proto.nanoseconds()};
 }
 
-std_msgs::msg::Header ToRos(const ::openbot::ros2_msgs::std_msgs::Header& proto)
+std_msgs::msg::Header ToRos(const ::openbot_bridge::ros2_msgs::std_msgs::Header& proto)
 {
     std_msgs::msg::Header data;
     data.stamp = ToRos(proto.stamp());
@@ -31,7 +31,7 @@ std_msgs::msg::Header ToRos(const ::openbot::ros2_msgs::std_msgs::Header& proto)
     return data;
 }  
 
-geometry_msgs::msg::Accel ToRos(const ::openbot::ros2_msgs::geometry_msgs::Accel& proto)
+geometry_msgs::msg::Accel ToRos(const ::openbot_bridge::ros2_msgs::geometry_msgs::Accel& proto)
 {
     geometry_msgs::msg::Accel data;
     data.linear = ToRos(proto.linear());
@@ -39,7 +39,7 @@ geometry_msgs::msg::Accel ToRos(const ::openbot::ros2_msgs::geometry_msgs::Accel
     return data;
 }
 
-geometry_msgs::msg::AccelStamped ToRos(const ::openbot::ros2_msgs::geometry_msgs::AccelStamped& proto)
+geometry_msgs::msg::AccelStamped ToRos(const ::openbot_bridge::ros2_msgs::geometry_msgs::AccelStamped& proto)
 {
     geometry_msgs::msg::AccelStamped data;
     data.header = ToRos(proto.header());
@@ -47,7 +47,7 @@ geometry_msgs::msg::AccelStamped ToRos(const ::openbot::ros2_msgs::geometry_msgs
     return data;
 }
 
-geometry_msgs::msg::AccelWithCovariance ToRos(const ::openbot::ros2_msgs::geometry_msgs::AccelWithCovariance& proto)
+geometry_msgs::msg::AccelWithCovariance ToRos(const ::openbot_bridge::ros2_msgs::geometry_msgs::AccelWithCovariance& proto)
 {
     geometry_msgs::msg::AccelWithCovariance data;
     data.accel = ToRos(proto.accel());
@@ -59,7 +59,7 @@ geometry_msgs::msg::AccelWithCovariance ToRos(const ::openbot::ros2_msgs::geomet
 }
 
 geometry_msgs::msg::AccelWithCovarianceStamped ToRos(
-    const ::openbot::ros2_msgs::geometry_msgs::AccelWithCovarianceStamped& proto)
+    const ::openbot_bridge::ros2_msgs::geometry_msgs::AccelWithCovarianceStamped& proto)
 {
     geometry_msgs::msg::AccelWithCovarianceStamped data;
     data.header = ToRos(proto.header());
@@ -67,7 +67,7 @@ geometry_msgs::msg::AccelWithCovarianceStamped ToRos(
     return data;
 }
 
-geometry_msgs::msg::Inertia ToRos(const ::openbot::ros2_msgs::geometry_msgs::Inertia& proto)
+geometry_msgs::msg::Inertia ToRos(const ::openbot_bridge::ros2_msgs::geometry_msgs::Inertia& proto)
 {
     geometry_msgs::msg::Inertia data;
     data.m = proto.m();
@@ -81,7 +81,7 @@ geometry_msgs::msg::Inertia ToRos(const ::openbot::ros2_msgs::geometry_msgs::Ine
     return data;
 }
 
-geometry_msgs::msg::InertiaStamped ToRos(const ::openbot::ros2_msgs::geometry_msgs::InertiaStamped& proto)
+geometry_msgs::msg::InertiaStamped ToRos(const ::openbot_bridge::ros2_msgs::geometry_msgs::InertiaStamped& proto)
 {
     geometry_msgs::msg::InertiaStamped data;
     data.header = ToRos(proto.header());
@@ -89,7 +89,7 @@ geometry_msgs::msg::InertiaStamped ToRos(const ::openbot::ros2_msgs::geometry_ms
     return data;
 }
 
-geometry_msgs::msg::Point ToRos(const ::openbot::ros2_msgs::geometry_msgs::Point& proto)
+geometry_msgs::msg::Point ToRos(const ::openbot_bridge::ros2_msgs::geometry_msgs::Point& proto)
 {
     geometry_msgs::msg::Point data;
     data.x = proto.x();
@@ -98,7 +98,7 @@ geometry_msgs::msg::Point ToRos(const ::openbot::ros2_msgs::geometry_msgs::Point
     return data;
 }
 
-geometry_msgs::msg::Point32 ToRos(const ::openbot::ros2_msgs::geometry_msgs::Point32& proto)
+geometry_msgs::msg::Point32 ToRos(const ::openbot_bridge::ros2_msgs::geometry_msgs::Point32& proto)
 {
     geometry_msgs::msg::Point32 data;
     data.x = proto.x();
@@ -107,7 +107,7 @@ geometry_msgs::msg::Point32 ToRos(const ::openbot::ros2_msgs::geometry_msgs::Poi
     return data;
 }
 
-geometry_msgs::msg::PointStamped ToRos(const ::openbot::ros2_msgs::geometry_msgs::PointStamped& proto)
+geometry_msgs::msg::PointStamped ToRos(const ::openbot_bridge::ros2_msgs::geometry_msgs::PointStamped& proto)
 {
     geometry_msgs::msg::PointStamped data;
     data.header = ToRos(proto.header());
@@ -115,7 +115,7 @@ geometry_msgs::msg::PointStamped ToRos(const ::openbot::ros2_msgs::geometry_msgs
     return data;
 }
 
-geometry_msgs::msg::Polygon ToRos(const ::openbot::ros2_msgs::geometry_msgs::Polygon& proto)
+geometry_msgs::msg::Polygon ToRos(const ::openbot_bridge::ros2_msgs::geometry_msgs::Polygon& proto)
 {
     geometry_msgs::msg::Polygon data;
     for (int i = 0 ; i < proto.points_size(); ++i) {
@@ -124,7 +124,7 @@ geometry_msgs::msg::Polygon ToRos(const ::openbot::ros2_msgs::geometry_msgs::Pol
     return data;
 }
 
-geometry_msgs::msg::PolygonStamped ToRos(const ::openbot::ros2_msgs::geometry_msgs::PolygonStamped& proto)
+geometry_msgs::msg::PolygonStamped ToRos(const ::openbot_bridge::ros2_msgs::geometry_msgs::PolygonStamped& proto)
 {
     geometry_msgs::msg::PolygonStamped data;
     data.header = ToRos(proto.header());
@@ -132,7 +132,7 @@ geometry_msgs::msg::PolygonStamped ToRos(const ::openbot::ros2_msgs::geometry_ms
     return data;
 }
 
-geometry_msgs::msg::Pose ToRos(const ::openbot::ros2_msgs::geometry_msgs::Pose& proto)
+geometry_msgs::msg::Pose ToRos(const ::openbot_bridge::ros2_msgs::geometry_msgs::Pose& proto)
 {
     geometry_msgs::msg::Pose data;
     data.position = ToRos(proto.position());
@@ -140,7 +140,7 @@ geometry_msgs::msg::Pose ToRos(const ::openbot::ros2_msgs::geometry_msgs::Pose& 
     return data;
 }
 
-geometry_msgs::msg::Pose2D ToRos(const ::openbot::ros2_msgs::geometry_msgs::Pose2D& proto)
+geometry_msgs::msg::Pose2D ToRos(const ::openbot_bridge::ros2_msgs::geometry_msgs::Pose2D& proto)
 {
     geometry_msgs::msg::Pose2D data;
     data.x = proto.x();
@@ -149,7 +149,7 @@ geometry_msgs::msg::Pose2D ToRos(const ::openbot::ros2_msgs::geometry_msgs::Pose
     return data;
 }
 
-geometry_msgs::msg::PoseArray ToRos(const ::openbot::ros2_msgs::geometry_msgs::PoseArray& proto)
+geometry_msgs::msg::PoseArray ToRos(const ::openbot_bridge::ros2_msgs::geometry_msgs::PoseArray& proto)
 {
     geometry_msgs::msg::PoseArray data;
     data.header = ToRos(proto.header());
@@ -159,7 +159,7 @@ geometry_msgs::msg::PoseArray ToRos(const ::openbot::ros2_msgs::geometry_msgs::P
     return data;
 }
 
-geometry_msgs::msg::PoseStamped ToRos(const ::openbot::ros2_msgs::geometry_msgs::PoseStamped& proto)
+geometry_msgs::msg::PoseStamped ToRos(const ::openbot_bridge::ros2_msgs::geometry_msgs::PoseStamped& proto)
 {
     geometry_msgs::msg::PoseStamped data;
     data.header = ToRos(proto.header());
@@ -167,7 +167,7 @@ geometry_msgs::msg::PoseStamped ToRos(const ::openbot::ros2_msgs::geometry_msgs:
     return data;
 }
 
-geometry_msgs::msg::PoseWithCovariance ToRos(const ::openbot::ros2_msgs::geometry_msgs::PoseWithCovariance& proto)
+geometry_msgs::msg::PoseWithCovariance ToRos(const ::openbot_bridge::ros2_msgs::geometry_msgs::PoseWithCovariance& proto)
 {
     geometry_msgs::msg::PoseWithCovariance data;
     data.pose = ToRos(proto.pose());
@@ -178,7 +178,7 @@ geometry_msgs::msg::PoseWithCovariance ToRos(const ::openbot::ros2_msgs::geometr
 }
 
 geometry_msgs::msg::PoseWithCovarianceStamped ToRos(
-    const ::openbot::ros2_msgs::geometry_msgs::PoseWithCovarianceStamped& proto)
+    const ::openbot_bridge::ros2_msgs::geometry_msgs::PoseWithCovarianceStamped& proto)
 {
     geometry_msgs::msg::PoseWithCovarianceStamped data;
     data.header = ToRos(proto.header());
@@ -186,7 +186,7 @@ geometry_msgs::msg::PoseWithCovarianceStamped ToRos(
     return data;
 }
 
-geometry_msgs::msg::Quaternion ToRos(const ::openbot::ros2_msgs::geometry_msgs::Quaternion& proto)
+geometry_msgs::msg::Quaternion ToRos(const ::openbot_bridge::ros2_msgs::geometry_msgs::Quaternion& proto)
 {
     geometry_msgs::msg::Quaternion data;
     data.x = proto.x();
@@ -196,7 +196,7 @@ geometry_msgs::msg::Quaternion ToRos(const ::openbot::ros2_msgs::geometry_msgs::
     return data;
 }
 
-geometry_msgs::msg::QuaternionStamped ToRos(const ::openbot::ros2_msgs::geometry_msgs::QuaternionStamped& proto)
+geometry_msgs::msg::QuaternionStamped ToRos(const ::openbot_bridge::ros2_msgs::geometry_msgs::QuaternionStamped& proto)
 {
     geometry_msgs::msg::QuaternionStamped data;
     data.header = ToRos(proto.header());
@@ -204,7 +204,7 @@ geometry_msgs::msg::QuaternionStamped ToRos(const ::openbot::ros2_msgs::geometry
     return data;
 }
 
-geometry_msgs::msg::Transform ToRos(const ::openbot::ros2_msgs::geometry_msgs::Transform& proto)
+geometry_msgs::msg::Transform ToRos(const ::openbot_bridge::ros2_msgs::geometry_msgs::Transform& proto)
 {
     geometry_msgs::msg::Transform data;
     data.translation = ToRos(proto.translation());
@@ -212,7 +212,7 @@ geometry_msgs::msg::Transform ToRos(const ::openbot::ros2_msgs::geometry_msgs::T
     return data;
 }
 
-geometry_msgs::msg::TransformStamped ToRos(const ::openbot::ros2_msgs::geometry_msgs::TransformStamped& proto)
+geometry_msgs::msg::TransformStamped ToRos(const ::openbot_bridge::ros2_msgs::geometry_msgs::TransformStamped& proto)
 {
     geometry_msgs::msg::TransformStamped data;
     data.header = ToRos(proto.header());
@@ -221,7 +221,7 @@ geometry_msgs::msg::TransformStamped ToRos(const ::openbot::ros2_msgs::geometry_
     return data;
 }
 
-geometry_msgs::msg::Twist ToRos(const ::openbot::ros2_msgs::geometry_msgs::Twist& proto)
+geometry_msgs::msg::Twist ToRos(const ::openbot_bridge::ros2_msgs::geometry_msgs::Twist& proto)
 {
     geometry_msgs::msg::Twist data;
     data.linear = ToRos(proto.linear());
@@ -229,7 +229,7 @@ geometry_msgs::msg::Twist ToRos(const ::openbot::ros2_msgs::geometry_msgs::Twist
     return data;
 }
 
-geometry_msgs::msg::TwistStamped ToRos(const ::openbot::ros2_msgs::geometry_msgs::TwistStamped& proto)
+geometry_msgs::msg::TwistStamped ToRos(const ::openbot_bridge::ros2_msgs::geometry_msgs::TwistStamped& proto)
 {
     geometry_msgs::msg::TwistStamped data;
     data.header = ToRos(proto.header());
@@ -237,7 +237,7 @@ geometry_msgs::msg::TwistStamped ToRos(const ::openbot::ros2_msgs::geometry_msgs
     return data;
 }
 
-geometry_msgs::msg::Vector3 ToRos(const ::openbot::ros2_msgs::geometry_msgs::Vector3& proto)
+geometry_msgs::msg::Vector3 ToRos(const ::openbot_bridge::ros2_msgs::geometry_msgs::Vector3& proto)
 {
     geometry_msgs::msg::Vector3 data;
     data.x = proto.x();
@@ -246,7 +246,7 @@ geometry_msgs::msg::Vector3 ToRos(const ::openbot::ros2_msgs::geometry_msgs::Vec
     return data;
 }
 
-geometry_msgs::msg::Vector3Stamped ToRos(const ::openbot::ros2_msgs::geometry_msgs::Vector3Stamped& proto)
+geometry_msgs::msg::Vector3Stamped ToRos(const ::openbot_bridge::ros2_msgs::geometry_msgs::Vector3Stamped& proto)
 {
     geometry_msgs::msg::Vector3Stamped data;
     data.header = ToRos(proto.header());
@@ -254,7 +254,7 @@ geometry_msgs::msg::Vector3Stamped ToRos(const ::openbot::ros2_msgs::geometry_ms
     return data;
 }
 
-geometry_msgs::msg::TwistWithCovariance ToRos(const ::openbot::ros2_msgs::geometry_msgs::TwistWithCovariance& proto)
+geometry_msgs::msg::TwistWithCovariance ToRos(const ::openbot_bridge::ros2_msgs::geometry_msgs::TwistWithCovariance& proto)
 {
     geometry_msgs::msg::TwistWithCovariance data;
     data.twist = ToRos(proto.twist());
@@ -265,7 +265,7 @@ geometry_msgs::msg::TwistWithCovariance ToRos(const ::openbot::ros2_msgs::geomet
 }
 
 geometry_msgs::msg::TwistWithCovarianceStamped ToRos(
-    const ::openbot::ros2_msgs::geometry_msgs::TwistWithCovarianceStamped& proto)
+    const ::openbot_bridge::ros2_msgs::geometry_msgs::TwistWithCovarianceStamped& proto)
 {
     geometry_msgs::msg::TwistWithCovarianceStamped data;
     data.header = ToRos(proto.header());
@@ -273,7 +273,7 @@ geometry_msgs::msg::TwistWithCovarianceStamped ToRos(
     return data;
 }
 
-geometry_msgs::msg::VelocityStamped ToRos(const ::openbot::ros2_msgs::geometry_msgs::VelocityStamped& proto)
+geometry_msgs::msg::VelocityStamped ToRos(const ::openbot_bridge::ros2_msgs::geometry_msgs::VelocityStamped& proto)
 {
     geometry_msgs::msg::VelocityStamped data;
     data.header = ToRos(proto.header());
@@ -281,7 +281,7 @@ geometry_msgs::msg::VelocityStamped ToRos(const ::openbot::ros2_msgs::geometry_m
     return data;
 }
 
-nav_msgs::msg::GridCells ToRos(const ::openbot::ros2_msgs::nav_msgs::GridCells& proto)
+nav_msgs::msg::GridCells ToRos(const ::openbot_bridge::ros2_msgs::nav_msgs::GridCells& proto)
 {
     nav_msgs::msg::GridCells data;
     data.header = ToRos(proto.header());
@@ -293,7 +293,7 @@ nav_msgs::msg::GridCells ToRos(const ::openbot::ros2_msgs::nav_msgs::GridCells& 
     return data;
 }
 
-nav_msgs::msg::MapMetaData ToRos(const ::openbot::ros2_msgs::nav_msgs::MapMetaData& proto)
+nav_msgs::msg::MapMetaData ToRos(const ::openbot_bridge::ros2_msgs::nav_msgs::MapMetaData& proto)
 {
     nav_msgs::msg::MapMetaData data;
     data.map_load_time = ToRos(proto.map_load_time());
@@ -304,7 +304,7 @@ nav_msgs::msg::MapMetaData ToRos(const ::openbot::ros2_msgs::nav_msgs::MapMetaDa
     return data;
 }
 
-nav_msgs::msg::OccupancyGrid ToRos(const ::openbot::ros2_msgs::nav_msgs::OccupancyGrid& proto)
+nav_msgs::msg::OccupancyGrid ToRos(const ::openbot_bridge::ros2_msgs::nav_msgs::OccupancyGrid& proto)
 {
     nav_msgs::msg::OccupancyGrid data;
     data.header = ToRos(proto.header());
@@ -315,7 +315,7 @@ nav_msgs::msg::OccupancyGrid ToRos(const ::openbot::ros2_msgs::nav_msgs::Occupan
     return data;
 }
 
-nav_msgs::msg::Odometry ToRos(const ::openbot::ros2_msgs::nav_msgs::Odometry& proto)
+nav_msgs::msg::Odometry ToRos(const ::openbot_bridge::ros2_msgs::nav_msgs::Odometry& proto)
 {
     nav_msgs::msg::Odometry data;
     data.header = ToRos(proto.header());
@@ -325,7 +325,7 @@ nav_msgs::msg::Odometry ToRos(const ::openbot::ros2_msgs::nav_msgs::Odometry& pr
     return data;
 }
 
-nav_msgs::msg::Path ToRos(const ::openbot::ros2_msgs::nav_msgs::Path& proto)
+nav_msgs::msg::Path ToRos(const ::openbot_bridge::ros2_msgs::nav_msgs::Path& proto)
 {
     nav_msgs::msg::Path data;
     data.header = ToRos(proto.header());
@@ -335,7 +335,7 @@ nav_msgs::msg::Path ToRos(const ::openbot::ros2_msgs::nav_msgs::Path& proto)
     return data;
 }
 
-sensor_msgs::msg::CameraInfo ToRos(const ::openbot::ros2_msgs::sensor_msgs::CameraInfo& proto)
+sensor_msgs::msg::CameraInfo ToRos(const ::openbot_bridge::ros2_msgs::sensor_msgs::CameraInfo& proto)
 {
     sensor_msgs::msg::CameraInfo data;
     data.header = ToRos(proto.header());
@@ -364,7 +364,7 @@ sensor_msgs::msg::CameraInfo ToRos(const ::openbot::ros2_msgs::sensor_msgs::Came
     return data;
 }
 
-sensor_msgs::msg::ChannelFloat32 ToRos(const ::openbot::ros2_msgs::sensor_msgs::ChannelFloat32& proto)
+sensor_msgs::msg::ChannelFloat32 ToRos(const ::openbot_bridge::ros2_msgs::sensor_msgs::ChannelFloat32& proto)
 {
     sensor_msgs::msg::ChannelFloat32 data;
     data.name = proto.name();
@@ -374,7 +374,7 @@ sensor_msgs::msg::ChannelFloat32 ToRos(const ::openbot::ros2_msgs::sensor_msgs::
     return data;
 }
 
-sensor_msgs::msg::CompressedImage ToRos(const ::openbot::ros2_msgs::sensor_msgs::CompressedImage& proto)
+sensor_msgs::msg::CompressedImage ToRos(const ::openbot_bridge::ros2_msgs::sensor_msgs::CompressedImage& proto)
 {
     sensor_msgs::msg::CompressedImage data;
     data.header = ToRos(proto.header());
@@ -385,7 +385,7 @@ sensor_msgs::msg::CompressedImage ToRos(const ::openbot::ros2_msgs::sensor_msgs:
     return data;
 }
 
-sensor_msgs::msg::Illuminance ToRos(const ::openbot::ros2_msgs::sensor_msgs::Illuminance& proto)
+sensor_msgs::msg::Illuminance ToRos(const ::openbot_bridge::ros2_msgs::sensor_msgs::Illuminance& proto)
 {
     sensor_msgs::msg::Illuminance data;
     data.header = ToRos(proto.header());
@@ -394,7 +394,7 @@ sensor_msgs::msg::Illuminance ToRos(const ::openbot::ros2_msgs::sensor_msgs::Ill
     return data;
 }
 
-sensor_msgs::msg::Image ToRos(const ::openbot::ros2_msgs::sensor_msgs::Image& proto)
+sensor_msgs::msg::Image ToRos(const ::openbot_bridge::ros2_msgs::sensor_msgs::Image& proto)
 {
     sensor_msgs::msg::Image data;
     data.header = ToRos(proto.header());
@@ -409,7 +409,7 @@ sensor_msgs::msg::Image ToRos(const ::openbot::ros2_msgs::sensor_msgs::Image& pr
     return data;
 }
 
-sensor_msgs::msg::Imu ToRos(const ::openbot::ros2_msgs::sensor_msgs::Imu& proto)
+sensor_msgs::msg::Imu ToRos(const ::openbot_bridge::ros2_msgs::sensor_msgs::Imu& proto)
 {
     sensor_msgs::msg::Imu data;
     data.header = ToRos(proto.header());
@@ -423,7 +423,7 @@ sensor_msgs::msg::Imu ToRos(const ::openbot::ros2_msgs::sensor_msgs::Imu& proto)
 }
 
 // LaserScan
-sensor_msgs::msg::LaserScan ToRos(const ::openbot::ros2_msgs::sensor_msgs::LaserScan& proto)
+sensor_msgs::msg::LaserScan ToRos(const ::openbot_bridge::ros2_msgs::sensor_msgs::LaserScan& proto)
 {
     sensor_msgs::msg::LaserScan data;
     data.header = ToRos(proto.header());
@@ -445,7 +445,7 @@ sensor_msgs::msg::LaserScan ToRos(const ::openbot::ros2_msgs::sensor_msgs::Laser
     return data;
 }
 
-sensor_msgs::msg::PointCloud ToRos(const ::openbot::ros2_msgs::sensor_msgs::PointCloud& proto)
+sensor_msgs::msg::PointCloud ToRos(const ::openbot_bridge::ros2_msgs::sensor_msgs::PointCloud& proto)
 {
     sensor_msgs::msg::PointCloud data;
     data.header = ToRos(proto.header());
@@ -461,7 +461,7 @@ sensor_msgs::msg::PointCloud ToRos(const ::openbot::ros2_msgs::sensor_msgs::Poin
     return data;
 }
 
-sensor_msgs::msg::PointCloud2 ToRos(const ::openbot::ros2_msgs::sensor_msgs::PointCloud2& proto)
+sensor_msgs::msg::PointCloud2 ToRos(const ::openbot_bridge::ros2_msgs::sensor_msgs::PointCloud2& proto)
 {
     sensor_msgs::msg::PointCloud2 data;
     data.header = ToRos(proto.header());
@@ -479,7 +479,7 @@ sensor_msgs::msg::PointCloud2 ToRos(const ::openbot::ros2_msgs::sensor_msgs::Poi
     return data;
 }
 
-sensor_msgs::msg::PointField ToRos(const ::openbot::ros2_msgs::sensor_msgs::PointField& proto)
+sensor_msgs::msg::PointField ToRos(const ::openbot_bridge::ros2_msgs::sensor_msgs::PointField& proto)
 {
     sensor_msgs::msg::PointField data;
     data.name = proto.name();
@@ -489,7 +489,7 @@ sensor_msgs::msg::PointField ToRos(const ::openbot::ros2_msgs::sensor_msgs::Poin
     return data;
 }
 
-sensor_msgs::msg::Range ToRos(const ::openbot::ros2_msgs::sensor_msgs::Range& proto)
+sensor_msgs::msg::Range ToRos(const ::openbot_bridge::ros2_msgs::sensor_msgs::Range& proto)
 {
     sensor_msgs::msg::Range data;
     data.header = ToRos(proto.header());
@@ -501,7 +501,7 @@ sensor_msgs::msg::Range ToRos(const ::openbot::ros2_msgs::sensor_msgs::Range& pr
     return data;
 }
 
-sensor_msgs::msg::RegionOfInterest ToRos(const ::openbot::ros2_msgs::sensor_msgs::RegionOfInterest& proto)
+sensor_msgs::msg::RegionOfInterest ToRos(const ::openbot_bridge::ros2_msgs::sensor_msgs::RegionOfInterest& proto)
 {
     sensor_msgs::msg::RegionOfInterest data;
     data.x_offset = proto.x_offset();
@@ -512,7 +512,7 @@ sensor_msgs::msg::RegionOfInterest ToRos(const ::openbot::ros2_msgs::sensor_msgs
     return data;
 }
 
-shape_msgs::msg::Mesh ToRos(const ::openbot::ros2_msgs::shape_msgs::Mesh& proto)
+shape_msgs::msg::Mesh ToRos(const ::openbot_bridge::ros2_msgs::shape_msgs::Mesh& proto)
 {
     shape_msgs::msg::Mesh data;
     for (int i = 0; i < proto.triangles_size(); ++i) {
@@ -524,7 +524,7 @@ shape_msgs::msg::Mesh ToRos(const ::openbot::ros2_msgs::shape_msgs::Mesh& proto)
     return data;
 }
 
-shape_msgs::msg::MeshTriangle ToRos(const ::openbot::ros2_msgs::shape_msgs::MeshTriangle& proto)
+shape_msgs::msg::MeshTriangle ToRos(const ::openbot_bridge::ros2_msgs::shape_msgs::MeshTriangle& proto)
 {
     shape_msgs::msg::MeshTriangle data;
     for (int i = 0; i < proto.vertex_indices_size(); ++i) {
@@ -533,7 +533,7 @@ shape_msgs::msg::MeshTriangle ToRos(const ::openbot::ros2_msgs::shape_msgs::Mesh
     return data;
 }
 
-shape_msgs::msg::Plane ToRos(const ::openbot::ros2_msgs::shape_msgs::Plane& proto)
+shape_msgs::msg::Plane ToRos(const ::openbot_bridge::ros2_msgs::shape_msgs::Plane& proto)
 {
     shape_msgs::msg::Plane data;
     for (int i = 0; i < proto.coef_size(); ++i) {
@@ -542,7 +542,7 @@ shape_msgs::msg::Plane ToRos(const ::openbot::ros2_msgs::shape_msgs::Plane& prot
     return data;
 }
 
-shape_msgs::msg::SolidPrimitive ToRos(const ::openbot::ros2_msgs::shape_msgs::SolidPrimitive& proto)
+shape_msgs::msg::SolidPrimitive ToRos(const ::openbot_bridge::ros2_msgs::shape_msgs::SolidPrimitive& proto)
 {
     shape_msgs::msg::SolidPrimitive data;
     data.type = proto.type();
