@@ -57,6 +57,19 @@ find_package(octomap_ros REQUIRED)
 find_package(grid_map_octomap REQUIRED)
 find_package(grid_map_ros REQUIRED)
 find_package(pcl_ros REQUIRED)
+find_package(Protobuf REQUIRED)
+find_package(gRPC REQUIRED)
+message(STATUS "Using gRPC ${gRPC_VERSION}")
+
+find_program(PROTOBUF_PROTOC_EXECUTABLE protoc)
+if(NOT PROTOBUF_PROTOC_EXECUTABLE)
+  message(STATUS, "protoc not found. Please install protobuf and make sure it's in your PATH.")
+endif()
+
+find_program(GRPC_CPP_PLUGIN grpc_cpp_plugin)
+if(NOT GRPC_CPP_PLUGIN)
+  message(FATAL_ERROR "grpc_cpp_plugin not found. Please install gRPC and make sure it's in your PATH.")
+endif()
 
 include(FindPkgConfig)
 
@@ -135,6 +148,8 @@ add_library(${PROJECT_NAME} ${ALL_SRCS})
 
 ament_target_dependencies(${PROJECT_NAME} ${dependencies})
 target_link_libraries(${PROJECT_NAME} openbot_bridge)
+target_link_libraries(${PROJECT_NAME} gRPC::grpc++ gRPC::grpc)
+target_link_libraries(${PROJECT_NAME} ${PROTOBUF_LIBRARY})
 
 # PCL
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${PCL_INCLUDE_DIRS})
