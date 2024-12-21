@@ -43,17 +43,19 @@ def generate_launch_description():
         default_value='false',
         description='Whether to apply a namespace to the navigation stack')
 
-
+    start_ros_bridge_cmd = Node(
+        package = 'rosbridge_server',
+        executable = 'rosbridge_websocket',
+        parameters = [{'use_sim_time': True}],
+        output = 'screen')
+    
     start_openbot_cmd = Node(
         package = 'openbot_ros',
         executable = 'openbot_node',
         parameters = [{'use_sim_time': True}],
-        arguments = [
-            '-configuration_directory', FindPackageShare('openbot_ros').find('openbot_ros') + '/configuration_files',
-            '-configuration_basename', 'openbot.lua'],
-        # remappings = [
-        #     ('scan', 'horizontal_laser_2d')],
         output = 'screen')
+    
+ 
     
 
     start_rviz_cmd = Node(
@@ -73,6 +75,7 @@ def generate_launch_description():
 
     # Add any conditioned actions
     # ld.add_action(start_rviz_cmd)
+    ld.add_action(start_ros_bridge_cmd)
     ld.add_action(start_openbot_cmd)
 
     return ld
