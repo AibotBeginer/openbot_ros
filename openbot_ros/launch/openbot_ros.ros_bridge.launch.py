@@ -15,7 +15,12 @@
   limitations under the License.
 """
 
+from ament_index_python.packages import get_package_share_directory
+
 from launch import LaunchDescription
+from launch import LaunchService
+from launch.actions import IncludeLaunchDescription
+from launch.launch_description_sources import AnyLaunchDescriptionSource
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, ExecuteProcess
 from launch.conditions import IfCondition, UnlessCondition
 from launch.substitutions import LaunchConfiguration
@@ -26,10 +31,14 @@ from launch.actions import Shutdown
 import os
 
 def generate_launch_description():
+    # Get the launch directory
+    bringup_dir = get_package_share_directory('rosbridge_server')
+    launch_dir = os.path.join(bringup_dir, 'launch')
 
     # Create the launch configuration variables
     namespace = LaunchConfiguration('namespace')
     use_namespace = LaunchConfiguration('use_namespace')
+    use_sim_time = LaunchConfiguration('use_sim_time')
 
      # Declare the launch arguments
     declare_namespace_cmd = DeclareLaunchArgument(
@@ -43,17 +52,25 @@ def generate_launch_description():
         default_value='false',
         description='Whether to apply a namespace to the navigation stack')
 
+    declare_use_sim_time_cmd = DeclareLaunchArgument(
+        'use_sim_time',
+        default_value='true',
+        description='Use simulation (Gazebo) clock if true')
 
-    start_openbot_cmd = Node(
-        package = 'openbot_ros',
+
+    start_openbot_ros_bridge_cmd = Node(
+        package = 'rosbridge_server',
         executable = 'openbot_node',
         parameters = [{'use_sim_time': True}],
-        arguments = [
-            '-configuration_directory', FindPackageShare('openbot_ros').find('openbot_ros') + '/configuration_files',
-            '-configuration_basename', 'openbot.lua'],
-        # remappings = [
-        #     ('scan', 'horizontal_laser_2d')],
         output = 'screen')
+    
+    include_launch_description = IncludeLaunchDescription(
+        AnyLaunchDescriptionSource(os.path.join(launch_dir, 'rosbridge_websocket_launch.xml')),
+        launch_arguments={
+            'namespace': 'your_namespace',
+            'use_sim_time': 'true',
+        }.items()
+    )
 
     start_rviz_cmd = Node(
         package = 'rviz2',
@@ -69,9 +86,14 @@ def generate_launch_description():
     # Declare the launch options
     ld.add_action(declare_namespace_cmd)
     ld.add_action(declare_use_namespace_cmd)
+    ld.add_action(declare_use_namespace_cmd)
 
     # Add any conditioned actions
     # ld.add_action(start_rviz_cmd)
-    ld.add_action(start_openbot_cmd)
+
+    launch_service = LaunchService()
+    ld.add_action(start_openbot_ros_bridge_cmd)
+    launch_service.include_launch_description(include_launch_description)
+    launch_service.run()
 
     return ld
